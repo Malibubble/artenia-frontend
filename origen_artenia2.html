@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ARTENIA · ORIGEN</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.min.js"></script>
+  <style>
+    :root {
+      --bg: #020617;
+      --c1: #38bdf8;
+      --c2: #67e8f9;
+      --c3: #facc6b;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: #e2e8f0;
+      overflow-x: hidden;
+      position: relative;
+    }
+    canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+    }
+    #halo {
+      position: fixed;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 1px solid rgba(103,232,249,0.6);
+      box-shadow: 0 0 60px rgba(56,189,248,0.35), 0 0 140px rgba(250,204,107,0.25);
+      pointer-events: none;
+      mix-blend-mode: screen;
+      z-index: 4;
+      transform: translate(-50%, -50%) scale(1);
+      transition: transform 0.2s ease;
+      backdrop-filter: blur(2px);
+    }
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      padding: 18px 6vw;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 3;
+      color: var(--c2);
+      letter-spacing: 0.08em;
+      font-weight: 700;
+      text-transform: uppercase;
+      background: linear-gradient(180deg, rgba(2,6,23,0.7) 0%, rgba(2,6,23,0) 100%);
+      backdrop-filter: blur(8px);
+    }
+    main {
+      position: relative;
+      z-index: 2;
+      padding-top: 100px;
+    }
+    section {
+      min-height: 80vh;
+      display: grid;
+      align-items: center;
+      padding: 10vh 6vw;
+    }
+    section:nth-child(odd) { justify-items: start; }
+    section:nth-child(even) { justify-items: end; }
+    .content-box {
+      max-width: 640px;
+      padding: 28px;
+      background: rgba(2,6,23,0.55);
+      border: 1px solid rgba(103,232,249,0.25);
+      border-radius: 18px;
+      box-shadow: 0 24px 80px rgba(2,6,23,0.75), inset 0 0 50px rgba(56,189,248,0.08);
+      backdrop-filter: blur(12px);
+      opacity: 0;
+      transform: translateX(60px);
+      transition: opacity 0.9s ease, transform 0.9s ease;
+    }
+    section:nth-child(odd) .content-box { transform: translateX(-60px); }
+    .content-box.visible { opacity: 1; transform: translateX(0); }
+    h2 {
+      font-size: clamp(28px, 3vw, 38px);
+      color: var(--c1);
+      margin-bottom: 12px;
+      letter-spacing: 0.02em;
+    }
+    p {
+      font-size: 17px;
+      line-height: 1.65;
+      color: #e2e8f0;
+    }
+  </style>
+</head>
+<body>
+  <div id="halo"></div>
+  <canvas id="scene"></canvas>
+  <header>
+    <div>ARTENIA · ORIGEN</div>
+    <div style="font-weight:600; color:var(--c3);">MANIFIESTO</div>
+  </header>
+  <main>
+    <section>
+      <div class="content-box">
+        <h2>Antes del mapa, solo oscuridad.</h2>
+        <p>Antes de cualquier plano, todo era negro. No había calles ni nombres. Solo un espacio quieto con una idea dentro: no podemos dejar que los oficios desaparezcan.</p>
+      </div>
+    </section>
+    <section>
+      <div class="content-box">
+        <h2>La primera luz son las personas.</h2>
+        <p>Una luz aquí, otra allá. Un taller en un barrio pequeño. Una panadera, un carpintero, una tejedora. Cada persona es un punto de luz que dice: 'aún estoy aquí'.</p>
+      </div>
+    </section>
+    <section>
+      <div class="content-box">
+        <h2>La colmena les da forma.</h2>
+        <p>Si unes esos puntos, aparece una estructura viva. Cada hexágono es un oficio, un taller, un barrio. Las conexiones crean el mapa que la memoria nunca dibujó sola.</p>
+      </div>
+    </section>
+    <section>
+      <div class="content-box">
+        <h2>Artenia nace cuando entras.</h2>
+        <p>Este mundo no está en el GPS. Se abre cuando alguien decide mirar y apoyar. Cada vez que entras, una historia gana tiempo. Así respira Artenia.</p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const canvas = document.getElementById('scene');
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x020617);
+    scene.fog = new THREE.Fog(0x020617, 35, 120);
+
+    const camera = new THREE.PerspectiveCamera(60, innerWidth / innerHeight, 0.1, 400);
+    camera.position.set(0, 5, 28);
+
+    renderer.setSize(innerWidth, innerHeight);
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+
+    const hemi = new THREE.HemisphereLight(0x67e8f9, 0x020617, 1.0);
+    const dir = new THREE.DirectionalLight(0xfacc6b, 0.9);
+    dir.position.set(8, 12, 10);
+    scene.add(hemi, dir);
+
+    const starGeom = new THREE.BufferGeometry();
+    const starCount = 1600;
+    const starPos = new Float32Array(starCount * 3);
+    for (let i = 0; i < starCount; i++) {
+      starPos[i * 3] = (Math.random() - 0.5) * 200;
+      starPos[i * 3 + 1] = (Math.random() - 0.5) * 120 + 10;
+      starPos[i * 3 + 2] = -Math.random() * 200 - 20;
+    }
+    starGeom.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
+    const starMat = new THREE.PointsMaterial({ color: 0x38bdf8, size: 0.25, transparent: true, opacity: 0.9, sizeAttenuation: true });
+    const stars = new THREE.Points(starGeom, starMat);
+    scene.add(stars);
+
+    const hexGroup = new THREE.Group();
+    const hexRadius = 1.35;
+    const hexGeom = new THREE.BufferGeometry();
+    const hexVertices = [];
+    for (let i = 0; i < 6; i++) {
+      const angle = (Math.PI / 3) * i;
+      hexVertices.push(
+        Math.cos(angle) * hexRadius,
+        0,
+        Math.sin(angle) * hexRadius
+      );
+    }
+    hexGeom.setAttribute('position', new THREE.Float32BufferAttribute(hexVertices, 3));
+
+    const nodeGeom = new THREE.SphereGeometry(0.18, 16, 16);
+    const nodeMat = new THREE.MeshStandardMaterial({ color: 0x67e8f9, emissive: 0x38bdf8, emissiveIntensity: 0.8, roughness: 0.2, metalness: 0.1 });
+
+    const lineMat = new THREE.LineBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.7 });
+    const gridRange = 7;
+    const nodes = new THREE.Group();
+
+    for (let q = -gridRange; q <= gridRange; q++) {
+      for (let r = -gridRange; r <= gridRange; r++) {
+        const x = hexRadius * Math.sqrt(3) * (q + r / 2);
+        const z = hexRadius * 1.5 * r;
+        if (Math.hypot(x, z) > 32) continue;
+        const line = new THREE.LineLoop(hexGeom, lineMat);
+        line.position.set(x, 0, z);
+        hexGroup.add(line);
+
+        const node = new THREE.Mesh(nodeGeom, nodeMat);
+        node.position.set(x, 0, z);
+        nodes.add(node);
+      }
+    }
+
+    hexGroup.rotation.x = -0.45;
+    hexGroup.position.y = -2;
+    scene.add(hexGroup, nodes);
+
+    let scrollTargetZ = camera.position.z;
+    let scrollTargetY = camera.position.y;
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.25 });
+    document.querySelectorAll('.content-box').forEach(box => observer.observe(box));
+
+    const halo = document.getElementById('halo');
+    let hx = innerWidth / 2, hy = innerHeight / 2;
+    let tx = hx, ty = hy;
+    const haloSize = 120;
+
+    window.addEventListener('mousemove', e => { tx = e.clientX; ty = e.clientY; });
+    window.addEventListener('mousedown', () => { halo.dataset.scale = 1.12; });
+    window.addEventListener('mouseup', () => { halo.dataset.scale = 1; });
+
+    function haloLoop() {
+      hx += (tx - hx) * 0.15;
+      hy += (ty - hy) * 0.15;
+      const scale = halo.dataset.scale ? Number(halo.dataset.scale) : 1;
+      halo.style.transform = `translate(${hx - haloSize/2}px, ${hy - haloSize/2}px) scale(${scale})`;
+      requestAnimationFrame(haloLoop);
+    }
+    haloLoop();
+
+    window.addEventListener('scroll', () => {
+      const maxScroll = document.documentElement.scrollHeight - innerHeight;
+      const t = Math.min(window.scrollY / maxScroll, 1);
+      scrollTargetZ = 28 - t * 12;
+      scrollTargetY = 5 + t * 3;
+    });
+
+    window.addEventListener('resize', () => {
+      camera.aspect = innerWidth / innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(innerWidth, innerHeight);
+    });
+
+    const clock = new THREE.Clock();
+    function animate() {
+      const t = clock.getElapsedTime();
+      stars.rotation.z = t * 0.01;
+      hexGroup.rotation.y = Math.sin(t * 0.2) * 0.05;
+      hexGroup.rotation.x = -0.45 + Math.sin(t * 0.35) * 0.03;
+      hexGroup.position.y = -2 + Math.sin(t * 0.5) * 0.4;
+      nodes.position.copy(hexGroup.position);
+      nodes.rotation.copy(hexGroup.rotation);
+
+      camera.position.z += (scrollTargetZ - camera.position.z) * 0.08;
+      camera.position.y += (scrollTargetY - camera.position.y) * 0.08;
+
+      renderer.render(scene, camera);
+      requestAnimationFrame(animate);
+    }
+    animate();
+  </script>
+</body>
+</html>

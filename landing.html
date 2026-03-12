@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ARTENIA · Colmena viva del oficio</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #020617;
+      --bg2: #020617;
+      --c1: #38bdf8;
+      --c2: #67e8f9;
+      --c3: #facc6b;
+      --text: #e2e8f0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Inter", system-ui, -apple-system, sans-serif;
+      background: radial-gradient(circle at top, #0b1220 0, var(--bg) 42%, #000 100%);
+      color: var(--text);
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* ===== CAPA COLMENA ===== */
+
+    .honeycomb-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .honeycomb-grid {
+      position: absolute;
+      left: 50%;
+      bottom: -10vh;
+      width: 160vw;
+      height: 120vh;
+      transform: translateX(-50%) rotateX(68deg);
+      transform-origin: center bottom;
+      opacity: 0.55;
+      filter: drop-shadow(0 0 24px rgba(56, 189, 248, 0.35));
+      animation: gridFloat 18s ease-in-out infinite alternate;
+    }
+
+    .honeycomb-grid svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    @keyframes gridFloat {
+      0% {
+        transform: translateX(-50%) rotateX(68deg) translateY(0);
+      }
+      100% {
+        transform: translateX(-50%) rotateX(70deg) translateY(2vh);
+      }
+    }
+
+    .stars-layer {
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(circle at 10% 20%, rgba(103, 232, 249, 0.08) 0, transparent 40%),
+        radial-gradient(circle at 90% 10%, rgba(250, 204, 107, 0.08) 0, transparent 45%),
+        radial-gradient(circle, rgba(148, 163, 184, 0.35) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 180px 180px;
+      opacity: 0.32;
+      animation: starsDrift 40s linear infinite;
+    }
+
+    @keyframes starsDrift {
+      0%   { background-position: 0 0, 0 0, 0 0; }
+      100% { background-position: 0 0, 0 0, -300px -200px; }
+    }
+
+    /* ===== CABECERA SIMPLE ===== */
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 3;
+      padding: 16px 6vw;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(180deg, rgba(2, 6, 23, 0.9) 0%, rgba(2, 6, 23, 0) 100%);
+      backdrop-filter: blur(8px);
+      font-size: 13px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #9ca3af;
+    }
+
+    .logo-mark {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-hex {
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      border: 1px solid rgba(103, 232, 249, 0.5);
+      box-shadow: 0 0 18px rgba(56, 189, 248, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: var(--c2);
+    }
+
+    .badge-year {
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      color: #cbd5f5;
+    }
+
+    /* ===== CONTENIDO ===== */
+
+    main {
+      position: relative;
+      z-index: 2;
+      padding-top: 96px;
+    }
+
+    section {
+      min-height: 80vh;
+      display: grid;
+      align-items: center;
+      padding: 8vh 6vw;
+    }
+
+    section:nth-of-type(1) {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: 14vh;
+    }
+
+    .card {
+      max-width: 640px;
+      background: radial-gradient(circle at top left, rgba(56,189,248,0.18) 0, rgba(15,23,42,0.95) 40%, rgba(2,6,23,0.98) 100%);
+      border-radius: 22px;
+      padding: 26px 28px 24px;
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      box-shadow:
+        0 24px 80px rgba(15, 23, 42, 0.9),
+        0 0 70px rgba(56, 189, 248, 0.36);
+      backdrop-filter: blur(14px);
+      transform: translateY(40px);
+      opacity: 0;
+      transition: transform 0.9s ease, opacity 0.9s ease;
+    }
+
+    section:nth-of-type(2),
+    section:nth-of-type(4) {
+      justify-items: flex-start;
+    }
+
+    section:nth-of-type(3),
+    section:nth-of-type(5) {
+      justify-items: flex-end;
+    }
+
+    section:nth-of-type(2) .card,
+    section:nth-of-type(4) .card {
+      transform: translateX(-60px);
+    }
+
+    section:nth-of-type(3) .card,
+    section:nth-of-type(5) .card {
+      transform: translateX(60px);
+    }
+
+    .card.visible {
+      opacity: 1;
+      transform: translateX(0) translateY(0);
+    }
+
+    h1 {
+      font-size: clamp(26px, 3.1vw, 34px);
+      color: var(--c2);
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      font-size: clamp(22px, 2.5vw, 30px);
+      color: var(--c1);
+      margin-bottom: 10px;
+    }
+
+    p {
+      line-height: 1.7;
+      font-size: 16px;
+      color: var(--text);
+    }
+
+    .accent {
+      color: var(--c3);
+      font-weight: 600;
+    }
+
+    .small {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: #9ca3af;
+      margin-bottom: 10px;
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .btn-primary,
+    .btn-ghost {
+      padding: 11px 18px;
+      border-radius: 999px;
+      font-size: 14px;
+      border: 1px solid rgba(103, 232, 249, 0.6);
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-primary {
+      background: radial-gradient(circle at top left, rgba(56,189,248,0.22) 0, rgba(15,23,42,0.9) 52%, #020617 100%);
+      color: var(--c2);
+      box-shadow:
+        0 0 24px rgba(56,189,248,0.45),
+        0 0 80px rgba(15,23,42,1);
+    }
+
+    .btn-ghost {
+      background: rgba(15, 23, 42, 0.7);
+      color: #e5e7eb;
+      border-color: rgba(148, 163, 184, 0.7);
+    }
+
+    .btn-primary span {
+      font-size: 16px;
+    }
+
+    /* ===== HALO RATÓN ===== */
+
+    #halo {
+      position: fixed;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 1px solid rgba(103, 232, 249, 0.7);
+      box-shadow:
+        0 0 40px rgba(56, 189, 248, 0.45),
+        0 0 120px rgba(250, 204, 107, 0.22);
+      pointer-events: none;
+      z-index: 4;
+      mix-blend-mode: screen;
+      transform: translate(-50%, -50%);
+      opacity: 0.8;
+    }
+
+    /* ===== RESPONSIVE ===== */
+
+    @media (max-width: 768px) {
+      header {
+        padding-inline: 16px;
+      }
+
+      section {
+        padding-inline: 16px;
+      }
+
+      .card {
+        padding: 20px 18px 18px;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+
+      h2 {
+        font-size: 20px;
+      }
+
+      #halo {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="honeycomb-layer">
+    <div class="stars-layer"></div>
+
+    <!-- Malla de colmena -->
+    <div class="honeycomb-grid">
+      <svg viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <pattern id="hexPattern" x="0" y="0" width="80" height="70" patternUnits="userSpaceOnUse">
+            <polygon
+              points="40,0 80,20 80,50 40,70 0,50 0,20"
+              fill="none"
+              stroke="rgba(148, 163, 184, 0.25)"
+              stroke-width="1"
+            />
+          </pattern>
+          <radialGradient id="gridGlow" cx="50%" cy="0%" r="80%">
+            <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.9" />
+            <stop offset="30%" stop-color="#67e8f9" stop-opacity="0.5" />
+            <stop offset="100%" stop-color="#0b1120" stop-opacity="0" />
+          </radialGradient>
+        </defs>
+
+        <rect width="100%" height="100%" fill="url(#hexPattern)" />
+        <rect width="100%" height="100%" fill="url(#gridGlow)" />
+      </svg>
+    </div>
+  </div>
+
+  <div id="halo"></div>
+
+  <header>
+    <div class="logo-mark">
+      <div class="logo-hex">A</div>
+      <div>
+        <div>ARTENIA LAB</div>
+        <div style="font-size: 11px; opacity: .7;">Colmena viva de los oficios</div>
+      </div>
+    </div>
+    <div class="badge-year">Origen · 2025</div>
+  </header>
+
+  <main>
+    <!-- HERO / PRIMER LATIDO -->
+    <section>
+      <article class="card">
+        <div class="small">MANIFIESTO · ORIGEN</div>
+        <h1>Artenia despierta cuando tú entras.</h1>
+        <p>
+          Este territorio no existe sin ti. Cuando miras, se ilumina. Cuando caminas, respira.
+          Cada punto de luz será un taller, un oficio, una historia. La colmena se activa con tu mirada.
+        </p>
+        <div class="cta-row">
+          <a href="#colmena" class="btn-primary">
+            Explorar la colmena <span>➜</span>
+          </a>
+          <a href="https://www.artenialab.com/test/index.html" class="btn-ghost">
+            Ir directo al mapa
+          </a>
+        </div>
+      </article>
+    </section>
+
+    <!-- RESPIRACIÓN 1 -->
+    <section id="colmena">
+      <article class="card">
+        <div class="small">01 · La primera respiración</div>
+        <h2>Un mapa que nace de las manos.</h2>
+        <p>
+          Aquí cada artesano es una célula. Cada taller, un nodo de luz. Cada oficio, un barrio en expansión.
+          El territorio no se dibuja: <span class="accent">se genera</span>. Crece contigo, se enciende cuando lo recorres,
+          se fortalece cuando lo compartes.
+        </p>
+      </article>
+    </section>
+
+    <!-- RESPIRACIÓN 2 -->
+    <section>
+      <article class="card">
+        <div class="small">02 · Colmena de conexiones</div>
+        <h2>Ver lo que antes no se veía.</h2>
+        <p>
+          Asociaciones, rutas, instituciones, patrocinadores… En Artenia, las conexiones se vuelven visibles.
+          Las líneas que ves son la traducción de algo muy simple: personas colaborando para que un oficio no desaparezca.
+        </p>
+      </article>
+    </section>
+
+    <!-- RESPIRACIÓN 3 -->
+    <section>
+      <article class="card">
+        <div class="small">03 · Territorio en riesgo</div>
+        <h2>Cuidar lo que está a punto de apagarse.</h2>
+        <p>
+          Algunos hexágonos parpadean más débilmente: son oficios en riesgo. La colmena los señala para
+          recordarnos que todavía estamos a tiempo de actuar, de comprar local, de apoyar al taller que sigue encendido.
+        </p>
+      </article>
+    </section>
+
+    <!-- CIERRE · CTA -->
+    <section>
+      <article class="card">
+        <div class="small">04 · Entrar en el laboratorio</div>
+        <h2>Del manifiesto al mapa vivo.</h2>
+        <p>
+          Lo que estás viendo es solo el prólogo. Detrás de esta colmena hay un mapa real, con datos, personas,
+          talleres y rutas por todo el Mediterráneo. El siguiente paso es cruzar el umbral.
+        </p>
+        <div class="cta-row">
+          <a href="https://www.artenialab.com/test/index.html" class="btn-primary">
+            Entrar al mapa vivo <span>➜</span>
+          </a>
+          <a href="#top" class="btn-ghost">
+            Volver al inicio
+          </a>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <script>
+    // Reveal al hacer scroll
+    const cards = document.querySelectorAll(".card");
+    const io = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) entry.target.classList.add("visible");
+        });
+      },
+      { threshold: 0.25 }
+    );
+    cards.forEach(card => io.observe(card));
+
+    // Halo del ratón
+    const halo = document.getElementById("halo");
+    let hx = window.innerWidth / 2;
+    let hy = window.innerHeight / 2;
+    let tx = hx;
+    let ty = hy;
+
+    window.addEventListener("mousemove", (e) => {
+      tx = e.clientX;
+      ty = e.clientY;
+    });
+
+    function haloLoop() {
+      hx += (tx - hx) * 0.15;
+      hy += (ty - hy) * 0.15;
+      halo.style.transform = `translate(${hx - 60}px, ${hy - 60}px)`;
+      requestAnimationFrame(haloLoop);
+    }
+    haloLoop();
+  </script>
+</body>
+</html>

@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Intro Cinemática Artenia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.min.js"></script>
+  <style>
+    :root {
+      --bg: #020617;
+      --cyan: #38bdf8;
+      --cyan-soft: #67e8f9;
+      --amber: #facc6b;
+      --light: #e2e8f0;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--light);
+      overflow-x: hidden;
+    }
+    #scene {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+    }
+    .overlay {
+      position: relative;
+      z-index: 2;
+      min-height: 400vh;
+    }
+    .chapter {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 0 8vw;
+      pointer-events: none;
+    }
+    .chapter .content {
+      max-width: 700px;
+      background: rgba(2, 6, 23, 0.52);
+      border: 1px solid rgba(103, 232, 249, 0.35);
+      border-radius: 16px;
+      padding: 28px 32px;
+      box-shadow:
+        0 0 40px rgba(56, 189, 248, 0.25),
+        0 0 0 1px rgba(56, 189, 248, 0.15);
+      backdrop-filter: blur(14px);
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 1s ease, transform 1s ease, box-shadow 0.8s ease;
+      pointer-events: auto;
+    }
+    .chapter.active .content {
+      opacity: 1;
+      transform: translateY(0);
+      box-shadow:
+        0 0 50px rgba(56, 189, 248, 0.35),
+        0 0 0 1px rgba(56, 189, 248, 0.25),
+        0 0 80px rgba(250, 204, 107, 0.22);
+    }
+    .chapter:nth-child(odd) { justify-content: flex-start; }
+    .chapter:nth-child(even) { justify-content: flex-end; }
+    h1 {
+      margin: 0 0 10px;
+      font-size: 32px;
+      line-height: 1.15;
+      color: var(--cyan-soft);
+      letter-spacing: 0.02em;
+    }
+    p {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.6;
+      color: rgba(226, 232, 240, 0.92);
+    }
+    .cursor-halo {
+      position: fixed;
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      pointer-events: none;
+      background: radial-gradient(circle, rgba(103, 232, 249, 0.35) 0%, rgba(56, 189, 248, 0.16) 45%, rgba(2, 6, 23, 0) 68%);
+      mix-blend-mode: screen;
+      transform: translate3d(-50%, -50%, 0);
+      z-index: 5;
+      opacity: 0.9;
+      transition: opacity 0.4s ease;
+    }
+    .cursor-halo::after {
+      content: "";
+      position: absolute;
+      inset: 12%;
+      border-radius: 50%;
+      border: 1px solid rgba(103, 232, 249, 0.4);
+      box-shadow: 0 0 22px rgba(56, 189, 248, 0.4);
+    }
+    .cursor-halo.active {
+      animation: haloPulse 0.5s ease;
+    }
+    @keyframes haloPulse {
+      0% { transform: translate3d(var(--mx), var(--my), 0) scale(1); opacity: 0.9; }
+      50% { transform: translate3d(var(--mx), var(--my), 0) scale(1.2); opacity: 1; }
+      100% { transform: translate3d(var(--mx), var(--my), 0) scale(1); opacity: 0.9; }
+    }
+    @media (max-width: 760px) {
+      .chapter { padding: 0 6vw; }
+      h1 { font-size: 26px; }
+      p { font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="scene"></div>
+  <div class="overlay">
+    <section class="chapter">
+      <div class="content">
+        <h1>Todo empieza con una chispa.</h1>
+        <p>En un espacio sin formas ni mapas, algo pequeño decide encenderse. Esa primera luz cambia todo.</p>
+      </div>
+    </section>
+    <section class="chapter">
+      <div class="content">
+        <h1>Las personas son la luz.</h1>
+        <p>Cada artesano es un punto que ilumina. Cada oficio es una historia que pide ser escuchada.</p>
+      </div>
+    </section>
+    <section class="chapter">
+      <div class="content">
+        <h1>Los oficios crean estructuras vivas.</h1>
+        <p>Cuando unes esos puntos, aparece una red. Una colmena que late, se mueve y crece contigo.</p>
+      </div>
+    </section>
+    <section class="chapter">
+      <div class="content">
+        <h1>Artenia despierta cuando tú entras.</h1>
+        <p>Este territorio no existe sin ti. Cuando miras, se ilumina. Cuando caminas, respira.</p>
+      </div>
+    </section>
+  </div>
+  <div class="cursor-halo"></div>
+  <script>
+(function() {
+  const chapters = [...document.querySelectorAll('.chapter')];
+  const halo = document.querySelector('.cursor-halo');
+
+  // Cursor halo always active, even if 3D fails
+  let mx = window.innerWidth / 2;
+  let my = window.innerHeight / 2;
+  let tx = mx;
+  let ty = my;
+  window.addEventListener('mousemove', (e) => {
+    tx = e.clientX;
+    ty = e.clientY;
+    halo.style.setProperty('--mx', `${tx}px`);
+    halo.style.setProperty('--my', `${ty}px`);
+  });
+  function moveHalo() {
+    mx += (tx - mx) * 0.15;
+    my += (ty - my) * 0.15;
+    halo.style.transform = `translate3d(${mx}px, ${my}px, 0)`;
+    requestAnimationFrame(moveHalo);
+  }
+  moveHalo();
+  window.addEventListener('mousedown', () => {
+    halo.classList.add('active');
+    setTimeout(() => halo.classList.remove('active'), 300);
+  });
+
+  // Fallback if Three.js is not available
+  if (!window.THREE) {
+    chapters.forEach(c => c.classList.add('active'));
+    return;
+  }
+
+  const THREE = window.THREE;
+  const container = document.getElementById('scene');
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color('#020617');
+  scene.fog = new THREE.Fog('#020617', 18, 70);
+
+  const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 200);
+  const startCam = new THREE.Vector3(0, 26, 55);
+  const midCam = new THREE.Vector3(0, 12, 30);
+  const endCam = new THREE.Vector3(0, 7, 18);
+  camera.position.copy(startCam);
+
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  container.appendChild(renderer.domElement);
+
+  const world = new THREE.Group();
+  scene.add(world);
+
+  const ambient = new THREE.AmbientLight('#67e8f9', 0.35);
+  const directional = new THREE.DirectionalLight('#facc6b', 0.55);
+  directional.position.set(10, 15, 8);
+  scene.add(ambient, directional);
+
+  // Stars
+  const starGeo = new THREE.BufferGeometry();
+  const starCount = 1400;
+  const starPositions = new Float32Array(starCount * 3);
+  for (let i = 0; i < starCount; i++) {
+    const i3 = i * 3;
+    starPositions[i3] = (Math.random() - 0.5) * 140;
+    starPositions[i3 + 1] = Math.random() * 80;
+    starPositions[i3 + 2] = (Math.random() - 0.5) * 140;
+  }
+  starGeo.setAttribute('position', new THREE.BufferAttribute(starPositions, 3));
+  const starMat = new THREE.PointsMaterial({
+    color: new THREE.Color('#e2e8f0'),
+    size: 0.08,
+    transparent: true,
+    opacity: 0
+  });
+  const stars = new THREE.Points(starGeo, starMat);
+  scene.add(stars);
+
+  // Nebula planes using simple shader
+  function makeNebula(radius, color, opacity) {
+    const geo = new THREE.PlaneGeometry(radius, radius);
+    const mat = new THREE.ShaderMaterial({
+      transparent: true,
+      depthWrite: false,
+      uniforms: {
+        uColor: { value: new THREE.Color(color) },
+        uOpacity: { value: opacity },
+        uTime: { value: 0.0 }
+      },
+      vertexShader: `
+        varying vec2 vUv;
+        uniform float uTime;
+        void main() {
+          vUv = uv;
+          vec3 pos = position;
+          pos.z += sin(uTime * 0.3 + position.x * 0.2) * 0.12;
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+        }
+      `,
+      fragmentShader: `
+        varying vec2 vUv;
+        uniform vec3 uColor;
+        uniform float uOpacity;
+        void main() {
+          vec2 c = vUv - 0.5;
+          float d = length(c) * 1.7;
+          float glow = smoothstep(0.6, 0.0, d);
+          float soft = smoothstep(0.9, 0.1, d);
+          float alpha = glow * 0.9 + soft * 0.2;
+          gl_FragColor = vec4(uColor, alpha * uOpacity);
+        }
+      `
+    });
+    const mesh = new THREE.Mesh(geo, mat);
+    mesh.rotation.x = -Math.PI / 2.1;
+    mesh.position.y = -2;
+    world.add(mesh);
+    return mat;
+  }
+  const nebulaMats = [
+    makeNebula(65, '#38bdf8', 0.0),
+    makeNebula(50, '#67e8f9', 0.0),
+    makeNebula(55, '#facc6b', 0.0)
+  ];
+
+  // Hex grid
+  function buildHexGrid(radius = 8, spacing = 2.4) {
+    const g = new THREE.Group();
+    const positions = [];
+    const sqrt3 = Math.sqrt(3);
+    for (let q = -radius; q <= radius; q++) {
+      for (let r = -radius; r <= radius; r++) {
+        if (Math.abs(q + r) > radius) continue;
+        const x = spacing * (sqrt3 * q + (sqrt3 / 2) * r);
+        const z = spacing * (1.5 * r);
+        const verts = [];
+        for (let i = 0; i < 6; i++) {
+          const a = Math.PI / 6 + i * Math.PI / 3;
+          verts.push(
+            x + Math.cos(a) * spacing,
+            0,
+            z + Math.sin(a) * spacing
+          );
+        }
+        for (let i = 0; i < 6; i++) {
+          const i3 = i * 3;
+          const n3 = ((i + 1) % 6) * 3;
+          positions.push(
+            verts[i3], verts[i3 + 1], verts[i3 + 2],
+            verts[n3], verts[n3 + 1], verts[n3 + 2]
+          );
+        }
+      }
+    }
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+    const mat = new THREE.LineBasicMaterial({
+      color: new THREE.Color('#38bdf8'),
+      transparent: true,
+      opacity: 0
+    });
+    const lines = new THREE.LineSegments(geo, mat);
+    g.add(lines);
+    g.position.y = -6;
+    g.rotation.x = -Math.PI / 2.7;
+    world.add(g);
+    return mat;
+  }
+  const gridMat = buildHexGrid();
+
+  // Pulses for chapters
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('active');
+        pulseLight();
+      }
+    });
+  }, { threshold: 0.55 });
+  chapters.forEach(c => observer.observe(c));
+  chapters[0]?.classList.add('active');
+
+  function pulseLight() {
+    directional.intensity = 1.1;
+    ambient.intensity = 0.55;
+    setTimeout(() => {
+      directional.intensity = 0.55;
+      ambient.intensity = 0.35;
+    }, 320);
+  }
+
+  // Scroll-controlled camera
+  let scrollTarget = 0;
+  window.addEventListener('scroll', () => {
+    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    scrollTarget = maxScroll > 0 ? window.scrollY / maxScroll : 0;
+  });
+
+  function resize() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  }
+  window.addEventListener('resize', resize);
+
+  const clock = new THREE.Clock();
+  function animate() {
+    requestAnimationFrame(animate);
+    const t = clock.getElapsedTime();
+
+    const introProgress = Math.min(t / 6, 1);
+    starMat.opacity = THREE.MathUtils.lerp(starMat.opacity, introProgress, 0.02);
+    nebulaMats.forEach((mat, idx) => {
+      mat.uniforms.uTime.value = t + idx * 0.5;
+      const target = introProgress * (0.12 + idx * 0.06);
+      mat.uniforms.uOpacity.value = THREE.MathUtils.lerp(mat.uniforms.uOpacity.value, target, 0.02);
+    });
+    gridMat.opacity = THREE.MathUtils.lerp(gridMat.opacity, introProgress * 0.6, 0.025);
+
+    const breathe = 1 + Math.sin(t * 0.6) * 0.015;
+    world.scale.setScalar(breathe);
+    world.position.y = Math.sin(t * 0.4) * 0.35;
+
+    const easedIntro = THREE.MathUtils.smoothstep(introProgress, 0, 1);
+    const scrollEase = THREE.MathUtils.smoothstep(scrollTarget, 0, 1);
+    const camMid = startCam.clone().lerp(midCam, easedIntro * 0.9);
+    const camFinal = camMid.clone().lerp(endCam, scrollEase * 0.85);
+    camera.position.lerp(camFinal, 0.05);
+    camera.lookAt(0, -2, 0);
+
+    stars.rotation.y = t * 0.005;
+    world.rotation.y = Math.sin(t * 0.18) * 0.08;
+
+    renderer.render(scene, camera);
+  }
+  animate();
+})();
+  </script>
+</body>
+</html>

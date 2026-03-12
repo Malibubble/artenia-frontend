@@ -1,0 +1,269 @@
+/* IMPORT TIPOS */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@400;500;600&display=swap");
+
+:root {
+  --artenia-bg: #02040b;
+  --artenia-bg-soft: #0a0f1a;
+  --artenia-surface: #101827;
+  --artenia-border-subtle: #1f2937;
+
+  --artenia-text: #e5e7eb;
+  --artenia-subtle: #9ca3af;
+
+  --artenia-glow-blue: #38bdf8;
+  --artenia-glow-violet: #7c3aed;
+  --artenia-glow-purple: #a855f7;
+}
+
+/* LAYOUT GLOBAL */
+.artenia-app {
+  min-height: 100vh;
+  background: radial-gradient(circle at 10% 0%, #0b1020 0%, #02040b 55%);
+  color: var(--artenia-text);
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+/* HEADER */
+.artenia-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.2rem 2rem;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.8);
+  background: radial-gradient(circle at 0% 0%, #111827 0%, #020617 65%);
+  backdrop-filter: blur(14px);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.artenia-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.artenia-logo-mark {
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background: conic-gradient(
+    from 210deg,
+    var(--artenia-glow-blue),
+    var(--artenia-glow-violet),
+    var(--artenia-glow-purple),
+    var(--artenia-glow-blue)
+  );
+  box-shadow: 0 0 22px rgba(56, 189, 248, 0.7);
+}
+
+.artenia-logo-text {
+  letter-spacing: 0.26em;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.artenia-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.artenia-nav-item {
+  border: none;
+  background: transparent;
+  color: var(--artenia-subtle);
+  padding: 0.45rem 0.8rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: all 0.18s ease-out;
+}
+
+.artenia-nav-item:hover {
+  color: var(--artenia-text);
+  background: rgba(31, 41, 55, 0.7);
+}
+
+.artenia-nav-cta {
+  border-radius: 999px;
+  background: linear-gradient(
+    135deg,
+    var(--artenia-glow-blue),
+    var(--artenia-glow-violet)
+  );
+  color: #020617;
+  border: none;
+  padding: 0.45rem 1.1rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 0 18px rgba(56, 189, 248, 0.65);
+}
+
+/* MAIN */
+.artenia-main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem 1rem 3.5rem;
+}
+
+/* CARD PRINCIPAL */
+.artenia-card {
+  width: 360px;
+  max-width: 90vw;
+  border-radius: 28px;
+  padding: 1.4rem 1.6rem 1.6rem;
+  background: radial-gradient(
+      circle at 0% 0%,
+      rgba(148, 163, 184, 0.35),
+      transparent 55%
+    ),
+    #030712;
+  box-shadow:
+    0 28px 80px rgba(15, 23, 42, 0.95),
+    0 0 30px rgba(8, 47, 73, 0.8);
+  border: 1px solid rgba(31, 41, 55, 0.95);
+}
+
+/* TOP */
+.artenia-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.1rem;
+}
+
+.artenia-card-title {
+  font-size: 0.9rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--artenia-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.artenia-card-code {
+  font-family: "Roboto Mono", monospace;
+  font-size: 0.7rem;
+  opacity: 0.8;
+}
+
+.artenia-badges {
+  display: flex;
+  gap: 0.35rem;
+}
+
+/* BADGES */
+.badge-artenia {
+  padding: 0.18rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  border: 1px solid transparent;
+}
+
+.badge-ok {
+  background: #bbf7d0;
+  color: #022c22;
+}
+
+.badge-soft {
+  background: rgba(56, 189, 248, 0.08);
+  border-color: rgba(56, 189, 248, 0.6);
+  color: var(--artenia-glow-blue);
+}
+
+/* CUERPO / “ARCÓ” */
+.artenia-flight {
+  padding: 0.9rem 0;
+}
+
+.artenia-flight-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.6rem;
+}
+
+.artenia-flight-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  color: var(--artenia-subtle);
+  letter-spacing: 0.09em;
+}
+
+.artenia-flight-code {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  margin-top: 0.1rem;
+}
+
+.artenia-flight-status {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.artenia-flight-sub {
+  margin-top: 0.1rem;
+  font-size: 0.75rem;
+  color: var(--artenia-subtle);
+}
+
+.artenia-flight-arc {
+  position: relative;
+  margin-top: 0.6rem;
+  height: 52px;
+}
+
+.artenia-flight-line {
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 3px;
+  margin: 0 0.4rem;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    var(--artenia-glow-blue),
+    var(--artenia-glow-violet)
+  );
+  box-shadow: 0 0 18px rgba(56, 189, 248, 0.8);
+}
+
+/* Pequeño “avión” */
+.artenia-flight-plane {
+  position: absolute;
+  right: 24%;
+  top: 6px;
+  font-size: 1.1rem;
+  color: var(--artenia-glow-blue);
+  filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.9));
+}
+
+/* PARTE INFERIOR */
+.artenia-card-bottom {
+  margin-top: 0.8rem;
+}
+
+.artenia-card-big {
+  font-size: 1.9rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.artenia-card-big span {
+  opacity: 0.5;
+}
+
+.artenia-card-desc {
+  margin-top: 0.4rem;
+  font-size: 0.83rem;
+  line-height: 1.5;
+  color: var(--artenia-subtle);
+}

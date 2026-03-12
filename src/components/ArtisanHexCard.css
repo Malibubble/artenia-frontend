@@ -1,0 +1,115 @@
+:root {
+  --hex-border-1: #7af3ff;
+  --hex-border-2: #9a34ff;
+  --hex-bg: rgba(6, 12, 22, 0.85);
+  --text-strong: #e9edf4;
+  --text-soft: #cbd5e1;
+  --eyebrow: #7af3ff;
+  --font-sans: "Inter", "SF Pro Display", system-ui, -apple-system, sans-serif;
+}
+
+.hex-screen {
+  min-height: 100vh;
+  background: #05070d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.hex-card {
+  position: relative;
+  width: 380px;
+  height: 280px;
+  display: grid;
+  place-items: center;
+}
+
+.hex-border {
+  position: absolute;
+  inset: 0;
+  clip-path: polygon(
+    50% 0%,
+    100% 25%,
+    100% 75%,
+    50% 100%,
+    0% 75%,
+    0% 25%
+  );
+  background: linear-gradient(135deg, var(--hex-border-1), var(--hex-border-2));
+  filter: drop-shadow(0 0 24px rgba(122, 243, 255, 0.35))
+    drop-shadow(0 0 28px rgba(154, 52, 255, 0.25));
+  animation: hexGlow 4s ease-in-out infinite;
+}
+
+.hex-content {
+  position: relative;
+  z-index: 1;
+  width: 94%;
+  height: 94%;
+  clip-path: polygon(
+    50% 0%,
+    100% 25%,
+    100% 75%,
+    50% 100%,
+    0% 75%,
+    0% 25%
+  );
+  background: radial-gradient(circle at 50% 30%, rgba(122, 243, 255, 0.12), var(--hex-bg));
+  display: grid;
+  gap: 6px;
+  place-items: center;
+  text-align: center;
+  padding: 24px;
+  color: var(--text-strong);
+  box-shadow: inset 0 0 18px rgba(122, 243, 255, 0.12);
+  animation: hexPulse 5s ease-in-out infinite;
+}
+
+.hex-eyebrow {
+  margin: 0;
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--eyebrow);
+  font-family: var(--font-sans);
+}
+
+.hex-title {
+  margin: 0;
+  font-size: 1.6rem;
+  letter-spacing: -0.01em;
+  font-weight: 700;
+  font-family: var(--font-sans);
+}
+
+.hex-subtitle {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--text-soft);
+  font-family: var(--font-sans);
+}
+
+@keyframes hexGlow {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 24px rgba(122, 243, 255, 0.35))
+      drop-shadow(0 0 28px rgba(154, 52, 255, 0.25));
+  }
+  50% {
+    filter: drop-shadow(0 0 34px rgba(122, 243, 255, 0.45))
+      drop-shadow(0 0 36px rgba(154, 52, 255, 0.32));
+  }
+}
+
+@keyframes hexPulse {
+  0%,
+  100% {
+    box-shadow: inset 0 0 18px rgba(122, 243, 255, 0.12);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: inset 0 0 26px rgba(154, 52, 255, 0.18);
+    transform: scale(1.012);
+  }
+}

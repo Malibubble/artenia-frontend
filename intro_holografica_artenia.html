@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Intro Holográfica Artenia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.min.js"></script>
+  <style>
+    :root {
+      --bg: #020617;
+      --cyan: #38bdf8;
+      --cyan-soft: #67e8f9;
+      --amber: #facc6b;
+      --light: #e2e8f0;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--light);
+      overflow-x: hidden;
+    }
+    #scene-container {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+    }
+    .overlay {
+      position: relative;
+      z-index: 2;
+      padding: 32px;
+      min-height: 100vh;
+      pointer-events: none;
+    }
+    .top-bar {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto 24px;
+      padding: 14px 18px;
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      background: rgba(56, 189, 248, 0.08);
+      box-shadow: 0 0 24px rgba(56, 189, 248, 0.35), inset 0 0 32px rgba(56, 189, 248, 0.15);
+      border-radius: 12px;
+      backdrop-filter: blur(16px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      letter-spacing: 0.08em;
+    }
+    .top-bar .title {
+      color: var(--cyan-soft);
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 14px;
+    }
+    .top-bar .status {
+      font-size: 12px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      color: rgba(226, 232, 240, 0.8);
+    }
+    .pulse-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--amber);
+      box-shadow: 0 0 12px var(--amber);
+      animation: pulse 1.8s infinite;
+    }
+    .panels {
+      display: grid;
+      grid-template-columns: 1.3fr 0.9fr;
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+      align-items: start;
+    }
+    .panel {
+      position: relative;
+      padding: 18px;
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      background: rgba(56, 189, 248, 0.1);
+      box-shadow:
+        0 0 24px rgba(56, 189, 248, 0.35),
+        inset 0 0 28px rgba(103, 232, 249, 0.14),
+        0 0 0 1px rgba(103, 232, 249, 0.2);
+      backdrop-filter: blur(18px);
+      border-radius: 14px;
+      overflow: hidden;
+      pointer-events: auto;
+    }
+    .panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 20% 20%, rgba(103, 232, 249, 0.12), transparent 40%),
+                  radial-gradient(circle at 80% 10%, rgba(250, 204, 107, 0.12), transparent 35%),
+                  linear-gradient(120deg, rgba(56, 189, 248, 0.15), transparent 55%);
+      opacity: 0.8;
+      pointer-events: none;
+    }
+    .panel::after {
+      content: "";
+      position: absolute;
+      inset: 1px;
+      border: 1px solid rgba(103, 232, 249, 0.2);
+      border-radius: 12px;
+      mix-blend-mode: screen;
+      pointer-events: none;
+    }
+    .panel h3 {
+      margin: 0 0 8px;
+      color: var(--cyan-soft);
+      letter-spacing: 0.08em;
+      font-size: 13px;
+      text-transform: uppercase;
+    }
+    .glow-line {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.6), transparent);
+      margin: 12px 0;
+    }
+    .profile-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      position: relative;
+      z-index: 1;
+      color: rgba(226, 232, 240, 0.85);
+    }
+    .profile-item {
+      border: 1px solid rgba(103, 232, 249, 0.2);
+      border-radius: 10px;
+      padding: 12px;
+      background: rgba(2, 6, 23, 0.35);
+      box-shadow: inset 0 0 18px rgba(56, 189, 248, 0.08);
+    }
+    .profile-item .label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: rgba(103, 232, 249, 0.85);
+      margin-bottom: 6px;
+    }
+    .profile-item .value {
+      font-size: 14px;
+      color: var(--light);
+      letter-spacing: 0.02em;
+    }
+    .minimap {
+      height: 260px;
+      position: relative;
+      overflow: hidden;
+    }
+    .mini-grid {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(rgba(56, 189, 248, 0.2) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(56, 189, 248, 0.2) 1px, transparent 1px);
+      background-size: 36px 36px;
+      opacity: 0.45;
+      transform: perspective(500px) rotateX(58deg);
+      transform-origin: center;
+      filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.35));
+    }
+    .mini-radar {
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border: 1px solid rgba(103, 232, 249, 0.6);
+      box-shadow: 0 0 20px rgba(103, 232, 249, 0.35);
+      animation: spin 12s linear infinite;
+      mix-blend-mode: screen;
+    }
+    .mini-radar::after {
+      content: "";
+      position: absolute;
+      inset: -20%;
+      border-radius: 50%;
+      border: 1px dashed rgba(250, 204, 107, 0.4);
+      animation: pulse 4s ease-in-out infinite;
+    }
+    .mini-node {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 12px var(--cyan), 0 0 24px rgba(103, 232, 249, 0.6);
+    }
+    .mini-node.amber {
+      background: var(--amber);
+      box-shadow: 0 0 12px var(--amber), 0 0 28px rgba(250, 204, 107, 0.6);
+    }
+    .manifest {
+      max-width: 1200px;
+      margin: 140px auto 120px;
+      display: grid;
+      gap: 22px;
+      padding: 0 8px;
+    }
+    .manifest .line {
+      padding: 18px 22px;
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      background: rgba(2, 6, 23, 0.65);
+      color: rgba(226, 232, 240, 0.92);
+      font-size: 18px;
+      letter-spacing: 0.01em;
+      border-radius: 12px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.12);
+      opacity: 0;
+    }
+    .manifest .line:nth-child(odd) {
+      animation: slideInLeft 1.4s forwards;
+    }
+    .manifest .line:nth-child(even) {
+      animation: slideInRight 1.4s forwards;
+    }
+    .manifest .line:nth-child(1) { animation-delay: 0.2s; }
+    .manifest .line:nth-child(2) { animation-delay: 0.45s; }
+    .manifest .line:nth-child(3) { animation-delay: 0.7s; }
+    .manifest .line:nth-child(4) { animation-delay: 0.95s; }
+    .cursor-halo {
+      position: fixed;
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      pointer-events: none;
+      background: radial-gradient(circle, rgba(103, 232, 249, 0.4) 0%, rgba(56, 189, 248, 0.14) 45%, rgba(2, 6, 23, 0) 65%);
+      mix-blend-mode: screen;
+      filter: blur(0px);
+      transform: translate3d(-50%, -50%, 0);
+      transition: opacity 0.25s ease;
+      z-index: 6;
+      opacity: 0.9;
+    }
+    .cursor-halo::after {
+      content: "";
+      position: absolute;
+      inset: 12%;
+      border-radius: 50%;
+      border: 1px solid rgba(103, 232, 249, 0.35);
+      box-shadow: 0 0 18px rgba(56, 189, 248, 0.35);
+    }
+    .cursor-halo.active {
+      animation: haloPulse 0.5s ease;
+    }
+    @keyframes haloPulse {
+      0% { transform: translate3d(var(--mx), var(--my), 0) scale(1); opacity: 0.9; }
+      50% { transform: translate3d(var(--mx), var(--my), 0) scale(1.25); opacity: 1; }
+      100% { transform: translate3d(var(--mx), var(--my), 0) scale(1); opacity: 0.9; }
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(0.95); opacity: 0.75; }
+      50% { transform: scale(1.1); opacity: 1; }
+    }
+    @keyframes spin {
+      to { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+    @keyframes slideInLeft {
+      0% { opacity: 0; transform: translateX(-40px); }
+      100% { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes slideInRight {
+      0% { opacity: 0; transform: translateX(40px); }
+      100% { opacity: 1; transform: translateX(0); }
+    }
+    @media (max-width: 900px) {
+      .panels {
+        grid-template-columns: 1fr;
+      }
+      .overlay {
+        padding: 18px;
+      }
+      .top-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="scene-container"></div>
+  <div class="overlay">
+    <div class="top-bar">
+      <div class="title">Artenia / Holographic Interface</div>
+      <div class="status"><span class="pulse-dot"></span> Nodo activo / Línea clara</div>
+    </div>
+    <div class="panels">
+      <div class="panel floating profile-panel">
+        <h3>Panel de perfil</h3>
+        <div class="glow-line"></div>
+        <div class="profile-grid">
+          <div class="profile-item">
+            <div class="label">Estado</div>
+            <div class="value">Conexión estable</div>
+          </div>
+          <div class="profile-item">
+            <div class="label">Ritmo</div>
+            <div class="value">Latido suave</div>
+          </div>
+          <div class="profile-item">
+            <div class="label">Energía</div>
+            <div class="value">Cian + Ámbar</div>
+          </div>
+          <div class="profile-item">
+            <div class="label">Mapa vivo</div>
+            <div class="value">Hexa / Flujo</div>
+          </div>
+        </div>
+      </div>
+      <div class="panel floating minimap-panel">
+        <h3>Minimapa</h3>
+        <div class="glow-line"></div>
+        <div class="minimap">
+          <div class="mini-grid"></div>
+          <div class="mini-radar"></div>
+          <div class="mini-node" style="top: 24%; left: 32%;"></div>
+          <div class="mini-node amber" style="top: 62%; left: 54%;"></div>
+          <div class="mini-node" style="top: 48%; left: 72%;"></div>
+          <div class="mini-node amber" style="top: 72%; left: 28%;"></div>
+        </div>
+      </div>
+    </div>
+    <div class="manifest">
+      <div class="line">Todo empieza con una chispa.</div>
+      <div class="line">Las personas son la luz que mueve este mapa.</div>
+      <div class="line">Los oficios forman una red viva, como una colmena.</div>
+      <div class="line">Artenia respira porque tú entras en ella.</div>
+    </div>
+  </div>
+  <div class="cursor-halo"></div>
+  <script>
+    // Three.js scene setup
+    const container = document.getElementById('scene-container');
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color('#020617');
+    scene.fog = new THREE.Fog('#020617', 10, 70);
+
+    const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 200);
+    camera.position.set(0, 6, 18);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    container.appendChild(renderer.domElement);
+
+    const group = new THREE.Group();
+    scene.add(group);
+
+    const hemiLight = new THREE.HemisphereLight('#67e8f9', '#020617', 0.8);
+    scene.add(hemiLight);
+    const dirLight = new THREE.DirectionalLight('#facc6b', 0.6);
+    dirLight.position.set(6, 12, 10);
+    scene.add(dirLight);
+
+    // Hex grid
+    function buildHexGrid(radius = 8, spacing = 1.6) {
+      const positions = [];
+      const nodeMap = new Map();
+      const sqrt3 = Math.sqrt(3);
+      const grid = new THREE.Group();
+      grid.position.y = -2.8;
+      grid.rotation.x = -Math.PI / 2.7;
+
+      for (let q = -radius; q <= radius; q++) {
+        for (let r = -radius; r <= radius; r++) {
+          if (Math.abs(q + r) > radius) continue;
+
+          const x = spacing * (sqrt3 * q + (sqrt3 / 2) * r);
+          const z = spacing * (1.5 * r);
+          const center = new THREE.Vector3(x, 0, z);
+          const verts = [];
+
+          for (let i = 0; i < 6; i++) {
+            const angle = Math.PI / 6 + i * Math.PI / 3;
+            const vx = center.x + Math.cos(angle) * spacing;
+            const vz = center.z + Math.sin(angle) * spacing;
+            verts.push(new THREE.Vector3(vx, 0, vz));
+          }
+
+          for (let i = 0; i < 6; i++) {
+            const a = verts[i];
+            const b = verts[(i + 1) % 6];
+            positions.push(a.x, a.y, a.z, b.x, b.y, b.z);
+
+            const keyA = `${a.x.toFixed(2)}|${a.z.toFixed(2)}`;
+            const keyB = `${b.x.toFixed(2)}|${b.z.toFixed(2)}`;
+            if (!nodeMap.has(keyA)) nodeMap.set(keyA, a.clone());
+            if (!nodeMap.has(keyB)) nodeMap.set(keyB, b.clone());
+          }
+        }
+      }
+
+      const geometry = new THREE.BufferGeometry();
+      geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+      const material = new THREE.LineBasicMaterial({
+        color: new THREE.Color('#38bdf8'),
+        transparent: true,
+        opacity: 0.35
+      });
+      const lines = new THREE.LineSegments(geometry, material);
+      grid.add(lines);
+
+      const nodeGeo = new THREE.SphereGeometry(0.07, 16, 16);
+      const nodeMat = new THREE.MeshStandardMaterial({
+        color: new THREE.Color('#67e8f9'),
+        emissive: new THREE.Color('#38bdf8'),
+        emissiveIntensity: 0.9,
+        transparent: true,
+        opacity: 0.9
+      });
+
+      nodeMap.forEach(pos => {
+        const n = new THREE.Mesh(nodeGeo, nodeMat);
+        n.position.copy(pos);
+        grid.add(n);
+      });
+
+      group.add(grid);
+    }
+
+    // Floating holographic panel
+    function addFloatingPanel() {
+      const panelGeo = new THREE.PlaneGeometry(6.5, 3.6);
+      const panelMat = new THREE.MeshPhysicalMaterial({
+        color: new THREE.Color('#38bdf8'),
+        transparent: true,
+        opacity: 0.12,
+        metalness: 0,
+        roughness: 0,
+        transmission: 1,
+        emissive: new THREE.Color('#38bdf8'),
+        emissiveIntensity: 0.18,
+        side: THREE.DoubleSide
+      });
+      const panel = new THREE.Mesh(panelGeo, panelMat);
+      panel.position.set(0, 2.2, 0);
+      panel.rotation.x = -0.35;
+      panel.rotation.y = 0.1;
+      group.add(panel);
+
+      const edges = new THREE.EdgesGeometry(panelGeo);
+      const edgeLines = new THREE.LineSegments(
+        edges,
+        new THREE.LineBasicMaterial({
+          color: new THREE.Color('#67e8f9'),
+          transparent: true,
+          opacity: 0.8,
+          linewidth: 1
+        })
+      );
+      edgeLines.position.copy(panel.position);
+      edgeLines.rotation.copy(panel.rotation);
+      group.add(edgeLines);
+    }
+
+    // Stars
+    function addStars() {
+      const starGeo = new THREE.BufferGeometry();
+      const starCount = 1400;
+      const positions = new Float32Array(starCount * 3);
+      for (let i = 0; i < starCount; i++) {
+        const i3 = i * 3;
+        positions[i3] = (Math.random() - 0.5) * 120;
+        positions[i3 + 1] = Math.random() * 60 + 10;
+        positions[i3 + 2] = (Math.random() - 0.5) * 120;
+      }
+      starGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      const starMat = new THREE.PointsMaterial({
+        color: new THREE.Color('#e2e8f0'),
+        size: 0.08,
+        transparent: true,
+        opacity: 0.85
+      });
+      const stars = new THREE.Points(starGeo, starMat);
+      scene.add(stars);
+      return stars;
+    }
+
+    buildHexGrid();
+    addFloatingPanel();
+    const stars = addStars();
+
+    let scrollTarget = 0;
+    window.addEventListener('scroll', () => {
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      scrollTarget = maxScroll > 0 ? window.scrollY / maxScroll : 0;
+    });
+
+    function resize() {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+    window.addEventListener('resize', resize);
+
+    const clock = new THREE.Clock();
+    function animate() {
+      requestAnimationFrame(animate);
+      const t = clock.getElapsedTime();
+
+      const oscillation = Math.sin(t * 0.8) * 0.28;
+      group.position.y = oscillation;
+      group.position.z = Math.cos(t * 0.6) * 0.24;
+      group.rotation.y = 0.05 * Math.sin(t * 0.4);
+
+      stars.rotation.y = t * 0.005;
+
+      camera.position.y = THREE.MathUtils.lerp(camera.position.y, 6 + scrollTarget * 3.6, 0.04);
+      camera.position.z = THREE.MathUtils.lerp(camera.position.z, 18 - scrollTarget * 4, 0.04);
+      camera.lookAt(0, 0, 0);
+
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    // Cursor halo effect
+    const halo = document.querySelector('.cursor-halo');
+    let mx = window.innerWidth / 2;
+    let my = window.innerHeight / 2;
+    let tx = mx, ty = my;
+
+    window.addEventListener('mousemove', (e) => {
+      tx = e.clientX;
+      ty = e.clientY;
+      halo.style.setProperty('--mx', `${tx}px`);
+      halo.style.setProperty('--my', `${ty}px`);
+    });
+
+    function moveHalo() {
+      mx += (tx - mx) * 0.12;
+      my += (ty - my) * 0.12;
+      halo.style.transform = `translate3d(${mx}px, ${my}px, 0)`;
+      requestAnimationFrame(moveHalo);
+    }
+    moveHalo();
+
+    window.addEventListener('mousedown', () => {
+      halo.classList.add('active');
+      setTimeout(() => halo.classList.remove('active'), 260);
+    });
+  </script>
+</body>
+</html>

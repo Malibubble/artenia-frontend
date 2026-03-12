@@ -1,0 +1,249 @@
+/* ==================== CONTENEDOR PRINCIPAL ==================== */
+.colmena-shell {
+  position: relative;
+  min-height: 100vh;
+  background: radial-gradient(circle at 20% 20%, rgba(65, 225, 255, 0.15), transparent 25%),
+    radial-gradient(circle at 80% 10%, rgba(255, 215, 122, 0.15), transparent 30%),
+    radial-gradient(circle at 50% 80%, rgba(94, 187, 255, 0.12), transparent 35%),
+    linear-gradient(135deg, #020608 0%, #0a0f1a 100%);
+  color: rgba(255, 255, 255, 0.9);
+  overflow: hidden;
+  font-family: "Inter", "SF Pro Display", system-ui, -apple-system, sans-serif;
+}
+
+.colmena-shell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 180px 140px, 180px 140px;
+  opacity: 0.25;
+  mask-image: radial-gradient(circle at center, rgba(0, 0, 0, 0.9) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* ==================== CABECERA FLOTANTE ==================== */
+.colmena-kicker {
+  margin: 0 0 8px;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.colmena-title {
+  margin: 0 0 12px;
+  font-size: 32px;
+  line-height: 1.2;
+  font-weight: 700;
+  background: linear-gradient(120deg, #f7f7f7 0%, #5ebbff 45%, #ffd77a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.colmena-lead {
+  margin: 0 0 18px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.colmena-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.legend-chip {
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.9);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.legend-chip::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.legend-chip--artesano::before {
+  background: #66b6ff;
+  box-shadow: 0 0 12px rgba(102, 182, 255, 0.55);
+}
+
+.legend-chip--asociacion::before {
+  background: #ff9fe3;
+  box-shadow: 0 0 12px rgba(255, 159, 227, 0.55);
+}
+
+.legend-chip--institucion::before {
+  background: #8cf5c6;
+  box-shadow: 0 0 12px rgba(140, 245, 198, 0.5);
+}
+
+.legend-chip--patrocinador::before {
+  background: #ffe48a;
+  box-shadow: 0 0 12px rgba(255, 228, 138, 0.5);
+}
+
+.legend-chip--breathing::before {
+  background: linear-gradient(120deg, #66b6ff, #ffe48a);
+  animation: glowBreathing 3s ease-in-out infinite;
+}
+
+@keyframes glowBreathing {
+  0%,
+  100% {
+    box-shadow: 0 0 0 rgba(94, 187, 255, 0.25);
+  }
+  50% {
+    box-shadow: 0 0 16px rgba(255, 215, 122, 0.5);
+  }
+}
+
+/* ==================== ZONA CANVAS ==================== */
+.colmena-honeycomb {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+}
+
+.colmena-mini-legend {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 10px 12px;
+  background: rgba(2, 6, 8, 0.78);
+  border: 1px solid rgba(65, 225, 255, 0.2);
+  border-radius: 12px;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+  z-index: 4;
+}
+
+.mini-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.05);
+  white-space: nowrap;
+}
+
+.mini-chip::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.mini-chip--artesano::before {
+  background: #66b6ff;
+  box-shadow: 0 0 8px rgba(102, 182, 255, 0.7);
+}
+
+.mini-chip--asociacion::before {
+  background: #ff9fe3;
+  box-shadow: 0 0 8px rgba(255, 159, 227, 0.7);
+}
+
+.mini-chip--institucion::before {
+  background: #8cf5c6;
+  box-shadow: 0 0 8px rgba(140, 245, 198, 0.7);
+}
+
+.mini-chip--patrocinador::before {
+  background: #ffe48a;
+  box-shadow: 0 0 8px rgba(255, 228, 138, 0.7);
+}
+
+.mini-chip--breathing::before {
+  background: linear-gradient(120deg, #66b6ff, #ffe48a);
+  animation: glowBreathingMini 3s ease-in-out infinite;
+}
+
+@keyframes glowBreathingMini {
+  0%,
+  100% {
+    box-shadow: 0 0 0 rgba(255, 255, 255, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 8px rgba(255, 215, 122, 0.6);
+  }
+}
+
+.colmena-footer {
+  position: relative;
+  z-index: 3;
+  margin: 0 auto;
+  padding: 24px 24px 48px;
+  max-width: 960px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: rgba(2, 6, 8, 0.72);
+  border: 1px solid rgba(65, 225, 255, 0.25);
+  border-radius: 16px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 1024px) {
+  .colmena-headline {
+    max-width: 420px;
+    left: 20px;
+    right: 20px;
+  }
+
+  .colmena-title {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 768px) {
+  .colmena-shell {
+    padding-top: 120px;
+  }
+
+  .colmena-headline {
+    position: relative;
+    top: 0;
+    left: 0;
+    margin: 16px;
+  }
+
+  .colmena-honeycomb {
+    height: calc(100vh - 140px);
+  }
+}
+
+@media (max-width: 520px) {
+  .colmena-title {
+    font-size: 24px;
+  }
+
+  .legend-chip {
+    width: 100%;
+  }
+}

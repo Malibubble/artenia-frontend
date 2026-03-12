@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ARTENIA · ORIGEN</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.min.js"></script>
+
+  <style>
+    :root {
+      --c1: #38bdf8;
+      --c2: #67e8f9;
+      --c3: #facc6b;
+      --bg: #020617;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: #e2e8f0;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Canvas 3D de fondo */
+    #bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background: radial-gradient(circle at 20% 0%, #020617 0%, #000 80%);
+    }
+
+    /* Halo del cursor */
+    #halo {
+      position: fixed;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 1px solid rgba(103,232,249,0.55);
+      box-shadow:
+        0 0 60px rgba(56,189,248,0.4),
+        0 0 140px rgba(250,204,107,0.25);
+      pointer-events: none;
+      mix-blend-mode: screen;
+      z-index: 4;
+      transform: translate(-50%, -50%) scale(1);
+      transition: transform 0.2s ease;
+      backdrop-filter: blur(2px);
+    }
+
+    /* Header */
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 18px 6vw;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 3;
+      mix-blend-mode: screen;
+      color: var(--c2);
+      letter-spacing: 0.06em;
+      font-weight: 700;
+      text-transform: uppercase;
+      background: linear-gradient(
+        180deg,
+        rgba(2,6,23,0.7) 0%,
+        rgba(2,6,23,0) 100%
+      );
+      backdrop-filter: blur(8px);
+    }
+
+    header span {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      color: rgba(148,163,184,0.9);
+    }
+
+    /* Contenido */
+    main {
+      position: relative;
+      z-index: 2;
+      padding-top: 90px;
+    }
+
+    section {
+      min-height: 85vh;
+      display: grid;
+      align-items: center;
+      padding: 8vh 6vw;
+    }
+
+    .content {
+      max-width: 700px;
+      padding: 28px;
+      background: rgba(2,6,23,0.7);
+      border: 1px solid rgba(103,232,249,0.3);
+      border-radius: 18px;
+      box-shadow:
+        0 20px 60px rgba(2,6,23,0.9),
+        inset 0 0 50px rgba(56,189,248,0.1);
+      backdrop-filter: blur(14px);
+      transition: transform 0.9s ease, opacity 0.9s ease;
+      opacity: 0;
+    }
+
+    section:nth-child(1) { justify-items: flex-start; }
+    section:nth-child(2) { justify-items: flex-end;   }
+    section:nth-child(3) { justify-items: flex-start; }
+    section:nth-child(4) { justify-items: flex-end;   }
+
+    section:nth-child(odd) .content {
+      transform: translateX(-60px);
+      text-align: left;
+    }
+
+    section:nth-child(even) .content {
+      transform: translateX(60px);
+      text-align: right;
+    }
+
+    .content.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    h2 {
+      font-size: clamp(28px, 3.2vw, 40px);
+      color: var(--c1);
+      margin-bottom: 12px;
+      line-height: 1.1;
+    }
+
+    h2 span {
+      background: linear-gradient(120deg, var(--c2), var(--c1), var(--c3));
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    p {
+      line-height: 1.7;
+      color: #e2e8f0;
+      font-size: 17px;
+    }
+
+    .accent { color: var(--c3); }
+
+    @media (max-width: 768px) {
+      section {
+        min-height: 80vh;
+        padding: 6vh 6vw;
+      }
+      section,
+      section:nth-child(even),
+      section:nth-child(odd) {
+        justify-items: flex-start;
+      }
+      .content {
+        text-align: left !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="bg"></canvas>
+  <div id="halo"></div>
+
+  <header>
+    <div>
+      ARTENIA · ORIGEN
+      <span>La ciudad que nace de la colmena</span>
+    </div>
+    <div style="font-weight:600; color:var(--c3);">2025</div>
+  </header>
+
+  <main>
+    <section>
+      <div class="content">
+        <h2>Antes del mapa, <span>solo oscuridad.</span></h2>
+        <p>
+          Antes de cualquier plano, todo era negro.  
+          No había calles, ni nombres, ni rótulos en las fachadas.  
+          Solo un espacio quieto y enorme, con una idea dentro:  
+          <span class="accent">no podemos dejar que los oficios desaparezcan</span>.
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <div class="content">
+        <h2>La primera luz <span>son las personas.</span></h2>
+        <p>
+          Una luz aquí, otra allá.  
+          Un taller abierto en un barrio pequeño.  
+          Una panadera que aún amasa a mano.  
+          Un carpintero que conoce cada veta de la madera.  
+          Cada uno es un punto de luz que dice:  
+          <span class="accent">“aún estoy aquí”</span>.
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <div class="content">
+        <h2>La colmena <span>les da forma.</span></h2>
+        <p>
+          Si unes esos puntos, aparece una estructura.  
+          No un mapa frío, sino una colmena viva.  
+          Cada hexágono es un oficio, un taller, un barrio.  
+          Las líneas que los conectan son rutas, colaboraciones, historias compartidas.  
+          Así es como Artenia empieza a dibujarse:  
+          <span class="accent">conexión a conexión</span>.
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <div class="content">
+        <h2>Artenia <span>nace cuando entras.</span></h2>
+        <p>
+          Este mundo no está en el GPS.  
+          Se abre cuando alguien decide mirar, escuchar y apoyar.  
+          Cada vez que entras, una luz se enciende, un hexágono se ilumina,
+          una historia gana tiempo.  
+          Artenia es eso:  
+          un lugar donde la tecnología sirve para cuidar lo que nos hace humanos.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // ===== ESCENA 3D: HEX GRID TIPO COLMENA =====
+    const canvas = document.getElementById("bg");
+    const renderer = new THREE.WebGLRenderer({
+      canvas,
+      antialias: true,
+      alpha: true
+    });
+
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.Fog(0x020617, 20, 90);
+
+    const camera = new THREE.PerspectiveCamera(
+      60,
+      innerWidth / innerHeight,
+      0.1,
+      200
+    );
+    camera.position.set(0, 5, 26);
+
+    renderer.setSize(innerWidth, innerHeight);
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+
+    // Luces
+    const hemi = new THREE.HemisphereLight(0x67e8f9, 0x020617, 0.9);
+    const dir = new THREE.DirectionalLight(0xfacc6b, 1.1);
+    dir.position.set(15, 20, 10);
+    scene.add(hemi, dir);
+
+    // Estrellas suaves al fondo
+    function createStars() {
+      const count = 1600;
+      const geo = new THREE.BufferGeometry();
+      const pos = new Float32Array(count * 3);
+      for (let i = 0; i < count; i++) {
+        pos[i * 3]     = (Math.random() - 0.5) * 200;
+        pos[i * 3 + 1] = 40 + Math.random() * 120; // más arriba
+        pos[i * 3 + 2] = -50 - Math.random() * 120;
+      }
+      geo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+      const mat = new THREE.PointsMaterial({
+        color: 0x93c5fd,
+        size: 0.5,
+        transparent: true,
+        opacity: 0.9,
+        depthWrite: false
+      });
+      const stars = new THREE.Points(geo, mat);
+      scene.add(stars);
+      return stars;
+    }
+    const stars = createStars();
+
+    // === Malla de hexágonos tipo colmena ===
+    const hexGroup = new THREE.Group();
+    scene.add(hexGroup);
+
+    // Geometría de un hexágono como línea
+    function createHexGeometry(radius) {
+      const verts = [];
+      for (let i = 0; i <= 6; i++) {
+        const angle = (Math.PI / 3) * i;
+        const x = radius * Math.cos(angle);
+        const y = radius * Math.sin(angle);
+        verts.push(x, 0, y);
+      }
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute(
+        "position",
+        new THREE.Float32BufferAttribute(verts, 3)
+      );
+      return geo;
+    }
+
+    const hexRadius = 1.8;
+    const hexGeom = createHexGeometry(hexRadius);
+    const hexMat = new THREE.LineBasicMaterial({
+      color: 0x67e8f9,
+      transparent: true,
+      opacity: 0.45
+    });
+
+    const nodeGeom = new THREE.SphereGeometry(0.22, 16, 16);
+    const nodeMat = new THREE.MeshStandardMaterial({
+      color: 0x38bdf8,
+      emissive: 0x0ea5e9,
+      emissiveIntensity: 0.9,
+      metalness: 0.5,
+      roughness: 0.2
+    });
+
+    // Disposición en coordenadas hexagonales (axial)
+    const radiusGrid = 10; // tamaño de la malla
+    const hexWidth = hexRadius * 2;
+    const hexHeight = Math.sqrt(3) * hexRadius;
+
+    for (let q = -radiusGrid; q <= radiusGrid; q++) {
+      for (let r = -radiusGrid; r <= radiusGrid; r++) {
+        const x = (q + r / 2) * hexWidth * 0.95;
+        const z = r * hexHeight * 0.95;
+
+        // Limitar un poco para no tener demasiados
+        if (Math.abs(x) > 30 || z > 25 || z < -25) continue;
+
+        const hexLine = new THREE.LineLoop(hexGeom, hexMat);
+        hexLine.position.set(x, 0, z);
+        hexGroup.add(hexLine);
+
+        const node = new THREE.Mesh(nodeGeom, nodeMat);
+        node.position.set(x, 0.01, z);
+        hexGroup.add(node);
+      }
+    }
+
+    // Orientar la "colmena" como en la referencia: en perspectiva
+    hexGroup.rotation.x = -0.9;
+    hexGroup.position.set(0, -8, -10);
+
+    // Movimiento con scroll
+    let scrollNorm = 0;
+    let targetZ = camera.position.z;
+    let targetY = camera.position.y;
+
+    function updateScroll() {
+      const max = document.documentElement.scrollHeight - innerHeight || 1;
+      scrollNorm = Math.min(Math.max(window.scrollY / max, 0), 1);
+      targetZ = 26 - scrollNorm * 10;          // nos acercamos
+      targetY = 5 + (scrollNorm - 0.5) * 6;    // ligera subida/bajada
+    }
+    updateScroll();
+    window.addEventListener("scroll", updateScroll);
+
+    // Animación principal
+    const clock = new THREE.Clock();
+
+    function animate() {
+      const t = clock.getElapsedTime();
+
+      stars.rotation.y = t * 0.02;
+
+      hexGroup.rotation.z = Math.sin(t * 0.1) * 0.06;
+      hexGroup.position.z = -10 - Math.sin(t * 0.15) * 2;
+
+      camera.position.z += (targetZ - camera.position.z) * 0.07;
+      camera.position.y += (targetY - camera.position.y) * 0.07;
+      camera.lookAt(0, -4, -30);
+
+      renderer.render(scene, camera);
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    // Resize
+    window.addEventListener("resize", () => {
+      camera.aspect = innerWidth / innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(innerWidth, innerHeight);
+    });
+
+    // ===== SECCIONES: aparición suave =====
+    const contents = document.querySelectorAll(".content");
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) entry.target.classList.add("visible");
+        });
+      },
+      { threshold: 0.25 }
+    );
+    contents.forEach(c => observer.observe(c));
+
+    // ===== HALO DEL RATÓN =====
+    const halo = document.getElementById("halo");
+    let hx = innerWidth / 2, hy = innerHeight / 2;
+    let tx = hx, ty = hy;
+
+    window.addEventListener("mousemove", e => {
+      tx = e.clientX;
+      ty = e.clientY;
+    });
+
+    function haloLoop() {
+      hx += (tx - hx) * 0.15;
+      hy += (ty - hy) * 0.15;
+      halo.style.transform =
+        `translate(${hx}px, ${hy}px) translate(-50%, -50%) scale(${halo.dataset.scale || 1})`;
+      requestAnimationFrame(haloLoop);
+    }
+    haloLoop();
+
+    window.addEventListener("mousedown", () => {
+      halo.dataset.scale = 1.2;
+    });
+    window.addEventListener("mouseup", () => {
+      halo.dataset.scale = 1;
+    });
+  </script>
+</body>
+</html>

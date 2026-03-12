@@ -1,0 +1,898 @@
+[
+  {
+    "id_taller":"T001",
+    "nombre_taller":"Silvia MO · Ceramic Design",
+    "id_oficio_principal":"O025",
+    "municipio":"Santa Pola",
+    "lat":38.1918,
+    "lng":-0.5665
+  },
+  {
+    "id_taller":"T002",
+    "nombre_taller":"Juan Lorenzo",
+    "id_oficio_principal":"O025",
+    "municipio":"Sagunto",
+    "lat":39.6778,
+    "lng":-0.2806
+  },
+  {
+    "id_taller":"T003",
+    "nombre_taller":"Carbonell Ceramics",
+    "id_oficio_principal":"O025",
+    "municipio":"València",
+    "lat":39.4699,
+    "lng":-0.3763
+  },
+  {
+    "id_taller":"T004",
+    "nombre_taller":"Dafne Baldoví",
+    "id_oficio_principal":"O025",
+    "municipio":"Masarrojos",
+    "lat":39.5333,
+    "lng":-0.4167
+  },
+  {
+    "id_taller":"T005",
+    "nombre_taller":"Minami",
+    "id_oficio_principal":"O025",
+    "municipio":"Valencia",
+    "lat":39.4699,
+    "lng":-0.3763
+  },
+  {
+    "id_taller":"T006",
+    "nombre_taller":"Art Ceramics TVS",
+    "id_oficio_principal":"O025",
+    "municipio":"Manises",
+    "lat":39.4856,
+    "lng":-0.4625
+  },
+  {
+    "id_taller":"T007",
+    "nombre_taller":"Carie Oltmann",
+    "id_oficio_principal":"O025",
+    "municipio":"Alboraya",
+    "lat":39.5,
+    "lng":-0.35
+  },
+  {
+    "id_taller":"T008",
+    "nombre_taller":"Cerámicas Alteret",
+    "id_oficio_principal":"O025",
+    "municipio":"Villalonga",
+    "lat":38.8833,
+    "lng":-0.2167
+  },
+  {
+    "id_taller":"T009",
+    "nombre_taller":"Inma Martín",
+    "id_oficio_principal":"O025",
+    "municipio":"Sagunto",
+    "lat":39.6778,
+    "lng":-0.2806
+  },
+  {
+    "id_taller":"T010",
+    "nombre_taller":"Lolabotijo",
+    "id_oficio_principal":"O025",
+    "municipio":"Castelló",
+    "lat":39.9864,
+    "lng":-0.0513
+  },
+  {
+    "id_taller":"T011",
+    "nombre_taller":"Yolanda Doménech",
+    "id_oficio_principal":"O025",
+    "municipio":"Xiva de Morella",
+    "lat":40.5833,
+    "lng":-0.1167
+  },
+  {
+    "id_taller":"T012",
+    "nombre_taller":"La cuina Cerámica",
+    "id_oficio_principal":"O025",
+    "municipio":"Valencia",
+    "lat":39.4699,
+    "lng":-0.3763
+  },
+  {
+    "id_taller":"T013",
+    "nombre_taller":"Cerámica Paco Tena",
+    "id_oficio_principal":"O025",
+    "municipio":"Manises",
+    "lat":39.4856,
+    "lng":-0.4625
+  },
+  {
+    "id_taller":"T014",
+    "nombre_taller":"Cerámica Nolla",
+    "id_oficio_principal":"O025",
+    "municipio":"Meliana",
+    "lat":39.5167,
+    "lng":-0.3333
+  },
+  {
+    "id_taller":"T015",
+    "nombre_taller":"sfp disseny",
+    "id_oficio_principal":"O025",
+    "municipio":"Alcora",
+    "lat":40.0667,
+    "lng":-0.2167
+  },
+  {
+    "id_taller":"T016",
+    "nombre_taller":"Barroyfuego",
+    "id_oficio_principal":"O025",
+    "municipio":"Elda",
+    "lat":38.4781,
+    "lng":-0.7969
+  },
+  {
+    "id_taller":"T017",
+    "nombre_taller":"Daniela Sanz",
+    "id_oficio_principal":"O025",
+    "municipio":"Valencia",
+    "lat":39.4699,
+    "lng":-0.3763
+  },
+  {
+    "id_taller":"T018",
+    "nombre_taller":"Aliarte Cerámica",
+    "id_oficio_principal":"O025",
+    "municipio":"Manises",
+    "lat":39.4856,
+    "lng":-0.4625
+  },
+  {
+    "id_taller":"T019",
+    "nombre_taller":"NieNie Ceramica",
+    "id_oficio_principal":"O025",
+    "municipio":"Alcoy",
+    "lat":38.7042,
+    "lng":-0.475
+  },
+  {
+    "id_taller":"T020",
+    "nombre_taller":"Atelier Mosaicos Bellavista",
+    "id_oficio_principal":"O025",
+    "municipio":"Valencia",
+    "lat":39.4699,
+    "lng":-0.3763
+  },
+  {
+    "id_taller":"T021",
+    "nombre_taller":"Vicent Roda",
+    "id_oficio_principal":"O025",
+    "municipio":"Benaguasil",
+    "lat":39.5833,
+    "lng":-0.6167
+  },
+  {
+    "id_taller":"T022",
+    "nombre_taller":"Amigos del Yermo",
+    "id_oficio_principal":"O003",
+    "municipio":"Castell de Castells",
+    "lat":38.7167,
+    "lng":-0.1833
+  },
+  {
+    "id_taller":"T023",
+    "nombre_taller":"Land Ceramic",
+    "id_oficio_principal":"O025",
+    "municipio":"Benetússer",
+    "lat":39.4167,
+    "lng":-0.3833
+  },
+  {
+    "id_taller":"T024",
+    "nombre_taller":"Aiguamanil Art",
+    "id_oficio_principal":"O025",
+    "municipio":"Valencia",
+    "lat":39.4699,
+    "lng":-0.3763
+  },
+  {
+    "id_taller":"T025",
+    "nombre_taller":"Zeramica Z",
+    "id_oficio_principal":"O025",
+    "municipio":"Albuixech",
+    "lat":39.55,
+    "lng":-0.3333
+  },
+  {
+    "id_taller":"T026",
+    "nombre_taller":"JHMorales.ceramics",
+    "id_oficio_principal":"O025",
+    "municipio":"La Nucía",
+    "lat":38.6167,
+    "lng":-0.1333
+  },
+  {
+    "id_taller":"T027",
+    "nombre_taller":"Blau",
+    "id_oficio_principal":"O025",
+    "municipio":"Torrent",
+    "lat":39.4333,
+    "lng":-0.4667
+  },
+  {
+    "id_taller":"T028",
+    "nombre_taller":"Jonay",
+    "id_oficio_principal":"O025",
+    "municipio":"Godella",
+    "lat":39.5167,
+    "lng":-0.4167
+  },
+  {
+    "id_taller":"T029",
+    "nombre_taller":"ELPUCHE",
+    "id_oficio_principal":"O025",
+    "municipio":"Valencia",
+    "lat":39.4699,
+    "lng":-0.3763
+  },
+  {
+    "id_taller":"T030",
+    "nombre_taller":"Busquereta",
+    "id_oficio_principal":"O025",
+    "municipio":"Valencia",
+    "lat":39.4699,
+    "lng":-0.3763
+  },
+  {
+    "id_taller":"T031",
+    "nombre_taller":"Daniel Ceramics",
+    "id_oficio_principal":"O025",
+    "municipio":"Calpe",
+    "lat":38.6422,
+    "lng":0.0422
+  },
+  {
+    "id_taller":"T032",
+    "nombre_taller":"CUIT espai ceràmic",
+    "id_oficio_principal":"O025",
+    "municipio":"Valencia",
+    "lat":39.4699,
+    "lng":-0.3763
+  },
+  {
+    "id_taller":"T033",
+    "nombre_taller":"Laura Maldonado",
+    "id_oficio_principal":"O025",
+    "municipio":"Sant Joan d'Alacant",
+    "lat":38.4,
+    "lng":-0.4333
+  },
+  {
+    "id_taller":"T034",
+    "nombre_taller":"Sweet Sue cerámica",
+    "id_oficio_principal":"O025",
+    "municipio":"Valencia",
+    "lat":39.4699,
+    "lng":-0.3763
+  },
+  {
+    "id_taller":"T035",
+    "nombre_taller":"Vicente Espinosa Carpio",
+    "id_oficio_principal":"O025",
+    "municipio":"Rocafort",
+    "lat":39.5333,
+    "lng":-0.4167
+  },
+  {
+    "id_taller":"T036",
+    "nombre_taller":"Ximo Riba",
+    "id_oficio_principal":"O025",
+    "municipio":"Castellón",
+    "lat":39.9864,
+    "lng":-0.0513
+  },
+  {
+    "id_taller":"T037",
+    "nombre_taller":"Rafaela Pareja",
+    "id_oficio_principal":"O025",
+    "municipio":"Vinalesa",
+    "lat":39.5333,
+    "lng":-0.3833
+  },
+  {
+    "id_taller":"T038",
+    "nombre_taller":"Encarna Soler Peris",
+    "id_oficio_principal":"O025",
+    "municipio":"Benissa",
+    "lat":38.7167,
+    "lng":0.05
+  },
+  {
+    "id_taller":"T039",
+    "nombre_taller":"Juan Ortí",
+    "id_oficio_principal":"O025",
+    "municipio":"Torrent",
+    "lat":39.4333,
+    "lng":-0.4667
+  },
+  {
+    "id_taller":"T040",
+    "nombre_taller":"Clm Cerámica",
+    "id_oficio_principal":"O025",
+    "municipio":"Valencia",
+    "lat":39.4699,
+    "lng":-0.3763
+  },
+  {
+    "id_taller":"T041",
+    "nombre_taller":"Saborit",
+    "id_oficio_principal":"O025",
+    "municipio":"Alcora",
+    "lat":40.0667,
+    "lng":-0.2167
+  },
+  {
+    "id_taller":"T042",
+    "nombre_taller":"Ana illueca ceramics",
+    "id_oficio_principal":"O025",
+    "municipio":"Valencia",
+    "lat":39.4699,
+    "lng":-0.3763
+  },
+  {
+    "id_taller":"T043",
+    "nombre_taller":"La Cerámica Valenciana Sucesores de José Gimeno Martínez",
+    "id_oficio_principal":"O025",
+    "municipio":"Manises",
+    "lat":39.4856,
+    "lng":-0.4625
+  },
+  {
+    "id_taller":"T044",
+    "nombre_taller":"Domanises",
+    "id_oficio_principal":"O025",
+    "municipio":"Manises",
+    "lat":39.4856,
+    "lng":-0.4625
+  },
+  {
+    "id_taller":"T045",
+    "nombre_taller":"Enric Mestre",
+    "id_oficio_principal":"O025",
+    "municipio":"Alboraya",
+    "lat":39.5,
+    "lng":-0.35
+  },
+  {
+    "id_taller":"T046",
+    "nombre_taller":"Amparo Almela",
+    "id_oficio_principal":"O025",
+    "municipio":"Manises",
+    "lat":39.4856,
+    "lng":-0.4625
+  },
+  {
+    "id_taller":"T047",
+    "nombre_taller":"Raimundo Folch Sculptures",
+    "id_oficio_principal":"O025",
+    "municipio":"Mislata",
+    "lat":39.4667,
+    "lng":-0.4167
+  },
+  {
+    "id_taller":"T048",
+    "nombre_taller":"Concha Regné",
+    "id_oficio_principal":"O025",
+    "municipio":"Valencia",
+    "lat":39.4699,
+    "lng":-0.3763
+  },
+  {
+    "id_taller":"T049",
+    "nombre_taller":"Francesca Ceramic Studio",
+    "id_oficio_principal":"O025",
+    "municipio":"Valencia",
+    "lat":39.4699,
+    "lng":-0.3763
+  },
+  {
+    "id_taller":"T050",
+    "nombre_taller":"Andrea Moreno Orts",
+    "id_oficio_principal":"O025",
+    "municipio":"Santa Pola",
+    "lat":38.1918,
+    "lng":-0.5665
+  },
+  {
+    "id_taller":"T051",
+    "nombre_taller":"Cerámicas Palanca",
+    "id_oficio_principal":"O003",
+    "municipio":"Manises",
+    "lat":39.4856,
+    "lng":-0.4625
+  },
+  {
+    "id_taller":"T052",
+    "nombre_taller":"Taller de Arturo Mora",
+    "id_oficio_principal":"O025",
+    "municipio":"Manises",
+    "lat":39.4856,
+    "lng":-0.4625
+  },
+  {
+    "id_taller":"T053",
+    "nombre_taller":"Asociación Valenciana de Cerámica AVEC-gremio",
+    "id_oficio_principal":"O025",
+    "municipio":"Manises",
+    "lat":39.4856,
+    "lng":-0.4625
+  },
+  {
+    "id_taller":"T054",
+    "nombre_taller":"Drac Ceramic",
+    "id_oficio_principal":"O025",
+    "municipio":"Manises",
+    "lat":39.4856,
+    "lng":-0.4625
+  },
+  {
+    "id_taller":"T055",
+    "nombre_taller":"Ceràmiques Pepe Royo",
+    "id_oficio_principal":"O025",
+    "municipio":"Manises",
+    "lat":39.4856,
+    "lng":-0.4625
+  },
+  {
+    "id_taller":"T056",
+    "nombre_taller":"Plat y Bol",
+    "id_oficio_principal":"O025",
+    "municipio":"Manises",
+    "lat":39.4856,
+    "lng":-0.4625
+  },
+  {
+    "id_taller":"T057",
+    "nombre_taller":"Taller de Cerámica Rafa Mora",
+    "id_oficio_principal":"O025",
+    "municipio":"Manises",
+    "lat":39.4856,
+    "lng":-0.4625
+  },
+  {
+    "id_taller":"T058",
+    "nombre_taller":"Maribel Martinez",
+    "id_oficio_principal":"O025",
+    "municipio":"Manises",
+    "lat":39.4856,
+    "lng":-0.4625
+  },
+  {
+    "id_taller":"T059",
+    "nombre_taller":"Salvador Martí Cerámicas",
+    "id_oficio_principal":"O025",
+    "municipio":"Manises",
+    "lat":39.4856,
+    "lng":-0.4625
+  },
+  {
+    "id_taller":"T060",
+    "nombre_taller":"CERÁMIQUES PEPE ROYO ALCARAZ",
+    "id_oficio_principal":"O025",
+    "municipio":"Manises",
+    "lat":39.4856,
+    "lng":-0.4625
+  },
+  {
+    "id_taller":"T061",
+    "nombre_taller":"Alfarería La Navà",
+    "id_oficio_principal":"O003",
+    "municipio":"Agost",
+    "lat":38.45,
+    "lng":-0.6333
+  },
+  {
+    "id_taller":"T062",
+    "nombre_taller":"Roque Martínez Ceramista",
+    "id_oficio_principal":"O003",
+    "municipio":"Agost",
+    "lat":38.45,
+    "lng":-0.6333
+  },
+  {
+    "id_taller":"T063",
+    "nombre_taller":"Cop d'Art Ceràmica de l'Alcora",
+    "id_oficio_principal":"O025",
+    "municipio":"Alcora",
+    "lat":40.0667,
+    "lng":-0.2167
+  },
+  {
+    "id_taller":"T064",
+    "nombre_taller":"Abanicos Aldaia Internacional SLU",
+    "id_oficio_principal":"O002",
+    "municipio":"Aldaia",
+    "lat":39.4667,
+    "lng":-0.4667
+  },
+  {
+    "id_taller":"T065",
+    "nombre_taller":"Abanicos Muñoz SL",
+    "id_oficio_principal":"O002",
+    "municipio":"Aldaia",
+    "lat":39.4667,
+    "lng":-0.4667
+  },
+  {
+    "id_taller":"T066",
+    "nombre_taller":"Abanicos Ángel Blay Villa",
+    "id_oficio_principal":"O002",
+    "municipio":"Aldaia",
+    "lat":39.4667,
+    "lng":-0.4667
+  },
+  {
+    "id_taller":"T067",
+    "nombre_taller":"Abanicos Andrés Pascual C.B.",
+    "id_oficio_principal":"O002",
+    "municipio":"Aldaia",
+    "lat":39.4667,
+    "lng":-0.4667
+  },
+  {
+    "id_taller":"T068",
+    "nombre_taller":"Abanicos Aparisi SL",
+    "id_oficio_principal":"O002",
+    "municipio":"Aldaia",
+    "lat":39.4667,
+    "lng":-0.4667
+  },
+  {
+    "id_taller":"T069",
+    "nombre_taller":"Abanicos Burriel SL",
+    "id_oficio_principal":"O002",
+    "municipio":"Aldaia",
+    "lat":39.4667,
+    "lng":-0.4667
+  },
+  {
+    "id_taller":"T070",
+    "nombre_taller":"Abanicos Artesanos SL",
+    "id_oficio_principal":"O002",
+    "municipio":"Aldaia",
+    "lat":39.4667,
+    "lng":-0.4667
+  },
+  {
+    "id_taller":"T071",
+    "nombre_taller":"Abanicos Celso Hoyo SL",
+    "id_oficio_principal":"O002",
+    "municipio":"Aldaia",
+    "lat":39.4667,
+    "lng":-0.4667
+  },
+  {
+    "id_taller":"T072",
+    "nombre_taller":"Abanicos García S.L.",
+    "id_oficio_principal":"O002",
+    "municipio":"Aldaia",
+    "lat":39.4667,
+    "lng":-0.4667
+  },
+  {
+    "id_taller":"T073",
+    "nombre_taller":"Abanicos Folgado Romeu SL",
+    "id_oficio_principal":"O002",
+    "municipio":"Aldaia",
+    "lat":39.4667,
+    "lng":-0.4667
+  },
+  {
+    "id_taller":"T074",
+    "nombre_taller":"Abanicos Manel",
+    "id_oficio_principal":"O002",
+    "municipio":"Aldaia",
+    "lat":39.4667,
+    "lng":-0.4667
+  },
+  {
+    "id_taller":"T075",
+    "nombre_taller":"Abanicos Mon Air SL",
+    "id_oficio_principal":"O002",
+    "municipio":"Aldaia",
+    "lat":39.4667,
+    "lng":-0.4667
+  },
+  {
+    "id_taller":"T076",
+    "nombre_taller":"Abanicos Marisa Ferrer Casaña",
+    "id_oficio_principal":"O002",
+    "municipio":"Aldaia",
+    "lat":39.4667,
+    "lng":-0.4667
+  },
+  {
+    "id_taller":"T077",
+    "nombre_taller":"Abanicos Raser",
+    "id_oficio_principal":"O002",
+    "municipio":"Aldaia",
+    "lat":39.4667,
+    "lng":-0.4667
+  },
+  {
+    "id_taller":"T078",
+    "nombre_taller":"Abanicos Pascual",
+    "id_oficio_principal":"O002",
+    "municipio":"Aldaia",
+    "lat":39.4667,
+    "lng":-0.4667
+  },
+  {
+    "id_taller":"T079",
+    "nombre_taller":"Abanicos Taberner",
+    "id_oficio_principal":"O002",
+    "municipio":"Aldaia",
+    "lat":39.4667,
+    "lng":-0.4667
+  },
+  {
+    "id_taller":"T080",
+    "nombre_taller":"Abanicos Vila",
+    "id_oficio_principal":"O002",
+    "municipio":"Aldaia",
+    "lat":39.4667,
+    "lng":-0.4667
+  },
+  {
+    "id_taller":"T081",
+    "nombre_taller":"Kocolamir",
+    "id_oficio_principal":"O002",
+    "municipio":"Aldaia",
+    "lat":39.4667,
+    "lng":-0.4667
+  },
+  {
+    "id_taller":"T082",
+    "nombre_taller":"Abanicos Vibenca",
+    "id_oficio_principal":"O002",
+    "municipio":"Aldaia",
+    "lat":39.4667,
+    "lng":-0.4667
+  },
+  {
+    "id_taller":"T083",
+    "nombre_taller":"Ventall Art",
+    "id_oficio_principal":"O002",
+    "municipio":"Aldaia",
+    "lat":39.4667,
+    "lng":-0.4667
+  },
+  {
+    "id_taller":"T084",
+    "nombre_taller":"Palmitair SL",
+    "id_oficio_principal":"O002",
+    "municipio":"Aldaia",
+    "lat":39.4667,
+    "lng":-0.4667
+  },
+  {
+    "id_taller":"T085",
+    "nombre_taller":"José Alfonso Mansanet Serrano",
+    "id_oficio_principal":"O049",
+    "municipio":"Albacete\/Valencia",
+    "lat":39.4699,
+    "lng":-0.3763
+  },
+  {
+    "id_taller":"T086",
+    "nombre_taller":"José Nácher - Espartero",
+    "id_oficio_principal":"O049",
+    "municipio":"Bicorp",
+    "lat":39.0833,
+    "lng":-0.8167
+  },
+  {
+    "id_taller":"T087",
+    "nombre_taller":"La Casita del Esparto",
+    "id_oficio_principal":"O049",
+    "municipio":"Castellón de la Plana",
+    "lat":39.9864,
+    "lng":-0.0513
+  },
+  {
+    "id_taller":"T088",
+    "nombre_taller":"La Seiscuatro",
+    "id_oficio_principal":"O044",
+    "municipio":"Valencia",
+    "lat":39.4699,
+    "lng":-0.3763
+  },
+  {
+    "id_taller":"T089",
+    "nombre_taller":"Encuadernación Artesanal Estudio Taller Abad",
+    "id_oficio_principal":"O044",
+    "municipio":"Valencia",
+    "lat":39.4699,
+    "lng":-0.3763
+  },
+  {
+    "id_taller":"T090",
+    "nombre_taller":"Universitas Taller Encuadernación S.L.",
+    "id_oficio_principal":"O044",
+    "municipio":"Valencia",
+    "lat":39.4699,
+    "lng":-0.3763
+  },
+  {
+    "id_taller":"T091",
+    "nombre_taller":"Naranja&Madera",
+    "id_oficio_principal":"O044",
+    "municipio":"Valencia",
+    "lat":39.4699,
+    "lng":-0.3763
+  },
+  {
+    "id_taller":"T092",
+    "nombre_taller":"Encuadernaciones José Vázquez",
+    "id_oficio_principal":"O044",
+    "municipio":"Valencia",
+    "lat":39.4699,
+    "lng":-0.3763
+  },
+  {
+    "id_taller":"T093",
+    "nombre_taller":"Vidrio Sorribes",
+    "id_oficio_principal":"O107",
+    "municipio":"Valencia",
+    "lat":39.4699,
+    "lng":-0.3763
+  },
+  {
+    "id_taller":"T094",
+    "nombre_taller":"Asociación de Artesanos de l'Olleria",
+    "id_oficio_principal":"O107",
+    "municipio":"L'Olleria",
+    "lat":38.9167,
+    "lng":-0.5667
+  },
+  {
+    "id_taller":"T095",
+    "nombre_taller":"Telar de Cabanes",
+    "id_oficio_principal":"O101",
+    "municipio":"Cabanes",
+    "lat":40.1667,
+    "lng":0.15
+  },
+  {
+    "id_taller":"T096",
+    "nombre_taller":"Vicente Enguídanos - Último Velluter",
+    "id_oficio_principal":"O101",
+    "municipio":"Valencia",
+    "lat":39.4699,
+    "lng":-0.3763
+  },
+  {
+    "id_taller":"T097",
+    "nombre_taller":"Salut Textil - Empar Alandete",
+    "id_oficio_principal":"O101",
+    "municipio":"Valencia",
+    "lat":39.4699,
+    "lng":-0.3763
+  },
+  {
+    "id_taller":"T098",
+    "nombre_taller":"Abelardo Ripoll - Tonelero",
+    "id_oficio_principal":"O103",
+    "municipio":"San Jordi",
+    "lat":40.05,
+    "lng":-0.05
+  },
+  {
+    "id_taller":"T099",
+    "nombre_taller":"Tonelería del Cabriel",
+    "id_oficio_principal":"O103",
+    "municipio":"Requena",
+    "lat":39.4833,
+    "lng":-1.1
+  },
+  {
+    "id_taller":"T100",
+    "nombre_taller":"Mendieta Guitars",
+    "id_oficio_principal":"O032",
+    "municipio":"Valencia",
+    "lat":39.4699,
+    "lng":-0.3763
+  },
+  {
+    "id_taller":"T101",
+    "nombre_taller":"Francisco Esteve",
+    "id_oficio_principal":"O032",
+    "municipio":"Alboraya",
+    "lat":39.5,
+    "lng":-0.35
+  },
+  {
+    "id_taller":"T102",
+    "nombre_taller":"Amalio Burguet",
+    "id_oficio_principal":"O032",
+    "municipio":"Catarroja",
+    "lat":39.4167,
+    "lng":-0.4
+  },
+  {
+    "id_taller":"T103",
+    "nombre_taller":"MusicalGaspar Taller Luthier",
+    "id_oficio_principal":"O032",
+    "municipio":"Valencia",
+    "lat":39.4699,
+    "lng":-0.3763
+  },
+  {
+    "id_taller":"T104",
+    "nombre_taller":"AFJ Guitars",
+    "id_oficio_principal":"O032",
+    "municipio":"Valencia",
+    "lat":39.4699,
+    "lng":-0.3763
+  },
+  {
+    "id_taller":"T105",
+    "nombre_taller":"La Drassana",
+    "id_oficio_principal":"O023",
+    "municipio":"Valencia",
+    "lat":39.4699,
+    "lng":-0.3763
+  },
+  {
+    "id_taller":"T106",
+    "nombre_taller":"Nautic Woodcraft",
+    "id_oficio_principal":"O023",
+    "municipio":"Valencia",
+    "lat":39.4699,
+    "lng":-0.3763
+  },
+  {
+    "id_taller":"T107",
+    "nombre_taller":"Ferrart Disseny",
+    "id_oficio_principal":"O055",
+    "municipio":"Valencia",
+    "lat":39.4699,
+    "lng":-0.3763
+  },
+  {
+    "id_taller":"T108",
+    "nombre_taller":"Ferroller",
+    "id_oficio_principal":"O055",
+    "municipio":"Benissanó",
+    "lat":39.6167,
+    "lng":-0.6167
+  },
+  {
+    "id_taller":"T109",
+    "nombre_taller":"IATA Espardenyes",
+    "id_oficio_principal":"O005",
+    "municipio":"La Mata",
+    "lat":40.5333,
+    "lng":-0.0833
+  },
+  {
+    "id_taller":"T110",
+    "nombre_taller":"Hoya de la Iglesia",
+    "id_oficio_principal":"O089",
+    "municipio":"Requena",
+    "lat":39.4833,
+    "lng":-1.1
+  },
+  {
+    "id_taller":"T111",
+    "nombre_taller":"Quesería El de Sereix",
+    "id_oficio_principal":"O089",
+    "municipio":"Valencia",
+    "lat":39.4699,
+    "lng":-0.3763
+  },
+  {
+    "id_taller":"T112",
+    "nombre_taller":"Granja El Parral",
+    "id_oficio_principal":"O089",
+    "municipio":"Barxeta",
+    "lat":38.9667,
+    "lng":-0.45
+  }
+]

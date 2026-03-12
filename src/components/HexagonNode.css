@@ -1,0 +1,322 @@
+/* ==================== VARIABLES Y BASE ==================== */
+:root {
+  --hex-blue: #41e1ff;
+  --hex-blue-intense: #0a5b91;
+  --hex-orange: #ffb468;
+  --hex-bg-dark: rgba(10, 10, 20, 0.45);
+  --hex-bg-darker: rgba(2, 6, 8, 0.75);
+  --hex-white: rgba(255, 255, 255, 0.9);
+  --hex-white-soft: rgba(255, 255, 255, 0.65);
+  --hex-glow-blue: rgba(65, 225, 255, 0.45);
+  --hex-glow-orange: rgba(255, 180, 104, 0.55);
+  --hex-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  --hex-backdrop: blur(6px);
+  --hex-transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --font-sans: "Inter", "SF Pro Display", system-ui, -apple-system, sans-serif;
+}
+
+/* ==================== CONTENEDOR PRINCIPAL ==================== */
+.hexagon-node {
+  width: 160px;
+  height: 140px;
+  position: relative;
+  clip-path: polygon(
+    50% 0%,
+    100% 25%,
+    100% 75%,
+    50% 100%,
+    0% 75%,
+    0% 25%
+  );
+  background: var(--hex-bg-dark);
+  border: 2px solid var(--hex-blue);
+  box-shadow: 
+    0 0 16px var(--hex-glow-blue),
+    inset 0 0 8px rgba(255, 180, 104, 0.15),
+    var(--hex-shadow);
+  transition: var(--hex-transition);
+  backdrop-filter: var(--hex-backdrop);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  padding: 16px 12px;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  outline: none;
+
+  /* Para accesibilidad */
+  &:focus-visible {
+    outline: 2px solid var(--hex-orange);
+    outline-offset: 2px;
+  }
+
+  &:hover {
+    border-color: var(--hex-orange);
+    box-shadow:
+      0 0 22px var(--hex-glow-orange),
+      inset 0 0 10px rgba(255, 180, 104, 0.45),
+      var(--hex-shadow);
+    transform: scale(1.04);
+  }
+}
+
+/* Estados del artesano */
+.hexagon-node--activo {
+  border-color: var(--hex-blue);
+  box-shadow:
+    0 0 16px var(--hex-glow-blue),
+    inset 0 0 8px rgba(255, 180, 104, 0.15),
+    var(--hex-shadow);
+}
+
+.hexagon-node--riesgo {
+  border-color: #ff6b6b;
+  box-shadow:
+    0 0 16px rgba(255, 107, 107, 0.45),
+    inset 0 0 8px rgba(255, 107, 107, 0.15),
+    var(--hex-shadow);
+}
+
+.hexagon-node--historico {
+  border-color: rgba(255, 255, 255, 0.4);
+  opacity: 0.7;
+  box-shadow:
+    0 0 12px rgba(255, 255, 255, 0.25),
+    inset 0 0 6px rgba(255, 255, 255, 0.1),
+    var(--hex-shadow);
+
+  &:hover {
+    border-color: var(--hex-orange);
+    opacity: 1;
+  }
+}
+
+/* Animación breathing */
+.hexagon-node--breathing {
+  animation: hexBreathe 3.5s ease-in-out infinite;
+}
+
+@keyframes hexBreathe {
+  0%,
+  100% {
+    border-color: var(--hex-blue);
+    box-shadow:
+      0 0 16px rgba(65, 225, 255, 0.4),
+      inset 0 0 8px rgba(255, 180, 104, 0.15),
+      var(--hex-shadow);
+    filter: drop-shadow(0 0 0px rgba(65, 225, 255, 0));
+  }
+  50% {
+    border-color: var(--hex-blue);
+    box-shadow:
+      0 0 24px rgba(65, 225, 255, 0.6),
+      inset 0 0 12px rgba(255, 180, 104, 0.25),
+      var(--hex-shadow);
+    filter: drop-shadow(0 0 8px rgba(65, 225, 255, 0.3));
+  }
+}
+
+/* ==================== CONTENIDO INTERNO ==================== */
+.hexagon-node__content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: 100%;
+  height: 100%;
+}
+
+/* Borde luminoso interno */
+.hexagon-node__border {
+  position: absolute;
+  inset: 0;
+  clip-path: polygon(
+    50% 0%,
+    100% 25%,
+    100% 75%,
+    50% 100%,
+    0% 75%,
+    0% 25%
+  );
+  pointer-events: none;
+}
+
+/* ==================== AVATAR ==================== */
+.hexagon-node__avatar {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  object-fit: cover;
+  box-shadow:
+    0 0 12px rgba(65, 225, 255, 0.3),
+    inset 0 0 8px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+
+  .hexagon-node:hover & {
+    border-color: var(--hex-orange);
+    box-shadow:
+      0 0 16px var(--hex-glow-orange),
+      inset 0 0 8px rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* ==================== NOMBRE ==================== */
+.hexagon-node__name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--hex-white);
+  text-align: center;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+  word-break: break-word;
+  flex-shrink: 0;
+}
+
+/* ==================== DISCIPLINA ==================== */
+.hexagon-node__discipline {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--hex-white-soft);
+  letter-spacing: 0.01em;
+  flex-shrink: 0;
+}
+
+.hexagon-node__discipline-icon {
+  font-size: 13px;
+  line-height: 1;
+}
+
+.hexagon-node__discipline-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100px;
+}
+
+/* ==================== ESTADO ==================== */
+.hexagon-node__status {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  z-index: 10;
+  backdrop-filter: blur(2px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+}
+
+.hexagon-node__status--activo {
+  background: rgba(65, 225, 255, 0.2);
+  color: var(--hex-blue);
+  box-shadow: 0 0 12px rgba(65, 225, 255, 0.4);
+}
+
+.hexagon-node__status--riesgo {
+  background: rgba(255, 107, 107, 0.2);
+  color: #ff6b6b;
+  box-shadow: 0 0 12px rgba(255, 107, 107, 0.4);
+  animation: pulse-warning 2s ease-in-out infinite;
+}
+
+.hexagon-node__status--historico {
+  background: rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+}
+
+@keyframes pulse-warning {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+/* ==================== LÍNEA DE CONEXIÓN ==================== */
+.hexagon-node__connection-line {
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  width: 2px;
+  height: 0;
+  background: linear-gradient(to bottom, var(--hex-orange), transparent);
+  transform: translateX(-50%);
+  animation: connectionDraw 0.3s ease forwards;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+@keyframes connectionDraw {
+  from {
+    height: 0;
+  }
+  to {
+    height: 20px;
+  }
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 768px) {
+  .hexagon-node {
+    width: 140px;
+    height: 120px;
+    gap: 3px;
+    padding: 12px 10px;
+
+    &:hover {
+      transform: scale(1.02);
+    }
+  }
+
+  .hexagon-node__avatar {
+    width: 60px;
+    height: 60px;
+  }
+
+  .hexagon-node__name {
+    font-size: 12px;
+  }
+
+  .hexagon-node__discipline {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hexagon-node {
+    width: 120px;
+    height: 100px;
+    gap: 2px;
+    padding: 10px 8px;
+  }
+
+  .hexagon-node__avatar {
+    width: 50px;
+    height: 50px;
+  }
+
+  .hexagon-node__name {
+    font-size: 11px;
+  }
+
+  .hexagon-node__discipline {
+    font-size: 9px;
+  }
+}

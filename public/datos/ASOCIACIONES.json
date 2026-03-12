@@ -1,0 +1,119 @@
+[
+  {
+    "id_asociacion": "ASOC_001",
+    "nombre": "Gremio de Maestros Abaniqueros de Valencia",
+    "tipo": "gremio",
+    "municipio": "Aldaia",
+    "lat": 39.4667,
+    "lng": -0.4667,
+    "web": "https://gremioabaniqueros.com",
+    "email": "info@gremioabaniqueros.com",
+    "telefono": "+34 963 503 123",
+    "descripcion": "Único gremio de abaniqueros en Europa. Preserva y promueve el oficio tradicional del abanico.",
+    "oficios_relacionados": [
+      "O001"
+    ],
+    "miembros_aprox": 21,
+    "fundacion": 1996
+  },
+  {
+    "id_asociacion": "ASOC_002",
+    "nombre": "Centro de Artesanía de la Comunitat Valenciana",
+    "tipo": "institucion",
+    "municipio": "Valencia",
+    "lat": 39.4699,
+    "lng": -0.3763,
+    "web": "https://www.centroartesaniacv.com",
+    "email": "info@centroartesaniacv.com",
+    "telefono": "+34 961 206 100",
+    "descripcion": "Entidad pública que difunde y potencia la artesanía de la Comunitat Valenciana.",
+    "oficios_relacionados": [],
+    "miembros_aprox": 500,
+    "fundacion": 1986
+  },
+  {
+    "id_asociacion": "ASOC_003",
+    "nombre": "Proyecto ADN Cerámico",
+    "tipo": "proyecto_cultural",
+    "municipio": "Valencia",
+    "lat": 39.4699,
+    "lng": -0.3763,
+    "web": "https://adnceramico.com",
+    "email": "info@adnceramico.com",
+    "telefono": null,
+    "descripcion": "Mapa digital de ceramistas profesionales de la Comunitat Valenciana seleccionados por comité de expertos.",
+    "oficios_relacionados": [
+      "O013"
+    ],
+    "miembros_aprox": 106,
+    "fundacion": 2020
+  },
+  {
+    "id_asociacion": "ASOC_004",
+    "nombre": "Asociación de Alfareros de Agost",
+    "tipo": "asociacion",
+    "municipio": "Agost",
+    "lat": 38.4167,
+    "lng": -0.6833,
+    "web": null,
+    "email": null,
+    "telefono": "+34 965 691 043",
+    "descripcion": "Asociación de alfareros tradicionales que preservan la cerámica de Agost.",
+    "oficios_relacionados": [
+      "O013"
+    ],
+    "miembros_aprox": 11,
+    "fundacion": 1985
+  },
+  {
+    "id_asociacion": "ASOC_005",
+    "nombre": "APEA - Asociación Provincial Empresarios Artesanos Alicante",
+    "tipo": "asociacion",
+    "municipio": "Alicante",
+    "lat": 38.3452,
+    "lng": -0.481,
+    "web": null,
+    "instagram": "@apea_artesanos",
+    "facebook": "Artesanos de Alicante APEA",
+    "email": "info@apea-alicante.com",
+    "telefono": null,
+    "descripcion": "Asociación provincial que agrupa a diferentes gremios artesanales de Alicante.",
+    "oficios_relacionados": [],
+    "miembros_aprox": 80,
+    "fundacion": 1990
+  },
+  {
+    "id_asociacion": "ASOC_006",
+    "nombre": "APAC - Asociación Provincial de Artesanos de Castellón",
+    "tipo": "asociacion",
+    "municipio": "Castellón",
+    "lat": 39.9864,
+    "lng": -0.0513,
+    "web": null,
+    "instagram": "@apac_castello",
+    "email": "info@apac-castellon.com",
+    "telefono": null,
+    "descripcion": "Asociación que promueve y difunde la artesanía de la provincia de Castellón.",
+    "oficios_relacionados": [],
+    "miembros_aprox": 60,
+    "fundacion": 1988
+  },
+  {
+    "id_asociacion": "ASOC_007",
+    "nombre": "Escuela Superior de Cerámica de l'Alcora (ESCAL)",
+    "tipo": "centro_formacion",
+    "municipio": "l'Alcora",
+    "lat": 40.0667,
+    "lng": -0.2167,
+    "web": null,
+    "instagram": "@escal_ceramica_alcora",
+    "email": "info@escal.es",
+    "telefono": "+34 964 386 000",
+    "descripcion": "Grado universitario en cerámica con dos itinerarios: arte-diseño y ciencia-tecnología.",
+    "oficios_relacionados": [
+      "O013"
+    ],
+    "miembros_aprox": 150,
+    "fundacion": 1929
+  }
+]

@@ -1,0 +1,1551 @@
+/* src/styles/map.css */
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* ===== LAYOUT GENERAL ===== */
+
+.app-container {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: radial-gradient(circle at 12% 0%, #0d1422 0%, #05070e 60%);
+  color: #fff;
+}
+
+.app-container::before,
+.app-container::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Honeycomb base */
+.app-container::before {
+  opacity: 0.06;
+  background-image:
+    linear-gradient(30deg, transparent 48%, #22d3ee 49%, #22d3ee 51%, transparent 52%),
+    linear-gradient(150deg, transparent 48%, #22d3ee 49%, #22d3ee 51%, transparent 52%);
+  background-size: 80px 138.56px;
+}
+
+/* Neural lines + nodes */
+.app-container::after {
+  opacity: 0.08;
+  background-image: url("data:image/svg+xml,%3Csvg width='420' height='240' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%2300d9ff' stop-opacity='0.35'/%3E%3Cstop offset='100%25' stop-color='%2322d3ee' stop-opacity='0.05'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M20 120 Q120 40 220 120 T420 120' stroke='url(%23g)' stroke-width='1.2' fill='none'/%3E%3Cpath d='M0 60 Q140 200 280 80 T560 180' stroke='url(%23g)' stroke-width='1' fill='none'/%3E%3Ccircle cx='20' cy='120' r='2.6' fill='%2300d9ff'/%3E%3Ccircle cx='120' cy='40' r='3' fill='%2322d3ee'/%3E%3Ccircle cx='220' cy='120' r='2.6' fill='%2300d9ff'/%3E%3Ccircle cx='320' cy='40' r='3' fill='%2322d3ee'/%3E%3Ccircle cx='420' cy='120' r='2.6' fill='%2300d9ff'/%3E%3Ccircle cx='0' cy='60' r='2.4' fill='%2300d9ff'/%3E%3Ccircle cx='140' cy='200' r='2.4' fill='%2322d3ee'/%3E%3Ccircle cx='280' cy='80' r='2.4' fill='%2300d9ff'/%3E%3Ccircle cx='420' cy='180' r='2.4' fill='%2322d3ee'/%3E%3C/svg%3E");
+  background-size: 420px 240px;
+  mix-blend-mode: screen;
+}
+
+/* Contenido debajo del header */
+.artenia-content {
+  flex: 1;
+  display: flex;
+  justify-content: stretch; /* ocupar todo el ancho */
+  position: relative;
+  z-index: 1; /* por delante del pattern de fondo */
+}
+
+/* Layout principal: sidebar + mapa, centrados bajo el header */
+.artenia-main-layout {
+  flex: 1;
+  display: flex;
+  gap: 24px;
+
+  width: 100%;
+  margin: 0;
+  padding: 12px 20px 20px;
+}
+
+/* Sidebar y mapa: proporciones desktop */
+.sidebar-shell-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  z-index: 110; /* keep sidebar above the map and map controls */
+}
+
+.sidebar-shell {
+  flex: 0 0 360px;                /* ancho fijo en escritorio */
+  position: relative;
+  /* add subtle translucent backdrop to ensure it's above the map */
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 112;
+}
+
+.artenia-map-container {
+  flex: 1;
+  display: flex;
+  min-height: 480px;
+  /* allow the map to extend beneath the sidebar */
+  position: relative;
+}
+
+/* Contenedor de la zona del mapa */
+.artenia-map-container {
+  flex: 1;
+  display: flex;
+  min-height: 480px;       /* altura mínima del mapa */
+}
+
+/* El canvas del mapa sin borde feo */
+.mapboxgl-canvas {
+  outline: none;
+}
+
+/* ===== SHELL DEL MAPA ===== */
+
+.artenia-map-shell {
+  position: relative;
+  flex: 1;
+  height: calc(100vh - 88px - 24px); /* fill viewport under header (header 88px) */
+  min-height: 480px;
+  isolation: isolate;         /* para que las capas se mezclen bien */
+  border-radius: 8px;        /* reduced radius to better fill frame */
+  overflow: hidden;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
+  z-index: 0; /* placed under sidebar */
+  background-color: rgba(0,0,0,0.2); /* base dark layer at 20% opacity */
+}
+
+/* El mapa rellena la shell */
+.artenia-map-shell .mapboxgl-map,
+.artenia-map-shell .mapboxgl-canvas-container {
+  width: 100%;
+  height: 100%;
+}
+
+.artenia-map-shell::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 6;
+  opacity: 0.06;
+  background-image: url("data:image/svg+xml,%3Csvg width='500' height='500' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+}
+
+/* Gelatina gris debajo de los arcos del sidebar: pseudo layer similar al buscador */
+.sidebar-shell::before {
+  content: "";
+  position: absolute;
+  left: -12px;
+  right: -12px;
+  top: -12px;
+  bottom: -12px;
+  z-index: -1; /* underneath sidebar content but above the map */
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.06));
+  border-radius: 20px;
+  filter: blur(10px);
+  box-shadow: 0 12px 40px rgba(8,12,18,0.55), 0 0 18px rgba(0,0,0,0.12) inset;
+  pointer-events: none;
+}
+
+/* Ensure sidebar visually sits above the map even with translucency */
+.sidebar-shell, .sidebar-shell * {
+  z-index: 2;
+}
+
+/* ===== OVERLAY SUPERIOR MAPA (stats, toggle, filtro) ===== */
+
+.artenia-map-top-overlay {
+  position: fixed;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  z-index: 999;
+  pointer-events: none; /* solo los hijos reciben clic */
+}
+
+.artenia-map-top-overlay > * {
+  pointer-events: auto;
+}
+
+.artenia-map-stat-card {
+  position: relative;
+  display: none;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: rgba(4, 9, 20, 0.78);
+  border: 1px solid rgba(34, 211, 238, 0.4);
+  box-shadow:
+    0 12px 30px rgba(0, 0, 0, 0.55),
+    0 0 22px rgba(34, 211, 238, 0.22);
+  overflow: hidden;
+}
+
+.artenia-map-stat-card::after {
+  content: "";
+  position: absolute;
+  inset: -15%;
+  background: radial-gradient(circle, rgba(34, 211, 238, 0.16), transparent 50%);
+  filter: blur(20px);
+  pointer-events: none;
+}
+
+.artenia-map-stat-icon {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: rgba(34, 211, 238, 0.12);
+  color: #22d3ee;
+}
+
+.artenia-map-stat-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #94a3b8;
+}
+
+.artenia-map-stat-value {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #e2e8f0;
+  letter-spacing: 0.02em;
+}
+
+.artenia-map-toggle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  padding: 4px;
+  border-radius: 24px;
+  background: rgba(2, 6, 8, 0.95);
+  border: 2px solid rgba(65, 225, 255, 0.3);
+  box-shadow:
+    0 0 30px rgba(65, 225, 255, 0.2),
+    0 12px 40px rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(12px);
+  animation: slideDown 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  overflow: hidden;
+}
+
+.artenia-map-toggle::before {
+  content: "";
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 50%;
+  height: calc(100% - 8px);
+  background: linear-gradient(135deg, rgba(65, 225, 255, 0.3), rgba(65, 225, 255, 0.15));
+  border-radius: 20px;
+  border: 1px solid rgba(65, 225, 255, 0.5);
+  box-shadow:
+    0 0 20px rgba(65, 225, 255, 0.4),
+    inset 0 0 20px rgba(65, 225, 255, 0.1);
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 1;
+  pointer-events: none;
+  filter: blur(0.5px);
+}
+
+.artenia-map-toggle.toggle-colmena::before {
+  left: calc(50% - 4px);
+  width: calc(50% + 4px);
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.artenia-map-toggle-option {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 18px;
+  border-radius: 20px;
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 2;
+  flex: 1;
+  justify-content: center;
+  text-align: center;
+}
+
+.artenia-map-toggle-option:hover {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.arteria-map-toggle-option--active {
+  color: #41e1ff;
+  font-weight: 700;
+  text-shadow: 0 0 10px rgba(65, 225, 255, 0.5);
+}
+
+.artenia-map-filter-fab {
+  margin-left: auto;
+  display: none;
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  place-items: center;
+  border: 1px solid rgba(34, 211, 238, 0.55);
+  background: radial-gradient(circle at 30% 20%, rgba(34, 211, 238, 0.24), rgba(4, 9, 20, 0.85));
+  box-shadow:
+    0 10px 26px rgba(0, 0, 0, 0.5),
+    0 0 18px rgba(34, 211, 238, 0.32);
+  color: #e0f2fe;
+  cursor: pointer;
+  transition: transform 0.16s ease, box-shadow 0.2s ease, filter 0.16s ease;
+}
+
+.artenia-map-filter-fab:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 12px 30px rgba(0, 0, 0, 0.55),
+    0 0 22px rgba(34, 211, 238, 0.44);
+}
+
+.artenia-map-filter-fab:active {
+  transform: translateY(0);
+  filter: brightness(0.96);
+}
+
+/* ===== TOOLTIPS / POPUPS MAPBOX ===== */
+
+.mapboxgl-popup {
+  max-width: 280px;
+}
+
+/* Ensure mapbox controls, popups and other interactive map chrome sit below the sidebar */
+
+/* Mapbox chrome (controls / popups) should visually sit above the sidebar
+   to add dimensional layering to the page. Keep the canvas below everything. */
+.artenia-map-shell .mapboxgl-ctrl,
+.artenia-map-shell .mapboxgl-ctrl-group,
+.artenia-map-shell .mapboxgl-ctrl-top-left,
+.artenia-map-shell .mapboxgl-ctrl-top-right,
+.artenia-map-shell .mapboxgl-ctrl-bottom-left,
+.artenia-map-shell .mapboxgl-ctrl-bottom-right,
+.artenia-map-shell .mapboxgl-ctrl.custom-control,
+.artenia-map-shell .mapboxgl-ctrl-container,
+.artenia-map-shell .mapboxgl-popup,
+.artenia-map-shell .mapboxgl-ctrl-logo {
+  z-index: 220 !important; /* above the sidebar (which is 112) */
+}
+
+/* Map canvas base should be even lower */
+.artenia-map-shell .mapboxgl-canvas,
+.artenia-map-shell .mapboxgl-canvas-container {
+  z-index: 0 !important;
+}
+
+/* ===== ARTENIA PIN (Marker) ===== */
+.artenia-pin {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  display: inline-grid;
+  place-items: center;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.artenia-pin:focus {
+  outline: none;
+}
+
+.artenia-pin__halo {
+  position: absolute;
+  width: calc(44px + (var(--artenia-glow, 0.12) * 80px));
+  height: calc(44px + (var(--artenia-glow, 0.12) * 80px));
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(65,225,255,0.16), rgba(65,225,255,0.06) 45%, transparent 60%);
+  filter: blur(calc(8px + var(--artenia-glow, 0.12) * 12px));
+  transition: transform 260ms cubic-bezier(.2,.9,.2,1), opacity 200ms ease;
+  z-index: 0;
+  pointer-events: none;
+  opacity: calc(0.28 + var(--artenia-glow, 0.12));
+}
+
+.artenia-pin__dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, color-mix(in srgb,var(--artenia-color,#41e1ff) 70%, #ffffff 30%), color-mix(in srgb,var(--artenia-color,#41e1ff) 40%, #000000 10%));
+  box-shadow: 0 8px 20px rgba(0,0,0,0.55), 0 0 12px color-mix(in srgb, var(--artenia-color,#41e1ff) 36%, transparent);
+  border: 2px solid rgba(255,255,255,0.06);
+  z-index: 2;
+}
+
+/* ===== HEXAGON NODES (Retro-futuristic / breathing) ===== */
+.artenia-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none; /* container doesn't block map events; children can be interactive */
+}
+
+.artenia-hexagon {
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  transform-origin: center center;
+  pointer-events: auto;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+
+.artenia-hexagon .pf {
+  width: 100%;
+  height: 100%;
+  /* regular hexagon */
+  clip-path: polygon(25% 6.7%, 75% 6.7%, 100% 50%, 75% 93.3%, 25% 93.3%, 0% 50%);
+  background: linear-gradient(180deg, rgba(34,211,238,0.18), rgba(65,225,255,0.06));
+  border: 1px solid rgba(65,225,255,0.24);
+  box-shadow:
+    0 8px 30px rgba(34,211,238,0.06),
+    0 2px 8px rgba(0,0,0,0.6),
+    inset 0 1px 0 rgba(255,255,255,0.03);
+  backdrop-filter: blur(2px);
+  border-radius: 6px;
+  transition: transform 220ms cubic-bezier(.2,.9,.2,1), box-shadow 220ms ease, opacity 240ms ease;
+  animation: hexagon-breathe 8000ms ease-in-out infinite;
+}
+
+.artenia-hexagon:hover .pf,
+.artenia-hexagon:focus .pf {
+  transform: scale(1.12) rotate(-6deg);
+  box-shadow:
+    0 14px 40px rgba(34,211,238,0.14),
+    0 4px 14px rgba(0,0,0,0.6),
+    inset 0 1px 0 rgba(255,255,255,0.04);
+}
+
+@keyframes hexagon-breathe {
+  0% { transform: scale(1); opacity: 0.96; }
+  50% { transform: scale(1.07); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.96; }
+}
+
+/* cluster element */
+.artenia-cluster {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle at 30% 25%, color-mix(in srgb, var(--cluster-color,#41e1ff) 22%, transparent), color-mix(in srgb, var(--cluster-color,#41e1ff) 8%, transparent));
+  border: 1px solid color-mix(in srgb, var(--cluster-color,#41e1ff) 28%, transparent);
+  color: #e6fbff;
+  font-weight: 700;
+  font-size: 12px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.6), 0 0 18px color-mix(in srgb, var(--cluster-color,#41e1ff) 16%, transparent);
+  cursor: pointer;
+  pointer-events: auto;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.artenia-cluster:hover {
+  transform: scale(1.06);
+  box-shadow: 0 18px 42px rgba(0,0,0,0.7), 0 0 30px rgba(34,211,238,0.22);
+}
+
+.artenia-cluster .count {
+  padding-left: 2px;
+}
+
+/* small responsive tweak: reduce size on very small screens */
+@media (max-width: 640px) {
+  .artenia-hexagon { width: 18px; height: 18px; }
+  .artenia-cluster { width: 30px; height: 30px; }
+}
+
+/* Bridge: style createArteniaPin when used as hexagon variant */
+.artenia-pin.artenia-hexagon {
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  transform-origin: center center;
+  pointer-events: auto;
+  display: grid;
+  place-items: center;
+}
+
+.artenia-pin.artenia-hexagon .artenia-pin__dot {
+  width: 100%;
+  height: 100%;
+  border-radius: 6px; /* small rounding inside hexagon clip */
+  clip-path: polygon(25% 6.7%, 75% 6.7%, 100% 50%, 75% 93.3%, 25% 93.3%, 0% 50%);
+  background: linear-gradient(180deg, rgba(34,211,238,0.18), rgba(65,225,255,0.06));
+  box-shadow:
+    0 8px 30px rgba(34,211,238,0.06),
+    0 2px 8px rgba(0,0,0,0.6),
+    inset 0 1px 0 rgba(255,255,255,0.03);
+  border: 1px solid rgba(65,225,255,0.24);
+  transition: transform 220ms cubic-bezier(.2,.9,.2,1), box-shadow 220ms ease, opacity 240ms ease;
+  animation: hexagon-breathe 8000ms ease-in-out infinite;
+}
+
+.artenia-pin.artenia-hexagon .artenia-pin__halo {
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(65,225,255,0.16), rgba(65,225,255,0.06) 45%, transparent 60%);
+  filter: blur(8px);
+}
+
+.artenia-pin.artenia-hexagon:hover .artenia-pin__dot,
+.artenia-pin.artenia-hexagon:focus .artenia-pin__dot {
+  transform: scale(1.12) rotate(-6deg);
+  box-shadow:
+    0 14px 40px rgba(34,211,238,0.14),
+    0 4px 14px rgba(0,0,0,0.6),
+    inset 0 1px 0 rgba(255,255,255,0.04);
+}
+
+@media (max-width: 640px) {
+  .artenia-pin.artenia-hexagon { width: 18px; height: 18px; }
+}
+
+/* Tooltip preview for hover */
+.artenia-tooltip {
+  background: rgba(3, 8, 14, 0.8);
+  color: #dff9ff;
+  padding: 6px 10px;
+  border-radius: 10px;
+  font-size: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.6), 0 0 12px rgba(34,211,238,0.08);
+  border: 1px solid rgba(65,225,255,0.12);
+  white-space: nowrap;
+  transform: translateY(-6px);
+  transition: opacity 160ms ease, transform 160ms ease;
+  z-index: 50;
+}
+
+/* Cluster pulse animation */
+.artenia-cluster {
+  position: relative;
+}
+.artenia-cluster::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  border-radius: 999px;
+  background: radial-gradient(circle at center, color-mix(in srgb, var(--cluster-color,#41e1ff) 12%, transparent), color-mix(in srgb, var(--cluster-color,#41e1ff) 2%, transparent));
+  filter: blur(6px);
+  opacity: calc(0.6 + (var(--cluster-glow, 0.12) * 0.6));
+  z-index: -1;
+  animation: cluster-pulse 1800ms infinite ease-out;
+}
+
+@keyframes cluster-pulse {
+  0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.7; }
+  50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.36; }
+  100% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.7; }
+}
+
+/* Hover / focus states */
+.artenia-pin:hover .artenia-pin__halo,
+.artenia-pin:focus .artenia-pin__halo {
+  transform: scale(1.08);
+  opacity: 1;
+}
+
+.artenia-pin:hover .artenia-pin__dot,
+.artenia-pin:focus .artenia-pin__dot {
+  transform: translateY(-2px);
+}
+
+/* Breathing animation for highlighted pins */
+@keyframes arteniaPinPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.12); }
+  100% { transform: scale(1); }
+}
+.artenia-pin--breathing .artenia-pin__halo {
+  animation: arteniaPinPulse 3s ease-in-out infinite;
+}
+
+/* Variantes por riesgo / tipo */
+.artenia-pin--riesgo-alto .artenia-pin__dot {
+  background: #ffb468;
+  box-shadow: 0 10px 28px rgba(255,180,104,0.28), 0 0 14px rgba(255,180,104,0.18);
+  border-color: rgba(255,180,104,0.14);
+}
+.artenia-pin--riesgo-alto .artenia-pin__halo {
+  background: radial-gradient(circle, rgba(255,180,104,0.18), rgba(255,180,104,0.05) 40%, transparent 60%);
+}
+
+.artenia-pin--riesgo-medio .artenia-pin__dot {
+  background: #ffd77a;
+  box-shadow: 0 10px 28px rgba(255,215,122,0.22), 0 0 12px rgba(255,215,122,0.12);
+  border-color: rgba(255,215,122,0.12);
+}
+.artenia-pin--riesgo-medio .artenia-pin__halo {
+  background: radial-gradient(circle, rgba(255,215,122,0.12), rgba(255,215,122,0.03) 40%, transparent 60%);
+}
+
+.artenia-pin--riesgo-bajo .artenia-pin__dot {
+  background: #e6f8ff;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.45), 0 0 10px rgba(34,211,238,0.22);
+}
+.artenia-pin--riesgo-bajo .artenia-pin__halo {
+  background: radial-gradient(circle, rgba(65,225,255,0.12), rgba(34,211,238,0.02) 40%, transparent 60%);
+}
+
+.artenia-pin--asociacion .artenia-pin__dot {
+  background: linear-gradient(180deg, #c6f6d5, #7ee787);
+  box-shadow: 0 10px 28px rgba(46, 190, 105, 0.12), 0 0 10px rgba(46,190,105,0.14);
+  border-color: rgba(46,190,105,0.12);
+}
+
+/* small touch area for easier clicks on mobile */
+.mapboxgl-marker .artenia-pin,
+.artenia-pin {
+  touch-action: manipulation;
+}
+
+
+.mapboxgl-popup-content {
+  background: rgba(6, 12, 22, 0.9);
+  border: 1px solid rgba(34, 211, 238, 0.45);
+  color: #e2e8f0;
+  border-radius: 14px;
+  box-shadow:
+    0 16px 40px rgba(0, 0, 0, 0.55),
+    0 0 22px rgba(34, 211, 238, 0.28);
+  padding: 12px 14px;
+  backdrop-filter: blur(8px);
+}
+
+.mapboxgl-popup-tip {
+  border-top-color: rgba(34, 211, 238, 0.4) !important;
+  border-bottom-color: rgba(34, 211, 238, 0.4) !important;
+}
+
+.mapboxgl-popup-close-button {
+  color: #94a3b8;
+}
+
+.artenia-popup-hex .mapboxgl-popup-content {
+  position: relative;
+  clip-path: polygon(
+    50% 0%,
+    95% 35%,
+    78% 100%,
+    22% 100%,
+    5% 35%
+  );
+  padding: 14px 16px 18px;
+  border-radius: 0;
+  border: 1.6px solid rgba(122, 243, 255, 0.8);
+  background:
+    radial-gradient(circle at 50% 30%, rgba(122, 243, 255, 0.18), rgba(6, 12, 22, 0.92)),
+    rgba(6, 12, 22, 0.92);
+  box-shadow:
+    0 18px 38px rgba(0, 0, 0, 0.5),
+    0 0 40px rgba(122, 243, 255, 0.28);
+}
+
+.artenia-popup-hex .mapboxgl-popup-content::after {
+  content: "";
+  position: absolute;
+  inset: -10px;
+  clip-path: polygon(
+    50% 0%,
+    95% 35%,
+    78% 100%,
+    22% 100%,
+    5% 35%
+  );
+  background: radial-gradient(circle, rgba(154, 52, 255, 0.25), transparent 65%);
+  filter: blur(14px);
+  z-index: -1;
+}
+
+.artenia-popup-hex .mapboxgl-popup-tip {
+  display: none;
+}
+
+.artenia-popup-hex .mapboxgl-popup-close-button {
+  top: 6px;
+  right: 6px;
+}
+
+.artenia-popup {
+  display: grid;
+  gap: 8px;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.artenia-popup-header {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.artenia-popup-photo {
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+}
+
+.artenia-popup-photo img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  display: block;
+}
+
+.artenia-popup-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: var(--popup-accent, #22d3ee);
+  box-shadow: 0 0 10px var(--popup-accent, #22d3ee);
+}
+
+.artenia-popup-title {
+  font-weight: 700;
+  color: #e2e8f0;
+  letter-spacing: -0.01em;
+}
+
+.artenia-popup-subtitle {
+  font-size: 0.85rem;
+  color: #94a3b8;
+}
+
+.artenia-popup-subtitle-muted {
+  font-size: 0.78rem;
+  color: #6b7280;
+}
+
+.artenia-popup-meta {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  font-size: 0.78rem;
+  color: #cbd5e1;
+}
+
+.artenia-popup-meta span::before {
+  content: "•";
+  margin-right: 6px;
+  color: rgba(226, 232, 240, 0.45);
+}
+
+.artenia-popup-desc {
+  font-size: 0.85rem;
+  color: #cbd5e1;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.artenia-popup-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.popup-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 12px;
+  background: rgba(34, 211, 238, 0.08);
+  color: #e2e8f0;
+  border: 1px solid rgba(34, 211, 238, 0.4);
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-decoration: none;
+  transition: background 0.18s ease, transform 0.12s ease, border-color 0.18s ease;
+}
+
+.popup-chip:hover {
+  background: rgba(34, 211, 238, 0.14);
+  border-color: rgba(34, 211, 238, 0.6);
+  transform: translateY(-1px);
+}
+/* ===== NÚCLEO ARTENIA: PENTÁGONO CENTRAL (OCULTO) ===== */
+
+.artenia-core-wrapper {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  display: none; /* 👈 oculto por ahora */
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+}
+
+.artenia-core {
+  width: 80px;
+  height: 80px;
+  clip-path: polygon(
+    50% 0%,
+    100% 38%,
+    81% 100%,
+    19% 100%,
+    0% 38%
+  );
+  background: radial-gradient(circle at 40% 5%, #4ee7ff, #0b3e55 60%, #020308 100%);
+  position: relative;
+  filter: drop-shadow(0 0 22px rgba(58, 242, 255, 0.45));
+  animation: core-breath 6s ease-in-out infinite;
+  opacity: 0.8;
+  backdrop-filter: blur(4px);
+}
+
+/* Halo exterior del núcleo */
+.artenia-core::before {
+  content: "";
+  position: absolute;
+  inset: -24px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(58, 242, 255, 0.18), rgba(0,0,0,0) 70%);
+  filter: blur(18px);
+  animation: core-halo 7s ease-in-out infinite;
+}
+
+/* Pequeño punto en el centro */
+.artenia-core::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #e8faff;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.65;
+  box-shadow: 0 0 8px rgba(58, 242, 255, 0.6);
+}
+
+/* Animación del pentágono (respiración) */
+@keyframes core-breath {
+  0% {
+    transform: scale(0.9);
+    box-shadow: 0 0 6px rgba(255, 138, 61, 0.6);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.08);
+    box-shadow: 0 0 14px rgba(255, 138, 61, 0.95);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.9);
+    box-shadow: 0 0 6px rgba(255, 138, 61, 0.6);
+    opacity: 0.9;
+  }
+}
+
+/* ===== VIGNETTE SOBRE EL MAPA ===== */
+
+.artenia-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 4;
+  background:
+    radial-gradient(circle at 50% 40%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.15) 45%, rgba(0,0,0,0.55) 100%);
+  mix-blend-mode: soft-light;
+}
+
+/* ============ SIDEBAR: SHELL GENERAL ============ */
+
+.sidebar-shell {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  padding: 1.75rem 1.5rem 2.5rem;
+  max-width: 420px;
+  color: #e5f4ff;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+    "Helvetica Neue", Arial, sans-serif;
+}
+
+/* ============ SECCIONES GENERALES ============ */
+
+.sidebar-section {
+  margin-bottom: 0.75rem;
+}
+
+.sidebar-section-title {
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: #4be5ff;
+  margin-bottom: 0.75rem;
+}
+
+.sidebar-section-title-upper {
+  margin-bottom: 1rem;
+}
+
+/* ============ BUSCADOR ============ */
+
+/* Tarjeta azul general del buscador (la de fuera) */
+.sidebar-section-search {
+  position: relative;
+  overflow: hidden;
+  padding: 1.5rem 1.25rem 1.75rem;
+  border-radius: 1.75rem;
+  background: radial-gradient(circle at 0% 0%, #0e2335 0%, #02060c 60%);
+  border: 1px solid rgba(120, 249, 255, 0.18);
+  box-shadow:
+    0 12px 36px rgba(0, 0, 0, 0.55),
+    0 0 26px rgba(15, 118, 190, 0.35);
+}
+
+.sidebar-section-search::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.1;
+  background-image: url("data:image/svg+xml,%3Csvg width='280' height='180' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3ClinearGradient id='sg' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%2300d9ff' stop-opacity='0.45'/%3E%3Cstop offset='100%25' stop-color='%2322d3ee' stop-opacity='0.05'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M12 120 Q80 36 148 96 T280 72' stroke='url(%23sg)' stroke-width='1.2' fill='none'/%3E%3Ccircle cx='12' cy='120' r='2.4' fill='%2300d9ff'/%3E%3Ccircle cx='80' cy='36' r='2.4' fill='%2322d3ee'/%3E%3Ccircle cx='148' cy='96' r='2.4' fill='%2300d9ff'/%3E%3Ccircle cx='216' cy='48' r='2.2' fill='%2322d3ee'/%3E%3Ccircle cx='280' cy='72' r='2.4' fill='%2300d9ff'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+/* Contenedor interno: icono + input + botón */
+.sidebar-search-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+
+  border-radius: 1.75rem;
+  padding: 0.45rem 0.7rem;
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(120, 249, 255, 0.18);
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.22);
+}
+
+/* Icono lupa */
+.sidebar-search-icon {
+  font-size: 1rem;
+  opacity: 0.8;
+}
+
+/* Input centrado verticalmente */
+.sidebar-input {
+  flex: 1;
+  border-radius: 1.4rem;
+  border: none;
+  background: transparent;
+
+  padding: 0.45rem 0.9rem;
+  color: #e5f4ff;
+  font-size: 0.9rem;
+
+  display: flex;
+  align-items: center;
+}
+
+.sidebar-input::placeholder {
+  color: #6b7b8f;
+}
+
+.sidebar-input:focus {
+  outline: none;
+}
+
+/* Botón Buscar dentro del cuadro */
+.sidebar-search-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0.45rem 1.1rem;
+  border-radius: 1.5rem;
+
+  border: 1px solid rgba(56, 189, 248, 0.75);
+  background: radial-gradient(circle at 30% 20%, #0891b2 0%, #022c3a 70%);
+  box-shadow: 0 0 14px rgba(56, 189, 248, 0.35);
+
+  color: #e0faff;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.sidebar-search-btn:hover {
+  box-shadow: 0 0 22px rgba(56, 189, 248, 0.55);
+  background: radial-gradient(circle at 30% 20%, #0aa9cc 0%, #03384a 75%);
+}
+
+.sidebar-search-btn:active {
+  transform: scale(0.96);
+  box-shadow: 0 0 14px rgba(56, 189, 248, 0.35);
+}
+
+
+
+/* ============ CARD OFICIOS EN RIESGO ============ */
+
+.sidebar-card-alert {
+  position: relative;
+  overflow: hidden;
+  padding: 1.4rem 1.25rem 1.5rem;
+  border-radius: 1.75rem;
+  background: radial-gradient(
+    circle at 0% 0%,
+    #3f161c 0%,
+    #241017 35%,
+    #12060b 95%
+  );
+  border: 1px solid rgba(248, 113, 113, 0.5);
+  box-shadow:
+    0 12px 36px rgba(0, 0, 0, 0.55),
+    0 0 32px rgba(248, 113, 113, 0.38);
+}
+
+.sidebar-card-alert::after {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  background: radial-gradient(circle, rgba(248, 113, 113, 0.12), transparent 55%);
+  filter: blur(24px);
+  pointer-events: none;
+}
+
+.sidebar-card-alert-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  margin-bottom: 0.85rem;
+}
+
+.sidebar-card-alert-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.3rem;
+  height: 1.3rem;
+  border-radius: 999px;
+  background: rgba(248, 113, 113, 0.22);
+  color: #fecaca;
+  font-size: 0.75rem;
+  flex-shrink: 0;
+}
+
+.sidebar-card-alert-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #fecaca;
+}
+
+.sidebar-card-alert-subtitle {
+  font-size: 0.8rem;
+  color: rgba(255, 228, 230, 0.9);
+  margin-top: 0.1rem;
+}
+
+.sidebar-card-alert-list {
+  margin-top: 0.35rem;
+}
+
+.sidebar-card-alert-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.4rem;
+  font-size: 0.83rem;
+  color: #ffe4e6;
+  margin-top: 0.2rem;
+}
+
+.sidebar-card-alert-name {
+  font-weight: 600;
+}
+
+.sidebar-card-alert-count {
+  font-size: 0.75rem;
+  color: rgba(255, 237, 213, 0.9);
+}
+
+/* ============ SELECTS / FILTROS ============ */
+
+.sidebar-select {
+  width: 100%;
+  border-radius: 1.6rem;
+  padding: 0.7rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(4, 9, 20, 0.82);
+  color: #e5f4ff;
+  font-size: 0.85rem;
+  outline: none;
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, #7dd3fc 50%),
+    linear-gradient(135deg, #7dd3fc 50%, transparent 50%);
+  background-position: calc(100% - 18px) calc(50% - 3px),
+    calc(100% - 13px) calc(50% - 3px);
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+}
+
+.sidebar-select:focus {
+  border-color: rgba(56, 189, 248, 0.7);
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.35), 0 0 0 1px rgba(56, 189, 248, 0.35);
+}
+
+/* ============ BOTÓN RESET FILTROS ============ */
+
+.sidebar-reset-btn {
+  margin-top: 1rem;
+  width: 100%;
+  border-radius: 1.7rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  background: transparent;
+  color: #e5f4ff;
+  font-size: 0.75rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.sidebar-reset-btn:hover {
+  background: rgba(148, 163, 184, 0.12);
+  box-shadow: 0 0 18px rgba(148, 163, 184, 0.4);
+}
+
+/* ============ ESTADÍSTICAS ============ */
+
+.sidebar-section-stats {
+  margin-top: 0.5rem;
+}
+
+.sidebar-stats-title {
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: #4be5ff;
+  margin-bottom: 0.8rem;
+}
+
+.sidebar-stats-card {
+  position: relative;
+  overflow: hidden;
+  padding: 1.1rem 1.25rem;
+  border-radius: 1.6rem;
+  background: radial-gradient(circle at 0% 0%, #081827 0%, #050814 80%);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  box-shadow:
+    0 12px 32px rgba(0, 0, 0, 0.55),
+    0 0 26px rgba(56, 189, 248, 0.22);
+  margin-bottom: 0.8rem;
+}
+
+.sidebar-stats-card::after {
+  content: "";
+  position: absolute;
+  inset: 12% 8%;
+  opacity: 0.08;
+  background-image: url("data:image/svg+xml,%3Csvg width='220' height='140' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6 70 Q60 14 120 70 T234 70' stroke='%2322d3ee' stroke-width='0.8' stroke-opacity='0.35' fill='none'/%3E%3Ccircle cx='6' cy='70' r='2' fill='%2300d9ff'/%3E%3Ccircle cx='60' cy='14' r='2' fill='%2322d3ee'/%3E%3Ccircle cx='120' cy='70' r='2' fill='%2300d9ff'/%3E%3Ccircle cx='180' cy='14' r='2' fill='%2322d3ee'/%3E%3Ccircle cx='234' cy='70' r='2' fill='%2300d9ff'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+.sidebar-stats-card-risk {
+  margin-top: 0.2rem;
+}
+
+.sidebar-stats-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.35rem;
+  font-size: 0.9rem;
+  color: #e5f4ff;
+  font-weight: 500;
+}
+
+.sidebar-stats-pill {
+  padding: 0.1rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid rgba(45, 212, 191, 0.7);
+  font-size: 0.8rem;
+  color: #5eead4;
+}
+
+.sidebar-stat-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+  color: #cbd5f5;
+}
+
+.sidebar-stat-row span:last-child {
+  font-weight: 600;
+}
+
+/* Colores específicos para niveles de riesgo */
+
+.sidebar-stat-row-critical span:first-child,
+.sidebar-stat-row-critical span:last-child {
+  color: #fca5a5;
+}
+
+.sidebar-stat-row-high span:first-child,
+.sidebar-stat-row-high span:last-child {
+  color: #fed7aa;
+}
+
+.sidebar-stat-row-medium span:first-child,
+.sidebar-stat-row-medium span:last-child {
+  color: #fef3c7;
+}
+
+.sidebar-stat-row-low span:first-child,
+.sidebar-stat-row-low span:last-child {
+  color: #67e8f9;
+}
+
+/* ============ BOTÓN ASOCIACIONES ============ */
+
+.sidebar-assoc-btn {
+  margin-top: 0.9rem;
+  width: 100%;
+  border-radius: 1.6rem;
+  padding: 0.9rem 1.1rem;
+  border: 1px solid rgba(56, 189, 248, 0.7);
+  background: linear-gradient(135deg, rgba(8, 47, 73, 0.6), rgba(12, 74, 110, 0.72));
+  color: #e0faff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  cursor: pointer;
+  transition: background-color 0.16s ease, box-shadow 0.16s ease,
+    transform 0.08s ease;
+}
+
+.sidebar-assoc-btn:hover {
+  background: linear-gradient(135deg, rgba(8, 47, 73, 0.75), rgba(12, 74, 110, 0.9));
+  box-shadow:
+    0 12px 28px rgba(0, 0, 0, 0.45),
+    0 0 22px rgba(56, 189, 248, 0.5);
+  transform: translateY(-1px);
+}
+
+.sidebar-assoc-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 999px;
+  background: rgba(56, 189, 248, 0.26);
+  font-size: 0.95rem;
+}
+
+.sidebar-assoc-count {
+  opacity: 0.85;
+}
+
+/* ===== TOGGLE SIDEBAR ===== */
+
+.sidebar-toggle-btn {
+  position: absolute;
+  top: 12px;
+  right: -18px;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  border: 1px solid rgba(34, 211, 238, 0.5);
+  background: radial-gradient(circle at 30% 20%, rgba(34, 211, 238, 0.22), rgba(8, 18, 34, 0.9));
+  color: #e0f2fe;
+  display: grid;
+  place-items: center;
+  box-shadow:
+    0 10px 24px rgba(0, 0, 0, 0.45),
+    0 0 14px rgba(34, 211, 238, 0.28);
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.2s ease, filter 0.15s ease;
+}
+
+.sidebar-toggle-btn:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 12px 28px rgba(0, 0, 0, 0.5),
+    0 0 18px rgba(34, 211, 238, 0.35);
+}
+
+.sidebar-shell-wrapper.is-collapsed .sidebar-shell {
+  flex: 0 0 72px;
+  max-width: 72px;
+  padding: 14px 12px;
+  overflow: hidden;
+  transition: flex-basis 0.2s ease, max-width 0.2s ease;
+}
+
+.sidebar-shell-wrapper.is-collapsed .sidebar-section,
+.sidebar-shell-wrapper.is-collapsed .sidebar-assoc-btn {
+  display: none;
+}
+
+.sidebar-shell-wrapper.is-collapsed .sidebar-section-title {
+  display: none;
+}
+
+.sidebar-shell-wrapper.is-collapsed .sidebar-toggle-btn {
+  right: -12px;
+}
+
+/* ===== MARCADOR HEXAGONAL ARTENIA ===== */
+
+.artenia-marker {
+  position: relative;
+  width: 18px; /* reducido para ser más discreto */
+  height: 15.588px; /* altura equilátera: √3/2 * 18 */
+  pointer-events: auto;
+  animation: breathe 3s ease-in-out infinite;
+  transform-origin: center center;
+}
+
+/* Hexágono exterior: borde + glow */
+.artenia-marker::before {
+  content: "";
+  position: absolute;
+  inset: 1px 0.6px; /* compact shape */
+  clip-path: polygon(
+    25% 0%,
+    75% 0%,
+    100% 50%,
+    75% 100%,
+    25% 100%,
+    0% 50%
+  );
+  /* gelatina semitransparente: sutil background + blur-like glow */
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 6px 18px rgba(4,6,10,0.55), 0 0 10px rgba(34,211,238,0.08) inset;
+  filter: blur(0.6px);
+}
+
+/* Punto central – el color lo ponemos por JS según disciplina */
+.artenia-marker-dot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  transform: translate(-50%, -50%);
+  background: rgba(233,248,255,0.95); /* ligero punto luminoso */
+  box-shadow: 0 6px 14px rgba(0,0,0,0.45), 0 0 8px rgba(65,225,255,0.18);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+/* Hover makes hexagon slightly more pronounced */
+.artenia-marker:hover,
+.artenia-marker:focus {
+  transform: scale(1.18);
+}
+
+/* ===== Fondo hexagonal retro-futurista (para fondo general o mapa) ===== */
+.hex-grid-bg {
+  background-image:
+    linear-gradient(30deg, oklch(0.7 0.2 195 / 0.05) 12%, transparent 12.5%, transparent 87%, oklch(0.7 0.2 195 / 0.05) 87.5%, oklch(0.7 0.2 195 / 0.05)),
+    linear-gradient(150deg, oklch(0.7 0.2 195 / 0.05) 12%, transparent 12.5%, transparent 87%, oklch(0.7 0.2 195 / 0.05) 87.5%, oklch(0.7 0.2 195 / 0.05)),
+    linear-gradient(30deg, oklch(0.7 0.2 195 / 0.05) 12%, transparent 12.5%, transparent 87%, oklch(0.7 0.2 195 / 0.05) 87.5%, oklch(0.7 0.2 195 / 0.05)),
+    linear-gradient(150deg, oklch(0.7 0.2 195 / 0.05) 12%, transparent 12.5%, transparent 87%, oklch(0.7 0.2 195 / 0.05) 87.5%, oklch(0.7 0.2 195 / 0.05)),
+    linear-gradient(60deg, oklch(0.7 0.2 195 / 0.1) 25%, transparent 25.5%, transparent 75%, oklch(0.7 0.2 195 / 0.1) 75%, oklch(0.7 0.2 195 / 0.1)),
+    linear-gradient(60deg, oklch(0.7 0.2 195 / 0.1) 25%, transparent 25.5%, transparent 75%, oklch(0.7 0.2 195 / 0.1) 75%, oklch(0.7 0.2 195 / 0.1));
+  background-size: 80px 140px;
+  background-position: 0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px;
+}
+
+/* Efectos glow */
+.glow-cyan {
+  box-shadow:
+    0 0 20px oklch(0.7 0.2 195 / 0.3),
+    0 0 40px oklch(0.7 0.2 195 / 0.2);
+}
+
+.glow-orange {
+  box-shadow:
+    0 0 20px oklch(0.68 0.18 35 / 0.3),
+    0 0 40px oklch(0.68 0.18 35 / 0.2);
+}
+
+/* Borde hexagonal genérico */
+.hex-border {
+  clip-path: polygon(
+    30% 0%,
+    70% 0%,
+    100% 50%,
+    70% 100%,
+    30% 100%,
+    0% 50%
+  );
+}
+
+/* Tipografía tech (para títulos si quieres) */
+.font-tech {
+  font-family: "Orbitron", "Rajdhani", "Space Grotesk", sans-serif;
+  letter-spacing: 0.05em;
+}
+
+/* ===== Animaciones ===== */
+@keyframes pulse-fast {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.5; transform: scale(1.1); }
+}
+
+@keyframes pulse-slow {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.7; transform: scale(1.05); }
+}
+
+@keyframes pulse-critical {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  25%      { opacity: 0.3; transform: scale(1.15); }
+  50%      { opacity: 1; transform: scale(1); }
+  75%      { opacity: 0.3; transform: scale(1.15); }
+}
+
+.animate-pulse-fast {
+  animation: pulse-fast 1s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-pulse-critical {
+  animation: pulse-critical 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Animación de respiración tipo “core” */
+@keyframes breathe {
+  0%, 100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  50% {
+    transform: scale(1.1);
+    filter: brightness(1.3);
+  }
+}
+
+.animate-breathe {
+  animation: breathe 3s ease-in-out infinite;
+}
+
+/* Extras que tenías en ese bloque (opcionales) */
+@keyframes bounce-slow {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-10px); }
+}
+
+@keyframes blink {
+  0%, 90%, 100% { opacity: 1; }
+  95%          { opacity: 0; }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.animate-bounce-slow { animation: bounce-slow 2s ease-in-out infinite; }
+.animate-blink       { animation: blink 3s ease-in-out infinite; }
+.animate-spin-slow   { animation: spin-slow 20s linear infinite; }
+
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+
+/* === TOGGLE FLOTANTE VERTICAL MAPA / COLMENA === */
+
+.vista-toggle {
+  position: fixed;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.4rem;
+  border-radius: 999px;
+  background: rgba(7, 11, 18, 0.92);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+  z-index: 50;
+  user-select: none;
+  touch-action: none;
+  cursor: grab;
+}
+
+.vista-toggle.is-dragging {
+  cursor: grabbing;
+}
+
+.vista-toggle__btn {
+  min-width: 7rem;
+  border: 1px solid transparent;
+  background: transparent;
+  color: #e5e7eb;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.6rem 0.9rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.18s ease-out;
+}
+
+.vista-toggle__btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.vista-toggle__btn.is-active {
+  color: #0b172a;
+  background: linear-gradient(135deg, #38bdf8, #60a5fa);
+  border-color: rgba(191, 219, 254, 0.9);
+  box-shadow:
+    0 0 12px rgba(56, 189, 248, 0.7),
+    0 0 28px rgba(37, 99, 235, 0.5);
+}

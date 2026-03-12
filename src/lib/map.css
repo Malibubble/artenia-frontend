@@ -1,0 +1,44 @@
+.hexagon {
+  width: 24px;
+  height: 24px;
+  background: #7bd3ff;
+  /* regular hexagon */
+  clip-path: polygon(25% 6.7%, 75% 6.7%, 100% 50%, 75% 93.3%, 25% 93.3%, 0% 50%);
+  animation: hexagon-breathe 8000ms ease-in-out infinite;
+  cursor: pointer;
+}
+
+@keyframes hexagon-breathe {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 4px #7bd3ff;
+  }
+  50% {
+    transform: scale(1.07);
+    box-shadow: 0 0 12px #7bd3ff;
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 4px #7bd3ff;
+  }
+}
+
+.modal {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #111;
+  color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 260px;
+}
+
+.close {
+  background: none;
+  color: #fff;
+  border: none;
+  font-size: 22px;
+  float: right;
+  cursor: pointer;
+}
