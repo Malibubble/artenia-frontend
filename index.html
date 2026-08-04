@@ -1,34 +1,831 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
+
   <head>
     <meta charset="UTF-8" />
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
-    />
+      content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/artenia-mark.svg" />
+    <link rel="apple-touch-icon" href="/icon-192.png" />
+    <title>ARTENIA | Mapa de artesanos, talleres y oficios</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#00D9FF" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="ARTENIA" />
+    <meta name="description" content="ARTENIA es el mapa vivo de los artesanos y los oficios. Descubre talleres, historias, procesos, productos, experiencias y rutas de artesanía." />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://artenialab.com/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="ARTENIA" />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:title" content="ARTENIA | Mapa de artesanos, talleres y oficios" />
+    <meta property="og:description" content="ARTENIA es el mapa vivo de los artesanos y los oficios. Descubre talleres, historias, procesos, productos, experiencias y rutas de artesanía." />
+    <meta property="og:url" content="https://artenialab.com/" />
+    <meta property="og:image" content="https://artenialab.com/artenia-artesano-humano.avif" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="ARTENIA | Mapa de artesanos, talleres y oficios" />
+    <meta name="twitter:description" content="ARTENIA es el mapa vivo de los artesanos y los oficios. Descubre talleres, historias, procesos, productos, experiencias y rutas de artesanía." />
+    <meta name="twitter:image" content="https://artenialab.com/artenia-artesano-humano.avif" />
+    <link rel="alternate" hreflang="es" href="https://artenialab.com/" />
+    <link rel="alternate" hreflang="en" href="https://artenialab.com/?lang=en" />
+    <link rel="alternate" hreflang="fr" href="https://artenialab.com/?lang=fr" />
+    <link rel="alternate" hreflang="x-default" href="https://artenialab.com/" />
+    <style>
+      :root {
+        --app-vh: 1vh;
+      }
 
-    <title>Artenia Lab – Pinacoteca Viva del Oficio Humano</title>
+      [data-loc="client/src/pages/MapaOficios.tsx:277"] {
+        height: calc(var(--app-vh) * 100) !important;
+        min-height: calc(var(--app-vh) * 100) !important;
+      }
 
-    <!-- Favicon (tu logo en public/logo.svg) -->
-    <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+      #seo-indexable-content {
+        max-width: 880px;
+        margin: 0 auto;
+        padding: 20px 16px;
+      }
 
-    <!-- Google Fonts -->
+      #seo-indexable-content h1 {
+        margin: 0 0 12px;
+        font-size: 1.85rem;
+        line-height: 1.2;
+      }
+
+      #seo-indexable-content p {
+        margin: 0;
+        line-height: 1.55;
+      }
+
+      #root:not(:empty) + #seo-indexable-content {
+        display: none;
+      }
+    </style>
+    <!-- Add Google Fonts here, example:
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    -->
+    <script src="/dom-guards.js?v=20260728-3"></script>
+    <script>
+      (function () {
+        var protectedRoute = /^\/(?:mapa|historias(?:\/[^/?#]+)?|artesano\/[^/?#]+|creador-rutas)\/?$/;
+
+        function pathFromUrl(url) {
+          try {
+            return new URL(String(url), window.location.href).pathname;
+          } catch (_) {
+            return "";
+          }
+        }
+
+        function requiresPrivateEntry(url) {
+          return protectedRoute.test(pathFromUrl(url));
+        }
+
+        function enterThroughGate(url) {
+          window.location.assign(new URL(String(url), window.location.href).href);
+        }
+
+        var originalPushState = history.pushState.bind(history);
+        history.pushState = function (state, title, url) {
+          if (url != null && requiresPrivateEntry(url) && !protectedRoute.test(window.location.pathname)) {
+            enterThroughGate(url);
+            return;
+          }
+          return originalPushState(state, title, url);
+        };
+
+        var originalReplaceState = history.replaceState.bind(history);
+        history.replaceState = function (state, title, url) {
+          if (url != null && requiresPrivateEntry(url) && !protectedRoute.test(window.location.pathname)) {
+            enterThroughGate(url);
+            return;
+          }
+          return originalReplaceState(state, title, url);
+        };
+
+        document.addEventListener("click", function (event) {
+          var link = event.target && event.target.closest ? event.target.closest("a[href]") : null;
+          if (!link || !requiresPrivateEntry(link.href) || protectedRoute.test(window.location.pathname)) {
+            return;
+          }
+          event.preventDefault();
+          event.stopImmediatePropagation();
+          enterThroughGate(link.href);
+        }, true);
+      })();
+    </script>
+    <script>
+      (function () {
+        var ORIGIN = "https://artenialab.com";
+        var path = window.location.pathname || "/";
+        var normalizedPath = path
+          .replace(/\/+/g, "/")
+          .replace(/\/$/, "") || "/";
+        var privatePrefixes = [
+          "/admin",
+          "/access",
+          "/panel",
+          "/panel-artesano",
+          "/cuenta",
+          "/dashboard",
+          "/reservas",
+          "/api"
+        ];
+        var allowedPublic = [
+          /^\/$/,
+          /^\/mapa$/,
+          /^\/territorios$/,
+          /^\/territorios\/[a-z0-9-]+$/,
+          /^\/territorios\/[a-z0-9-]+\/[a-z0-9-]+$/,
+          /^\/artesanos$/,
+          /^\/artesanos\/[a-z0-9-]+$/,
+          /^\/oficios$/,
+          /^\/oficios\/[a-z0-9-]+$/,
+          /^\/asociaciones$/,
+          /^\/asociaciones\/[a-z0-9-]+$/,
+          /^\/rutas$/,
+          /^\/rutas\/[a-z0-9-]+$/,
+          /^\/historias\/[a-z0-9-]+$/,
+          /^\/sobre-artenia$/
+        ];
+
+        function hasPrivatePrefix(value) {
+          return privatePrefixes.some(function (prefix) {
+            return value === prefix || value.indexOf(prefix + "/") === 0;
+          });
+        }
+
+        function isAllowedPublic(value) {
+          return allowedPublic.some(function (regex) {
+            return regex.test(value);
+          });
+        }
+
+        function slugToLabel(slug) {
+          return String(slug || "")
+            .split("-")
+            .filter(Boolean)
+            .map(function (word) {
+              return word.charAt(0).toUpperCase() + word.slice(1);
+            })
+            .join(" ");
+        }
+
+        function ensureMeta(attr, key, content) {
+          var selector = 'meta[' + attr + '="' + key + '"]';
+          var meta = document.head.querySelector(selector);
+          if (!meta) {
+            meta = document.createElement("meta");
+            meta.setAttribute(attr, key);
+            document.head.appendChild(meta);
+          }
+          meta.setAttribute("content", content);
+        }
+
+        function ensureLink(rel, attrs) {
+          var selector = 'link[rel="' + rel + '"]';
+          if (attrs.hreflang) {
+            selector += '[hreflang="' + attrs.hreflang + '"]';
+          }
+          var link = document.head.querySelector(selector);
+          if (!link) {
+            link = document.createElement("link");
+            link.setAttribute("rel", rel);
+            document.head.appendChild(link);
+          }
+          Object.keys(attrs).forEach(function (name) {
+            link.setAttribute(name, attrs[name]);
+          });
+        }
+
+        function buildRoute() {
+          var route = {
+            type: "generic",
+            title: "ARTENIA | Mapa de artesanos, talleres y oficios",
+            description: "ARTENIA es el mapa vivo de los artesanos y los oficios. Descubre talleres, historias, procesos, productos, experiencias y rutas de artesanía.",
+            canonicalPath: normalizedPath,
+            robots: "index, follow",
+            h1: "ARTENIA",
+            intro: "Descubre artesanía local, talleres y personas que mantienen vivos los oficios.",
+            noindex: false,
+            schemaType: "website"
+          };
+
+          if (hasPrivatePrefix(normalizedPath)) {
+            route.title = "Área interna | ARTENIA";
+            route.description = "Espacio interno de acceso, gestión y administración de ARTENIA.";
+            route.robots = "noindex, nofollow";
+            route.noindex = true;
+            route.h1 = "Acceso interno";
+            route.intro = "Esta ruta pertenece a espacios privados de gestión de ARTENIA.";
+            route.schemaType = "private";
+            return route;
+          }
+
+          if (!isAllowedPublic(normalizedPath)) {
+            route.title = "Ruta no indexable | ARTENIA";
+            route.description = "Ruta técnica o no pública de ARTENIA.";
+            route.robots = "noindex, nofollow";
+            route.noindex = true;
+            route.canonicalPath = "/";
+            route.h1 = "Ruta no indexable";
+            route.intro = "Esta URL no forma parte de la arquitectura pública indexable.";
+            route.schemaType = "generic";
+            return route;
+          }
+
+          if (normalizedPath === "/") {
+            route.title = "ARTENIA | Mapa de artesanos, talleres y oficios";
+            route.description = "ARTENIA es el mapa vivo de los artesanos y los oficios. Descubre talleres, historias, procesos, productos, experiencias y rutas de artesanía.";
+            route.h1 = "ARTENIA — El mapa vivo de los artesanos y los oficios";
+            route.intro = "Descubre talleres, historias, técnicas y rutas vinculadas a la artesanía y al territorio.";
+            route.schemaType = "home";
+            return route;
+          }
+
+          if (normalizedPath === "/mapa") {
+            route.title = "Mapa de artesanos y talleres | ARTENIA";
+            route.description = "Explora el mapa de artesanos y talleres de ARTENIA para descubrir oficios tradicionales, rutas y patrimonio cultural vivo.";
+            route.h1 = "Mapa vivo de artesanos y talleres";
+            route.intro = "Navega por territorios, filtra oficios y encuentra artesanía local para visitar o apoyar.";
+            route.schemaType = "map";
+            return route;
+          }
+
+          if (normalizedPath === "/territorios") {
+            route.title = "Artesanía en España | Artesanos, talleres y oficios | ARTENIA";
+            route.description = "Descubre artesanos, talleres, oficios, historias y experiencias de artesanía en España a través del mapa vivo de ARTENIA.";
+            route.canonicalPath = "/territorios";
+            route.h1 = "España, hecha a mano.";
+            route.intro = "Un territorio contado por quienes transforman la materia, preservan los oficios y mantienen vivo el conocimiento que pasa de unas manos a otras.";
+            route.schemaType = "territory";
+            return route;
+          }
+
+          if (normalizedPath === "/artesanos") {
+            route.title = "Artesanos en Alicante y España | ARTENIA";
+            route.description = "Descubre artesanos en Alicante y en toda España. Encuentra oficios vivos, talleres y perfiles culturales en ARTENIA.";
+            route.h1 = "Artesanos en Alicante y España";
+            route.intro = "Consulta perfiles públicos de personas que mantienen vivo el patrimonio artesanal.";
+            route.schemaType = "collection";
+            return route;
+          }
+
+          var artisanMatch = normalizedPath.match(/^\/artesanos\/([a-z0-9-]+)$/);
+          if (artisanMatch) {
+            var artisanSlug = artisanMatch[1];
+            var artisanName = slugToLabel(artisanSlug);
+            route.type = "artisan";
+            route.title = artisanName + " | Artesano local en ARTENIA";
+            route.description = "Ficha pública de " + artisanName + " en ARTENIA. Conoce su oficio, localidad, historia y formas de visitar o contactar.";
+            route.h1 = artisanName + " · Oficio artesanal";
+            route.intro = "Perfil público de artesano con oficio, territorio y contenido cultural vivo.";
+            route.slug = artisanSlug;
+            route.schemaType = "artisan";
+            return route;
+          }
+
+          if (normalizedPath === "/oficios") {
+            route.title = "Oficios tradicionales y artesanía local | ARTENIA";
+            route.description = "Explora oficios tradicionales, materiales, procesos y artesanos relacionados para comprender el patrimonio cultural vivo.";
+            route.h1 = "Oficios tradicionales";
+            route.intro = "Conoce técnicas, historia y evolución de los oficios artesanos en España.";
+            route.schemaType = "oficios";
+            return route;
+          }
+
+          if (normalizedPath === "/asociaciones") {
+            route.title = "Asociaciones promotoras de oficios | ARTENIA";
+            route.description = "Explora asociaciones, federaciones y gremios que representan, protegen y promueven oficios artesanos en distintos territorios.";
+            route.h1 = "Asociaciones promotoras";
+            route.intro = "Entidades que impulsan la continuidad, documentacion y transmision de los oficios artesanos.";
+            route.schemaType = "organization";
+            return route;
+          }
+
+          var associationMatch = normalizedPath.match(/^\/asociaciones\/([a-z0-9-]+)$/);
+          if (associationMatch) {
+            var associationSlug = associationMatch[1];
+            var associationName = slugToLabel(associationSlug);
+            route.type = "association";
+            route.title = associationName + " | Asociacion promotora en ARTENIA";
+            route.description = "Ficha publica de " + associationName + " con territorio, oficios relacionados, fuentes y datos de verificacion editorial.";
+            route.h1 = associationName + " · Asociacion promotora";
+            route.intro = "Entidad vinculada a la representacion, proteccion o impulso de oficios artesanos.";
+            route.slug = associationSlug;
+            route.schemaType = "organization";
+            return route;
+          }
+
+          var oficioMatch = normalizedPath.match(/^\/oficios\/([a-z0-9-]+)$/);
+          if (oficioMatch) {
+            var oficioSlug = oficioMatch[1];
+            var oficioName = slugToLabel(oficioSlug);
+            route.type = "oficio";
+            route.title = oficioName + " | Oficio tradicional en ARTENIA";
+            route.description = "Descubre el oficio de " + oficioName + ": origen, materiales, procesos, historia y artesanos relacionados.";
+            route.h1 = oficioName + " · Oficio tradicional";
+            route.intro = "Página educativa del oficio con contexto cultural, evolución y relación territorial.";
+            route.slug = oficioSlug;
+            route.schemaType = "article";
+            return route;
+          }
+
+          if (normalizedPath === "/rutas") {
+            route.title = "Rutas de artesanía y patrimonio vivo | ARTENIA";
+            route.description = "Descubre rutas de artesanía local para visitar talleres, conocer oficios y apoyar el patrimonio cultural vivo.";
+            route.h1 = "Rutas de artesanía local";
+            route.intro = "Itinerarios culturales para descubrir oficios, talleres y comunidades artesanas.";
+            route.schemaType = "rutas";
+            return route;
+          }
+
+          var rutaMatch = normalizedPath.match(/^\/rutas\/([a-z0-9-]+)$/);
+          if (rutaMatch) {
+            var rutaSlug = rutaMatch[1];
+            var rutaName = slugToLabel(rutaSlug);
+            route.type = "ruta";
+            route.title = rutaName + " | Ruta de artesanía en ARTENIA";
+            route.description = "Ruta de artesanía " + rutaName + " para visitar talleres, descubrir oficios y patrimonio cultural vivo.";
+            route.h1 = rutaName + " · Ruta de artesanía";
+            route.intro = "Recorrido propuesto para conocer artesanos y talleres en su territorio.";
+            route.slug = rutaSlug;
+            route.schemaType = "trip";
+            return route;
+          }
+
+          var historiaMatch = normalizedPath.match(/^\/historias\/([a-z0-9-]+)$/);
+          if (historiaMatch) {
+            var historiaSlug = historiaMatch[1];
+            var historiaName = slugToLabel(historiaSlug);
+            route.type = "story";
+            route.title = historiaName + " | Historia artesana en ARTENIA";
+            route.description = "Conoce la historia de " + historiaName + ", su oficio, su contexto local y su aportación al patrimonio vivo.";
+            route.h1 = historiaName + " · Historia artesana";
+            route.intro = "Perfil narrativo de oficio, proceso y relación con el territorio.";
+            route.slug = historiaSlug;
+            route.schemaType = "article";
+            return route;
+          }
+
+          if (normalizedPath === "/sobre-artenia") {
+            route.title = "Sobre ARTENIA | Patrimonio cultural vivo";
+            route.description = "Conoce qué es ARTENIA, su misión y cómo conecta artesanos, talleres, territorio y patrimonio cultural vivo.";
+            route.h1 = "Sobre ARTENIA";
+            route.intro = "Proyecto para descubrir, visitar y apoyar oficios tradicionales y artesanía local.";
+            route.schemaType = "about";
+            return route;
+          }
+
+          return route;
+        }
+
+        function injectJsonLd(route) {
+          var canonical = ORIGIN + route.canonicalPath;
+          var scripts = document.querySelectorAll('script[data-artenia-seo="jsonld"]');
+          scripts.forEach(function (node) {
+            node.remove();
+          });
+
+          var graph = [];
+          if (route.schemaType === "home") {
+            graph.push({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              name: "ARTENIA",
+              url: ORIGIN,
+              potentialAction: {
+                "@type": "SearchAction",
+                target: ORIGIN + "/mapa?q={search_term_string}",
+                "query-input": "required name=search_term_string"
+              }
+            });
+            graph.push({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: "ARTENIA",
+              url: ORIGIN,
+              logo: ORIGIN + "/artenia-mark.svg"
+            });
+          } else if (route.schemaType === "organization") {
+            graph.push({
+              "@context": "https://schema.org",
+              "@type": "CollectionPage",
+              name: route.h1,
+              description: route.description,
+              url: canonical
+            });
+          } else if (route.schemaType === "article") {
+            graph.push({
+              "@context": "https://schema.org",
+              "@type": "Article",
+              headline: route.h1,
+              description: route.description,
+              inLanguage: "es",
+              mainEntityOfPage: canonical,
+              url: canonical
+            });
+          } else if (route.schemaType === "territory") {
+            graph.push({
+              "@context": "https://schema.org",
+              "@type": "CollectionPage",
+              name: route.h1,
+              description: route.description,
+              url: canonical,
+              isPartOf: {
+                "@type": "WebSite",
+                name: "ARTENIA",
+                url: ORIGIN,
+                description: "Mapa vivo de artesanos, talleres y oficios."
+              }
+            });
+          } else if (route.schemaType === "trip") {
+            graph.push({
+              "@context": "https://schema.org",
+              "@type": "TouristTrip",
+              name: route.h1,
+              description: route.description,
+              url: canonical
+            });
+          }
+
+          if (["article", "artisan", "trip", "oficios", "rutas", "collection", "about", "map", "territory"].indexOf(route.schemaType) >= 0) {
+            graph.push({
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              itemListElement: [
+                {
+                  "@type": "ListItem",
+                  position: 1,
+                  name: "Inicio",
+                  item: ORIGIN + "/"
+                },
+                {
+                  "@type": "ListItem",
+                  position: 2,
+                  name: route.h1,
+                  item: canonical
+                }
+              ]
+            });
+          }
+
+          graph.forEach(function (entry) {
+            var script = document.createElement("script");
+            script.type = "application/ld+json";
+            script.dataset.arteniaSeo = "jsonld";
+            script.textContent = JSON.stringify(entry);
+            document.head.appendChild(script);
+          });
+        }
+
+        function applyRouteSeo(route) {
+          var canonical = ORIGIN + route.canonicalPath;
+          document.title = route.title;
+          ensureMeta("name", "description", route.description);
+          ensureMeta("name", "robots", route.robots);
+          ensureMeta("property", "og:title", route.title);
+          ensureMeta("property", "og:description", route.description);
+          ensureMeta("property", "og:url", canonical);
+          ensureMeta("property", "og:type", "website");
+          ensureMeta("name", "twitter:title", route.title);
+          ensureMeta("name", "twitter:description", route.description);
+          ensureLink("canonical", { href: canonical });
+          ensureLink("alternate", { hreflang: "es", href: canonical });
+          ensureLink("alternate", { hreflang: "en", href: canonical + "?lang=en" });
+          ensureLink("alternate", { hreflang: "fr", href: canonical + "?lang=fr" });
+          ensureLink("alternate", { hreflang: "x-default", href: canonical });
+
+          var h1 = document.querySelector("#seo-indexable-h1");
+          var intro = document.querySelector("#seo-indexable-intro");
+          if (h1) h1.textContent = route.h1;
+          if (intro) intro.textContent = route.intro;
+
+          injectJsonLd(route);
+        }
+
+        function enrichProfileSeo(route) {
+          if (!(route.type === "story" || route.type === "artisan") || !route.slug) {
+            applyRouteSeo(route);
+            return;
+          }
+
+          fetch("/api/public-profiles.php", { credentials: "same-origin" })
+            .then(function (response) {
+              if (!response.ok) return null;
+              return response.json();
+            })
+            .then(function (payload) {
+              var items = payload && Array.isArray(payload.items) ? payload.items : [];
+              var profile = items.find(function (entry) {
+                return String(entry && entry.slug || "") === route.slug;
+              });
+              if (!profile) {
+                applyRouteSeo(route);
+                return;
+              }
+
+              var name = String(profile.publicName || profile.nombre || route.h1).trim();
+              var oficio = String(profile.oficio || "oficio artesanal").trim();
+              var localidad = String(profile.localidad || "").trim();
+              var descripcion = String(profile.descripcion || profile.relato || route.description).trim();
+              var image = String(profile.imagen || profile.imagenPerfil || "").trim();
+              var fullImage = image && image.indexOf("http") === 0 ? image : (image ? ORIGIN + image : ORIGIN + "/artenia-artesano-humano.avif");
+
+              route.title = name + " | " + oficio + (localidad ? " en " + localidad : "") + " | ARTENIA";
+              route.description = descripcion.length > 45
+                ? descripcion.slice(0, 158)
+                : ("Conoce a " + name + ", " + oficio + (localidad ? " en " + localidad : "") + ", y descubre su historia en ARTENIA.");
+              route.h1 = name + " · " + oficio;
+              route.intro = localidad ? (oficio + " en " + localidad + ". " + descripcion) : descripcion;
+
+              applyRouteSeo(route);
+              ensureMeta("property", "og:image", fullImage);
+              ensureMeta("name", "twitter:image", fullImage);
+
+              var canonical = ORIGIN + route.canonicalPath;
+              var scripts = document.querySelectorAll('script[data-artenia-seo="jsonld"]');
+              scripts.forEach(function (node) {
+                node.remove();
+              });
+
+              var personOrBusiness = {
+                "@context": "https://schema.org",
+                "@type": profile.localidad || profile.latitud ? "LocalBusiness" : "Person",
+                name: name,
+                description: descripcion || route.description,
+                url: canonical,
+                image: fullImage
+              };
+
+              if (localidad) {
+                personOrBusiness.address = {
+                  "@type": "PostalAddress",
+                  addressLocality: localidad,
+                  addressRegion: String(profile.provincia || "").trim() || undefined,
+                  addressCountry: "ES"
+                };
+              }
+
+              var lat = parseFloat(String(profile.latitud || ""));
+              var lon = parseFloat(String(profile.longitud || ""));
+              if (Number.isFinite(lat) && Number.isFinite(lon)) {
+                personOrBusiness.geo = {
+                  "@type": "GeoCoordinates",
+                  latitude: lat,
+                  longitude: lon
+                };
+              }
+
+              [personOrBusiness, {
+                "@context": "https://schema.org",
+                "@type": "BreadcrumbList",
+                itemListElement: [
+                  {
+                    "@type": "ListItem",
+                    position: 1,
+                    name: "Inicio",
+                    item: ORIGIN + "/"
+                  },
+                  {
+                    "@type": "ListItem",
+                    position: 2,
+                    name: route.type === "artisan" ? "Artesanos" : "Historias",
+                    item: ORIGIN + (route.type === "artisan" ? "/artesanos" : "/historias")
+                  },
+                  {
+                    "@type": "ListItem",
+                    position: 3,
+                    name: name,
+                    item: canonical
+                  }
+                ]
+              }].forEach(function (entry) {
+                var script = document.createElement("script");
+                script.type = "application/ld+json";
+                script.dataset.arteniaSeo = "jsonld";
+                script.textContent = JSON.stringify(entry);
+                document.head.appendChild(script);
+              });
+            })
+            .catch(function () {
+              applyRouteSeo(route);
+            });
+        }
+
+        function applySoft404NoindexIfNeeded() {
+          if (isAllowedPublic(normalizedPath)) {
+            return;
+          }
+
+          var headings = Array.from(document.querySelectorAll("h1, h2"))
+            .map(function (node) {
+              return String(node.textContent || "").trim().toLowerCase();
+            })
+            .filter(Boolean);
+          var hasNotFound = headings.some(function (text) {
+            return text === "404"
+              || text.indexOf("page not found") >= 0
+              || text.indexOf("página no encontrada") >= 0;
+          });
+
+          if (!hasNotFound) return;
+
+          ensureMeta("name", "robots", "noindex, nofollow");
+          ensureMeta("property", "og:title", "Ruta no indexable | ARTENIA");
+          ensureMeta("name", "twitter:title", "Ruta no indexable | ARTENIA");
+          ensureLink("canonical", { href: ORIGIN + "/" });
+          document.title = "Ruta no indexable | ARTENIA";
+          var scripts = document.querySelectorAll('script[data-artenia-seo="jsonld"]');
+          scripts.forEach(function (node) {
+            node.remove();
+          });
+        }
+
+        var route = buildRoute();
+        var isPrivateExplorationSeoRoute = /^\/(?:mapa|historias(?:\/[^/?#]+)?|artesano\/[^/?#]+|creador-rutas)\/?$/.test(normalizedPath);
+        if (isPrivateExplorationSeoRoute) {
+          applyRouteSeo(route);
+        } else {
+          enrichProfileSeo(route);
+        }
+
+        window.setTimeout(applySoft404NoindexIfNeeded, 900);
+        window.setTimeout(applySoft404NoindexIfNeeded, 2200);
+        var observer = new MutationObserver(function () {
+          applySoft404NoindexIfNeeded();
+        });
+        observer.observe(document.documentElement, {
+          childList: true,
+          subtree: true
+        });
+        window.setTimeout(function () {
+          observer.disconnect();
+        }, 8000);
+      })();
+    </script>
+    <script type="importmap">
+      {
+        "imports": {
+          "/assets/ArteniaAtmosphere3D-NW5SzOfd.js": "/assets/ArteniaAtmosphere3D-NW5SzOfd.js?v=20260728-6"
+        }
+      }
+    </script>
+    <script src="/promoter-associations-ui.js?v=20260804-1"></script>
+    <script>
+      (function () {
+        var isStoryRoute = /^\/historias\/(?:[^/?#]+)/.test(window.location.pathname);
+        var isAdminRoute = /^\/admin\/?$/.test(window.location.pathname);
+        var isAdminAssociationsRoute = /^\/admin\/asociaciones\/?$/.test(window.location.pathname);
+        var isAdminArtisanPreview = /^\/admin\/artesano\/\d+\/?$/.test(window.location.pathname);
+        var isArtisanPanel = /^\/panel-artesano\/?$/.test(window.location.pathname);
+        var isAssociationsRoute = /^\/asociaciones(?:\/[^/?#]+)?\/?$/.test(window.location.pathname);
+        var isOficiosRoute = /^\/oficios(?:\/[^/?#]+)?\/?$/.test(window.location.pathname);
+        var isMapRoute = /^\/(?:mapa|historias(?:\/[^/?#]+)?|artesano\/[^/?#]+|creador-rutas)\/?$/.test(window.location.pathname);
+        var isTerritoriesRoute = /^\/territorios(?:\/[^/?#]+(?:\/[^/?#]+)*)?\/?$/.test(window.location.pathname);
+
+        function appendApplicationScript() {
+          var script = document.createElement('script');
+          if (isAdminArtisanPreview) {
+            script.type = 'text/javascript';
+            script.src = '/artisan-admin-preview.js?v=20260729-1';
+          } else if (isAdminAssociationsRoute) {
+            script.type = 'text/javascript';
+            script.src = '/associations-admin.js?v=20260804-1';
+          } else if (isAdminRoute) {
+            script.type = 'module';
+            script.crossOrigin = 'anonymous';
+            script.src = '/admin-panel.js?v=20260729-1';
+          } else {
+            script.type = 'module';
+            script.crossOrigin = 'anonymous';
+            script.src = isStoryRoute
+              ? '/bundle-bootstrap.js?v=20260728-3'
+              : '/assets/index-BLlUwwMG.js?v=20260728-6';
+          }
+          document.head.appendChild(script);
+        }
+
+        function loadApplication() {
+          if (isAssociationsRoute) {
+            return;
+          }
+          if (isOficiosRoute) {
+            var oficiosScript = document.createElement('script');
+            oficiosScript.src = '/oficios-page.js?v=20260804-1';
+            document.head.appendChild(oficiosScript);
+            return;
+          }
+          if (isTerritoriesRoute) {
+            var territoriesScript = document.createElement('script');
+            territoriesScript.src = '/territorios-page.js?v=20260730-1';
+            document.head.appendChild(territoriesScript);
+            return;
+          }
+
+          if (!isMapRoute) {
+            appendApplicationScript();
+            return;
+          }
+          var bridgeScript = document.createElement('script');
+          bridgeScript.src = '/public-profiles-bridge.js?v=20260728-4';
+          bridgeScript.onload = appendApplicationScript;
+          bridgeScript.onerror = function () {
+            window.location.reload();
+          };
+          document.head.appendChild(bridgeScript);
+        }
+
+        if (isMapRoute) {
+          var gateScript = document.createElement('script');
+          gateScript.src = '/map-gate.js?v=20260728-3';
+          gateScript.onload = function () {
+            if (!window.arteniaMapGate) return;
+            window.arteniaMapGate.check().then(function (allowed) {
+              if (allowed) loadApplication();
+            });
+          };
+          document.head.appendChild(gateScript);
+        } else if (isArtisanPanel) {
+          var legalScript = document.createElement('script');
+          legalScript.src = '/legal-consent.js?v=20260728-1';
+          legalScript.onload = loadApplication;
+          legalScript.onerror = loadApplication;
+          document.head.appendChild(legalScript);
+        } else {
+          loadApplication();
+        }
+      })();
+    </script>
+    <link rel="stylesheet" crossorigin href="/assets/index-CfwtowNs.css?v=20260727-5">
   </head>
 
   <body>
     <div id="root"></div>
+    <main id="seo-indexable-content">
+      <h1 id="seo-indexable-h1">ARTENIA — El mapa vivo de los artesanos y los oficios</h1>
+      <p id="seo-indexable-intro">Descubre talleres, historias, técnicas y rutas vinculadas a la artesanía y al territorio.</p>
+    </main>
+    <script src="/multilang-runtime.js?v=20260727-5"></script>
+    <script src="/territorios-links.js?v=20260730-1"></script>
+    <script src="/footer-registry.js?v=20260729-2"></script>
+    <script src="/live-stats-details.js?v=20260802-2"></script>
+    <script>
+      (function () {
+        function setAppVh() {
+          const vh = window.innerHeight * 0.01;
+          document.documentElement.style.setProperty('--app-vh', `${vh}px`);
+        }
 
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r152/three.min.js"
-      crossorigin="anonymous"
-    ></script>
-    <!-- APP React en modo local -->
-    <script type="module" src="/src/main.tsx"></script>
+        setAppVh();
+        window.addEventListener('resize', setAppVh, { passive: true });
+        window.addEventListener('orientationchange', setAppVh, { passive: true });
+      })();
+    </script>
+    <script>
+      (function () {
+        if (!/^\/mapa(?:\/|$)/.test(window.location.pathname)) return;
+
+        function forceMapRelayout() {
+          const mapEl = document.querySelector('.leaflet-container');
+          if (mapEl) {
+            mapEl.style.width = '100%';
+            mapEl.style.height = '100%';
+          }
+          window.dispatchEvent(new Event('resize'));
+        }
+
+        function scheduleRelayoutBursts() {
+          [0, 120, 320, 700, 1400, 2400].forEach((ms) => {
+            window.setTimeout(forceMapRelayout, ms);
+          });
+        }
+
+        window.addEventListener('load', scheduleRelayoutBursts, { passive: true });
+        window.addEventListener('pageshow', scheduleRelayoutBursts, { passive: true });
+        window.addEventListener('orientationchange', function () {
+          window.setTimeout(scheduleRelayoutBursts, 120);
+        }, { passive: true });
+        document.addEventListener('visibilitychange', function () {
+          if (!document.hidden) scheduleRelayoutBursts();
+        });
+      })();
+    </script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js?v=20260727-5')
+            .then(reg => console.log('SW registered:', reg))
+            .catch(err => console.log('SW registration failed:', err));
+        });
+      }
+    </script>
   </body>
+
 </html>

@@ -1,0 +1,533 @@
+[
+  {
+    "source":"O003",
+    "target":"O025",
+    "source_name":"Alfarero\/Alfarera",
+    "target_name":"Ceramista",
+    "type":"material_compartido",
+    "strength":0.8,
+    "label":"Trabajan con ceramica"
+  },
+  {
+    "source":"O002",
+    "target":"O101",
+    "source_name":"Abaniquero\/Abaniquera",
+    "target_name":"Tejedor\/Tejedora",
+    "type":"material_compartido",
+    "strength":0.8,
+    "label":"Trabajan con textil"
+  },
+  {
+    "source":"O023",
+    "target":"O032",
+    "source_name":"Carpintero de ribera\/Carpintera de ribera",
+    "target_name":"Constructor de instrumentos de cuerda, viento y percusión\/Constructora de instrumentos de cuerda, viento y percusión",
+    "type":"material_compartido",
+    "strength":0.8,
+    "label":"Trabajan con madera"
+  },
+  {
+    "source":"O049",
+    "target":"O005",
+    "source_name":"Espartero\/Espartera",
+    "target_name":"Alpargatero\/Alpargatera",
+    "type":"material_compartido",
+    "strength":0.8,
+    "label":"Trabajan con fibra_vegetal"
+  },
+  {
+    "source":"O003",
+    "target":"O025",
+    "source_name":"Alfarero\/Alfarera",
+    "target_name":"Ceramista",
+    "type":"evento_compartido",
+    "strength":0.9,
+    "label":"Participan en feria artesania cv"
+  },
+  {
+    "source":"O003",
+    "target":"O002",
+    "source_name":"Alfarero\/Alfarera",
+    "target_name":"Abaniquero\/Abaniquera",
+    "type":"evento_compartido",
+    "strength":0.9,
+    "label":"Participan en feria artesania cv"
+  },
+  {
+    "source":"O003",
+    "target":"O044",
+    "source_name":"Alfarero\/Alfarera",
+    "target_name":"Encuadernador\/Encuadernadora",
+    "type":"evento_compartido",
+    "strength":0.9,
+    "label":"Participan en feria artesania cv"
+  },
+  {
+    "source":"O003",
+    "target":"O049",
+    "source_name":"Alfarero\/Alfarera",
+    "target_name":"Espartero\/Espartera",
+    "type":"evento_compartido",
+    "strength":0.9,
+    "label":"Participan en feria artesania cv"
+  },
+  {
+    "source":"O003",
+    "target":"O107",
+    "source_name":"Alfarero\/Alfarera",
+    "target_name":"Vidriero\/Vidriera",
+    "type":"evento_compartido",
+    "strength":0.9,
+    "label":"Participan en feria artesania cv"
+  },
+  {
+    "source":"O025",
+    "target":"O002",
+    "source_name":"Ceramista",
+    "target_name":"Abaniquero\/Abaniquera",
+    "type":"evento_compartido",
+    "strength":0.9,
+    "label":"Participan en feria artesania cv"
+  },
+  {
+    "source":"O025",
+    "target":"O044",
+    "source_name":"Ceramista",
+    "target_name":"Encuadernador\/Encuadernadora",
+    "type":"evento_compartido",
+    "strength":0.9,
+    "label":"Participan en feria artesania cv"
+  },
+  {
+    "source":"O025",
+    "target":"O049",
+    "source_name":"Ceramista",
+    "target_name":"Espartero\/Espartera",
+    "type":"evento_compartido",
+    "strength":0.9,
+    "label":"Participan en feria artesania cv"
+  },
+  {
+    "source":"O025",
+    "target":"O107",
+    "source_name":"Ceramista",
+    "target_name":"Vidriero\/Vidriera",
+    "type":"evento_compartido",
+    "strength":0.9,
+    "label":"Participan en feria artesania cv"
+  },
+  {
+    "source":"O002",
+    "target":"O044",
+    "source_name":"Abaniquero\/Abaniquera",
+    "target_name":"Encuadernador\/Encuadernadora",
+    "type":"evento_compartido",
+    "strength":0.9,
+    "label":"Participan en feria artesania cv"
+  },
+  {
+    "source":"O002",
+    "target":"O049",
+    "source_name":"Abaniquero\/Abaniquera",
+    "target_name":"Espartero\/Espartera",
+    "type":"evento_compartido",
+    "strength":0.9,
+    "label":"Participan en feria artesania cv"
+  },
+  {
+    "source":"O002",
+    "target":"O107",
+    "source_name":"Abaniquero\/Abaniquera",
+    "target_name":"Vidriero\/Vidriera",
+    "type":"evento_compartido",
+    "strength":0.9,
+    "label":"Participan en feria artesania cv"
+  },
+  {
+    "source":"O044",
+    "target":"O049",
+    "source_name":"Encuadernador\/Encuadernadora",
+    "target_name":"Espartero\/Espartera",
+    "type":"evento_compartido",
+    "strength":0.9,
+    "label":"Participan en feria artesania cv"
+  },
+  {
+    "source":"O044",
+    "target":"O107",
+    "source_name":"Encuadernador\/Encuadernadora",
+    "target_name":"Vidriero\/Vidriera",
+    "type":"evento_compartido",
+    "strength":0.9,
+    "label":"Participan en feria artesania cv"
+  },
+  {
+    "source":"O049",
+    "target":"O107",
+    "source_name":"Espartero\/Espartera",
+    "target_name":"Vidriero\/Vidriera",
+    "type":"evento_compartido",
+    "strength":0.9,
+    "label":"Participan en feria artesania cv"
+  },
+  {
+    "source":"O044",
+    "target":"O089",
+    "source_name":"Encuadernador\/Encuadernadora",
+    "target_name":"Quesero artesano\/Quesera artesana",
+    "type":"evento_compartido",
+    "strength":0.7,
+    "label":"Participan en mercados locales"
+  },
+  {
+    "source":"O089",
+    "target":"O049",
+    "source_name":"Quesero artesano\/Quesera artesana",
+    "target_name":"Espartero\/Espartera",
+    "type":"evento_compartido",
+    "strength":0.7,
+    "label":"Participan en mercados locales"
+  },
+  {
+    "source":"O002",
+    "target":"O101",
+    "source_name":"Abaniquero\/Abaniquera",
+    "target_name":"Tejedor\/Tejedora",
+    "type":"evento_compartido",
+    "strength":0.8,
+    "label":"Participan en feria textil"
+  },
+  {
+    "source":"O002",
+    "target":"O005",
+    "source_name":"Abaniquero\/Abaniquera",
+    "target_name":"Alpargatero\/Alpargatera",
+    "type":"evento_compartido",
+    "strength":0.8,
+    "label":"Participan en feria textil"
+  },
+  {
+    "source":"O101",
+    "target":"O005",
+    "source_name":"Tejedor\/Tejedora",
+    "target_name":"Alpargatero\/Alpargatera",
+    "type":"evento_compartido",
+    "strength":0.8,
+    "label":"Participan en feria textil"
+  },
+  {
+    "source":"O044",
+    "target":"O049",
+    "source_name":"Encuadernador\/Encuadernadora",
+    "target_name":"Espartero\/Espartera",
+    "type":"tecnica_complementaria",
+    "strength":0.6,
+    "label":"Encuadernación con fibras vegetales"
+  },
+  {
+    "source":"O025",
+    "target":"O107",
+    "source_name":"Ceramista",
+    "target_name":"Vidriero\/Vidriera",
+    "type":"tecnica_complementaria",
+    "strength":0.7,
+    "label":"Técnicas de horno compartidas"
+  },
+  {
+    "source":"O023",
+    "target":"O032",
+    "source_name":"Carpintero de ribera\/Carpintera de ribera",
+    "target_name":"Constructor de instrumentos de cuerda, viento y percusión\/Constructora de instrumentos de cuerda, viento y percusión",
+    "type":"tecnica_complementaria",
+    "strength":0.8,
+    "label":"Trabajo artesanal de madera"
+  },
+  {
+    "source":"O055",
+    "target":"O103",
+    "source_name":"Forjador\/Forjadora",
+    "target_name":"Tonelero\/Tonelera",
+    "type":"tecnica_complementaria",
+    "strength":0.7,
+    "label":"Forja de aros para barricas"
+  },
+  {
+    "source":"O025",
+    "target":"O032",
+    "source_name":"Ceramista",
+    "target_name":"Constructor de instrumentos de cuerda, viento y percusión\/Constructora de instrumentos de cuerda, viento y percusión",
+    "type":"proximidad_geografica",
+    "strength":0.45,
+    "label":"Comparten municipio: Alboraya"
+  },
+  {
+    "source":"O003",
+    "target":"O025",
+    "source_name":"Alfarero\/Alfarera",
+    "target_name":"Ceramista",
+    "type":"proximidad_geografica",
+    "strength":0.9,
+    "label":"Comparten municipio: Manises"
+  },
+  {
+    "source":"O089",
+    "target":"O103",
+    "source_name":"Quesero artesano\/Quesera artesana",
+    "target_name":"Tonelero\/Tonelera",
+    "type":"proximidad_geografica",
+    "strength":0.4,
+    "label":"Comparten municipio: Requena"
+  },
+  {
+    "source":"O032",
+    "target":"O089",
+    "source_name":"Constructor de instrumentos de cuerda, viento y percusión\/Constructora de instrumentos de cuerda, viento y percusión",
+    "target_name":"Quesero artesano\/Quesera artesana",
+    "type":"proximidad_geografica",
+    "strength":0.5,
+    "label":"Comparten municipio: Valencia"
+  },
+  {
+    "source":"O032",
+    "target":"O107",
+    "source_name":"Constructor de instrumentos de cuerda, viento y percusión\/Constructora de instrumentos de cuerda, viento y percusión",
+    "target_name":"Vidriero\/Vidriera",
+    "type":"proximidad_geografica",
+    "strength":0.5,
+    "label":"Comparten municipio: Valencia"
+  },
+  {
+    "source":"O032",
+    "target":"O025",
+    "source_name":"Constructor de instrumentos de cuerda, viento y percusión\/Constructora de instrumentos de cuerda, viento y percusión",
+    "target_name":"Ceramista",
+    "type":"proximidad_geografica",
+    "strength":0.9,
+    "label":"Comparten municipio: Valencia"
+  },
+  {
+    "source":"O032",
+    "target":"O023",
+    "source_name":"Constructor de instrumentos de cuerda, viento y percusión\/Constructora de instrumentos de cuerda, viento y percusión",
+    "target_name":"Carpintero de ribera\/Carpintera de ribera",
+    "type":"proximidad_geografica",
+    "strength":0.55,
+    "label":"Comparten municipio: Valencia"
+  },
+  {
+    "source":"O032",
+    "target":"O044",
+    "source_name":"Constructor de instrumentos de cuerda, viento y percusión\/Constructora de instrumentos de cuerda, viento y percusión",
+    "target_name":"Encuadernador\/Encuadernadora",
+    "type":"proximidad_geografica",
+    "strength":0.7,
+    "label":"Comparten municipio: Valencia"
+  },
+  {
+    "source":"O032",
+    "target":"O055",
+    "source_name":"Constructor de instrumentos de cuerda, viento y percusión\/Constructora de instrumentos de cuerda, viento y percusión",
+    "target_name":"Forjador\/Forjadora",
+    "type":"proximidad_geografica",
+    "strength":0.5,
+    "label":"Comparten municipio: Valencia"
+  },
+  {
+    "source":"O032",
+    "target":"O101",
+    "source_name":"Constructor de instrumentos de cuerda, viento y percusión\/Constructora de instrumentos de cuerda, viento y percusión",
+    "target_name":"Tejedor\/Tejedora",
+    "type":"proximidad_geografica",
+    "strength":0.55,
+    "label":"Comparten municipio: Valencia"
+  },
+  {
+    "source":"O089",
+    "target":"O107",
+    "source_name":"Quesero artesano\/Quesera artesana",
+    "target_name":"Vidriero\/Vidriera",
+    "type":"proximidad_geografica",
+    "strength":0.4,
+    "label":"Comparten municipio: Valencia"
+  },
+  {
+    "source":"O089",
+    "target":"O025",
+    "source_name":"Quesero artesano\/Quesera artesana",
+    "target_name":"Ceramista",
+    "type":"proximidad_geografica",
+    "strength":0.9,
+    "label":"Comparten municipio: Valencia"
+  },
+  {
+    "source":"O089",
+    "target":"O023",
+    "source_name":"Quesero artesano\/Quesera artesana",
+    "target_name":"Carpintero de ribera\/Carpintera de ribera",
+    "type":"proximidad_geografica",
+    "strength":0.45,
+    "label":"Comparten municipio: Valencia"
+  },
+  {
+    "source":"O089",
+    "target":"O044",
+    "source_name":"Quesero artesano\/Quesera artesana",
+    "target_name":"Encuadernador\/Encuadernadora",
+    "type":"proximidad_geografica",
+    "strength":0.6,
+    "label":"Comparten municipio: Valencia"
+  },
+  {
+    "source":"O089",
+    "target":"O055",
+    "source_name":"Quesero artesano\/Quesera artesana",
+    "target_name":"Forjador\/Forjadora",
+    "type":"proximidad_geografica",
+    "strength":0.4,
+    "label":"Comparten municipio: Valencia"
+  },
+  {
+    "source":"O089",
+    "target":"O101",
+    "source_name":"Quesero artesano\/Quesera artesana",
+    "target_name":"Tejedor\/Tejedora",
+    "type":"proximidad_geografica",
+    "strength":0.45,
+    "label":"Comparten municipio: Valencia"
+  },
+  {
+    "source":"O107",
+    "target":"O025",
+    "source_name":"Vidriero\/Vidriera",
+    "target_name":"Ceramista",
+    "type":"proximidad_geografica",
+    "strength":0.9,
+    "label":"Comparten municipio: Valencia"
+  },
+  {
+    "source":"O107",
+    "target":"O023",
+    "source_name":"Vidriero\/Vidriera",
+    "target_name":"Carpintero de ribera\/Carpintera de ribera",
+    "type":"proximidad_geografica",
+    "strength":0.45,
+    "label":"Comparten municipio: Valencia"
+  },
+  {
+    "source":"O107",
+    "target":"O044",
+    "source_name":"Vidriero\/Vidriera",
+    "target_name":"Encuadernador\/Encuadernadora",
+    "type":"proximidad_geografica",
+    "strength":0.6,
+    "label":"Comparten municipio: Valencia"
+  },
+  {
+    "source":"O107",
+    "target":"O055",
+    "source_name":"Vidriero\/Vidriera",
+    "target_name":"Forjador\/Forjadora",
+    "type":"proximidad_geografica",
+    "strength":0.4,
+    "label":"Comparten municipio: Valencia"
+  },
+  {
+    "source":"O107",
+    "target":"O101",
+    "source_name":"Vidriero\/Vidriera",
+    "target_name":"Tejedor\/Tejedora",
+    "type":"proximidad_geografica",
+    "strength":0.45,
+    "label":"Comparten municipio: Valencia"
+  },
+  {
+    "source":"O025",
+    "target":"O023",
+    "source_name":"Ceramista",
+    "target_name":"Carpintero de ribera\/Carpintera de ribera",
+    "type":"proximidad_geografica",
+    "strength":0.9,
+    "label":"Comparten municipio: Valencia"
+  },
+  {
+    "source":"O025",
+    "target":"O044",
+    "source_name":"Ceramista",
+    "target_name":"Encuadernador\/Encuadernadora",
+    "type":"proximidad_geografica",
+    "strength":0.9,
+    "label":"Comparten municipio: Valencia"
+  },
+  {
+    "source":"O025",
+    "target":"O055",
+    "source_name":"Ceramista",
+    "target_name":"Forjador\/Forjadora",
+    "type":"proximidad_geografica",
+    "strength":0.9,
+    "label":"Comparten municipio: Valencia"
+  },
+  {
+    "source":"O025",
+    "target":"O101",
+    "source_name":"Ceramista",
+    "target_name":"Tejedor\/Tejedora",
+    "type":"proximidad_geografica",
+    "strength":0.9,
+    "label":"Comparten municipio: Valencia"
+  },
+  {
+    "source":"O023",
+    "target":"O044",
+    "source_name":"Carpintero de ribera\/Carpintera de ribera",
+    "target_name":"Encuadernador\/Encuadernadora",
+    "type":"proximidad_geografica",
+    "strength":0.65,
+    "label":"Comparten municipio: Valencia"
+  },
+  {
+    "source":"O023",
+    "target":"O055",
+    "source_name":"Carpintero de ribera\/Carpintera de ribera",
+    "target_name":"Forjador\/Forjadora",
+    "type":"proximidad_geografica",
+    "strength":0.45,
+    "label":"Comparten municipio: Valencia"
+  },
+  {
+    "source":"O023",
+    "target":"O101",
+    "source_name":"Carpintero de ribera\/Carpintera de ribera",
+    "target_name":"Tejedor\/Tejedora",
+    "type":"proximidad_geografica",
+    "strength":0.5,
+    "label":"Comparten municipio: Valencia"
+  },
+  {
+    "source":"O044",
+    "target":"O055",
+    "source_name":"Encuadernador\/Encuadernadora",
+    "target_name":"Forjador\/Forjadora",
+    "type":"proximidad_geografica",
+    "strength":0.6,
+    "label":"Comparten municipio: Valencia"
+  },
+  {
+    "source":"O044",
+    "target":"O101",
+    "source_name":"Encuadernador\/Encuadernadora",
+    "target_name":"Tejedor\/Tejedora",
+    "type":"proximidad_geografica",
+    "strength":0.65,
+    "label":"Comparten municipio: Valencia"
+  },
+  {
+    "source":"O055",
+    "target":"O101",
+    "source_name":"Forjador\/Forjadora",
+    "target_name":"Tejedor\/Tejedora",
+    "type":"proximidad_geografica",
+    "strength":0.45,
+    "label":"Comparten municipio: Valencia"
+  }
+]
