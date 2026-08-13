@@ -7,7 +7,10 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/artenia-mark.svg" />
-    <link rel="apple-touch-icon" href="/icon-192.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <title>ARTENIA | Mapa de artesanos, talleres y oficios</title>
     
     <!-- PWA Manifest -->
@@ -25,11 +28,11 @@
     <meta property="og:title" content="ARTENIA | Mapa de artesanos, talleres y oficios" />
     <meta property="og:description" content="ARTENIA es el mapa vivo de los artesanos y los oficios. Descubre talleres, historias, procesos, productos, experiencias y rutas de artesanía." />
     <meta property="og:url" content="https://artenialab.com/" />
-    <meta property="og:image" content="https://artenialab.com/artenia-artesano-humano.avif" />
+    <meta property="og:image" content="https://artenialab.com/artenia-logo-512.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="ARTENIA | Mapa de artesanos, talleres y oficios" />
     <meta name="twitter:description" content="ARTENIA es el mapa vivo de los artesanos y los oficios. Descubre talleres, historias, procesos, productos, experiencias y rutas de artesanía." />
-    <meta name="twitter:image" content="https://artenialab.com/artenia-artesano-humano.avif" />
+    <meta name="twitter:image" content="https://artenialab.com/artenia-logo-512.png" />
     <link rel="alternate" hreflang="es" href="https://artenialab.com/" />
     <link rel="alternate" hreflang="en" href="https://artenialab.com/?lang=en" />
     <link rel="alternate" hreflang="fr" href="https://artenialab.com/?lang=fr" />
@@ -516,6 +519,11 @@
             return;
           }
 
+          if (route.type === "artisan" && route.slug === "con-alma-design") {
+            applyRouteSeo(route);
+            return;
+          }
+
           fetch("/api/public-profiles.php", { credentials: "same-origin" })
             .then(function (response) {
               if (!response.ok) return null;
@@ -677,7 +685,19 @@
         }
       }
     </script>
-    <script src="/promoter-associations-ui.js?v=20260804-1"></script>
+    <script>
+      (function () {
+        var pathname = window.location.pathname;
+        var isConAlmaProfile = pathname === '/artesanos/con-alma-design' || pathname === '/artesanos/con-alma-design/';
+        var isConAlmaStory = pathname === '/historias/con-alma-design' || pathname === '/historias/con-alma-design/';
+        if (isConAlmaProfile || isConAlmaStory) {
+          return;
+        }
+        var script = document.createElement('script');
+        script.src = '/promoter-associations-ui.js?v=20260813-2';
+        document.head.appendChild(script);
+      })();
+    </script>
     <script>
       (function () {
         var isStoryRoute = /^\/historias\/(?:[^/?#]+)/.test(window.location.pathname);
@@ -687,10 +707,45 @@
         var isArtisanPanel = /^\/panel-artesano\/?$/.test(window.location.pathname);
         var isAssociationsRoute = /^\/asociaciones(?:\/[^/?#]+)?\/?$/.test(window.location.pathname);
         var isOficiosRoute = /^\/oficios(?:\/[^/?#]+)?\/?$/.test(window.location.pathname);
+        var isSeoLandingRoute = /^\/artesanos\/con-alma-design\/?$/.test(window.location.pathname);
         var isMapRoute = /^\/(?:mapa|historias(?:\/[^/?#]+)?|artesano\/[^/?#]+|creador-rutas)\/?$/.test(window.location.pathname);
         var isTerritoriesRoute = /^\/territorios(?:\/[^/?#]+(?:\/[^/?#]+)*)?\/?$/.test(window.location.pathname);
 
+        function loadScriptSequentially(sources, done) {
+          var index = 0;
+          function next() {
+            if (index >= sources.length) {
+              if (typeof done === 'function') done();
+              return;
+            }
+            var script = document.createElement('script');
+            script.src = sources[index++];
+            script.onload = next;
+            script.onerror = function () {
+              window.location.reload();
+            };
+            document.head.appendChild(script);
+          }
+          next();
+        }
+
         function appendApplicationScript() {
+          if (/^\/historias\/con-alma-design\/?$/.test(window.location.pathname)) {
+            loadScriptSequentially([
+              '/story-data/con-alma-design.js?v=20260807-1',
+              '/components/ArtisanStoryLayout.js?v=20260807-1',
+              '/con-alma-story-page.js?v=20260807-1'
+            ]);
+            return;
+          }
+
+          if (/^\/historias\/?$/.test(window.location.pathname) || /^\/historias\/amalia-infante\/?$/.test(window.location.pathname) || /^\/historias\/(?:posidonia-segunda-vida|esparto-fibra-que-respira|piedra-seca-agua-lenta|cal-casas-que-respiran|neveros-frio-sin-maquinas|almadraba-memoria-del-atun|palma-blanca-tiempo-vegetal|arrancadors-piedra-tosca|salineros-paisaje-productivo|hojalateros-juguete-mecanico)\/?$/.test(window.location.pathname)) {
+            var storiesScript = document.createElement('script');
+            storiesScript.src = '/historias-page.js?v=20260813-1';
+            document.head.appendChild(storiesScript);
+            return;
+          }
+
           var script = document.createElement('script');
           if (isAdminArtisanPreview) {
             script.type = 'text/javascript';
@@ -717,8 +772,20 @@
             return;
           }
           if (isOficiosRoute) {
+            if (/^\/oficios\/(?:ceramica|ceramista)\/?$/.test(window.location.pathname)) {
+              var universeStyle = document.createElement('link');
+              universeStyle.rel = 'stylesheet';
+              universeStyle.href = '/components/universe-engine.css?v=20260813-1';
+              document.head.appendChild(universeStyle);
+              loadScriptSequentially([
+                '/universe-data/ceramica.js?v=20260813-1',
+                '/components/UniverseEngine.js?v=20260813-1',
+                '/oficios-page.js?v=20260813-2'
+              ]);
+              return;
+            }
             var oficiosScript = document.createElement('script');
-            oficiosScript.src = '/oficios-page.js?v=20260804-1';
+            oficiosScript.src = '/oficios-page.js?v=20260813-1';
             document.head.appendChild(oficiosScript);
             return;
           }
@@ -726,6 +793,17 @@
             var territoriesScript = document.createElement('script');
             territoriesScript.src = '/territorios-page.js?v=20260730-1';
             document.head.appendChild(territoriesScript);
+            return;
+          }
+          if (isSeoLandingRoute) {
+            var seoScript = document.createElement('script');
+            seoScript.src = '/seo-landings.js?v=20260807-3';
+            document.head.appendChild(seoScript);
+            return;
+          }
+
+          if (/^\/historias\/con-alma-design\/?$/.test(window.location.pathname)) {
+            appendApplicationScript();
             return;
           }
 
@@ -773,7 +851,8 @@
       <p id="seo-indexable-intro">Descubre talleres, historias, técnicas y rutas vinculadas a la artesanía y al territorio.</p>
     </main>
     <script src="/multilang-runtime.js?v=20260727-5"></script>
-    <script src="/territorios-links.js?v=20260730-1"></script>
+    <script src="/territorios-links.js?v=20260813-1"></script>
+    <script src="/artenia-search.js?v=20260813-3"></script>
     <script src="/footer-registry.js?v=20260729-2"></script>
     <script src="/live-stats-details.js?v=20260802-2"></script>
     <script>
