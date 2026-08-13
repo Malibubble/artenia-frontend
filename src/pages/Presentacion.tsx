@@ -142,11 +142,22 @@ export default function Presentacion() {
           {/* Gráfico Principal */}
           <div className="max-w-7xl mx-auto mb-16">
             <div className="bg-black/50 border-2 border-[#00D9FF] p-4 md:p-8">
-              <img 
-                src="/presentacion_estrategica.png" 
-                alt="Datos Estratégicos - Invisibilidad Digital y Distribución" 
-                className="w-full h-auto"
-              />
+              <picture>
+                <source
+                  type="image/webp"
+                  srcSet="/presentacion_estrategica-1280.webp 1280w, /presentacion_estrategica-1920.webp 1920w"
+                  sizes="(max-width: 768px) calc(100vw - 64px), 1280px"
+                />
+                <img
+                  src="/presentacion_estrategica.png"
+                  alt="Datos Estratégicos - Invisibilidad Digital y Distribución"
+                  className="w-full h-auto"
+                  width={5892}
+                  height={3535}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
             </div>
             <p className="text-center text-gray-400 mt-4 text-sm">
               Fuente: ARTENIA LAB - Base de datos de 271 talleres artesanales (2024-2025)
@@ -156,11 +167,22 @@ export default function Presentacion() {
           {/* Gráfico Oficios en Riesgo */}
           <div className="max-w-7xl mx-auto mb-16">
             <div className="bg-black/50 border-2 border-[#FF6B35] p-4 md:p-8">
-              <img 
-                src="/oficios_riesgo.png" 
-                alt="Análisis Detallado de Oficios en Riesgo de Extinción" 
-                className="w-full h-auto"
-              />
+              <picture>
+                <source
+                  type="image/webp"
+                  srcSet="/oficios_riesgo-1280.webp 1280w, /oficios_riesgo-1920.webp 1920w"
+                  sizes="(max-width: 768px) calc(100vw - 64px), 1280px"
+                />
+                <img
+                  src="/oficios_riesgo.png"
+                  alt="Análisis Detallado de Oficios en Riesgo de Extinción"
+                  className="w-full h-auto"
+                  width={5363}
+                  height={3539}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
             </div>
             <p className="text-center text-gray-400 mt-4 text-sm">
               Proyección 2025-2040: Sin intervención perdemos 27 de 30 oficios tradicionales
@@ -170,11 +192,22 @@ export default function Presentacion() {
           {/* Gráfico Impacto Económico */}
           <div className="max-w-7xl mx-auto">
             <div className="bg-black/50 border-2 border-[#4CAF50] p-4 md:p-8">
-              <img 
-                src="/impacto_economico.png" 
-                alt="Impacto Económico y Oportunidades de Crecimiento" 
-                className="w-full h-auto"
-              />
+              <picture>
+                <source
+                  type="image/webp"
+                  srcSet="/impacto_economico-1280.webp 1280w, /impacto_economico-1920.webp 1920w"
+                  sizes="(max-width: 768px) calc(100vw - 64px), 1280px"
+                />
+                <img
+                  src="/impacto_economico.png"
+                  alt="Impacto Económico y Oportunidades de Crecimiento"
+                  className="w-full h-auto"
+                  width={5967}
+                  height={2955}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
             </div>
             <p className="text-center text-gray-400 mt-4 text-sm">
               Potencial total: 18.1M€/año en digitalización + turismo experiencial + exportación

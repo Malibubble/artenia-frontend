@@ -690,7 +690,8 @@
         var pathname = window.location.pathname;
         var isConAlmaProfile = pathname === '/artesanos/con-alma-design' || pathname === '/artesanos/con-alma-design/';
         var isConAlmaStory = pathname === '/historias/con-alma-design' || pathname === '/historias/con-alma-design/';
-        if (isConAlmaProfile || isConAlmaStory) {
+        var usesAssociationsUi = /^\/(?:mapa|asociaciones(?:\/[^/?#]+)?|oficios\/[^/?#]+)\/?$/.test(pathname);
+        if (isConAlmaProfile || isConAlmaStory || !usesAssociationsUi) {
           return;
         }
         var script = document.createElement('script');
@@ -855,6 +856,39 @@
     <script src="/artenia-search.js?v=20260813-3"></script>
     <script src="/footer-registry.js?v=20260729-2"></script>
     <script src="/live-stats-details.js?v=20260802-2"></script>
+    <script>
+      (function () {
+        if (!/^\/presentacion\/?$/.test(window.location.pathname)) return;
+        var pending = {
+          "/presentacion_estrategica.png": [5892, 3535],
+          "/oficios_riesgo.png": [5363, 3539],
+          "/impacto_economico.png": [5967, 2955]
+        };
+
+        function enhancePresentationImages() {
+          Object.keys(pending).forEach(function (src) {
+            var image = document.querySelector('img[src="' + src + '"]');
+            if (!image) return;
+            var basename = src.slice(1, -4);
+            image.srcset = "/" + basename + "-1280.webp 1280w, /" + basename + "-1920.webp 1920w";
+            image.sizes = "(max-width: 768px) calc(100vw - 64px), 1280px";
+            image.width = pending[src][0];
+            image.height = pending[src][1];
+            image.loading = "lazy";
+            image.decoding = "async";
+            delete pending[src];
+          });
+          return Object.keys(pending).length === 0;
+        }
+
+        if (enhancePresentationImages()) return;
+        var observer = new MutationObserver(function () {
+          if (enhancePresentationImages()) observer.disconnect();
+        });
+        observer.observe(document.documentElement, { childList: true, subtree: true });
+        window.setTimeout(function () { observer.disconnect(); }, 12000);
+      })();
+    </script>
     <script>
       (function () {
         function setAppVh() {
