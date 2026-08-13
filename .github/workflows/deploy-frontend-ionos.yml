@@ -1,0 +1,99 @@
+name: Frontend production · IONOS
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      deploy:
+        description: Deploy the current main commit to IONOS
+        required: true
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+concurrency:
+  group: frontend-production-ionos-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    name: Build and validate artifact
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Add immutable deployment marker
+        run: |
+          node -e 'require("fs").writeFileSync("dist/deploy-version.json", JSON.stringify({ commit: process.env.GITHUB_SHA }) + "\n")'
+      - name: Validate frontend-only artifact
+        run: |
+          test -s dist/index.html
+          test -s dist/.htaccess
+          test -s dist/deploy-version.json
+          test "$(find dist -maxdepth 1 -name '*-1280.webp' | wc -l)" -eq 3
+          test "$(find dist -maxdepth 1 -name '*-1920.webp' | wc -l)" -eq 3
+          test ! -d dist/api
+          test ! -d dist/admin
+          bash -n scripts/deploy-frontend-ionos.sh
+          bash -n scripts/smoke-frontend-production.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: frontend-dist-${{ github.sha }}
+          path: dist/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 3
+
+  deploy:
+    name: Backup, deploy and smoke test IONOS
+    needs: validate
+    if: >-
+      github.ref == 'refs/heads/main' &&
+      (github.event_name == 'push' ||
+      (github.event_name == 'workflow_dispatch' && inputs.deploy))
+    runs-on: ubuntu-latest
+    environment: production-ionos
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: frontend-dist-${{ github.sha }}
+          path: dist
+      - name: Configure authenticated IONOS SSH
+        env:
+          IONOS_HOST: ${{ secrets.IONOS_HOST }}
+          IONOS_USER: ${{ secrets.IONOS_USER }}
+          IONOS_SSH_PRIVATE_KEY: ${{ secrets.IONOS_SSH_PRIVATE_KEY }}
+          IONOS_KNOWN_HOSTS: ${{ secrets.IONOS_KNOWN_HOSTS }}
+        run: |
+          test -n "$IONOS_HOST"
+          test -n "$IONOS_USER"
+          test -n "$IONOS_SSH_PRIVATE_KEY"
+          test -n "$IONOS_KNOWN_HOSTS"
+          printf '%s\n' "$IONOS_SSH_PRIVATE_KEY" > "$RUNNER_TEMP/ionos_key"
+          printf '%s\n' "$IONOS_KNOWN_HOSTS" > "$RUNNER_TEMP/ionos_known_hosts"
+          chmod 600 "$RUNNER_TEMP/ionos_key" "$RUNNER_TEMP/ionos_known_hosts"
+      - name: Backup and publish dist only
+        env:
+          DEPLOY_SOURCE: ${{ github.workspace }}/dist
+          IONOS_HOST: ${{ secrets.IONOS_HOST }}
+          IONOS_USER: ${{ secrets.IONOS_USER }}
+          IONOS_PORT: ${{ secrets.IONOS_PORT }}
+          IONOS_SSH_KEY_PATH: ${{ runner.temp }}/ionos_key
+          IONOS_KNOWN_HOSTS_PATH: ${{ runner.temp }}/ionos_known_hosts
+        run: bash scripts/deploy-frontend-ionos.sh
+      - name: Verify public production
+        env:
+          EXPECTED_COMMIT: ${{ github.sha }}
+          PUBLIC_ORIGIN: https://artenialab.com
+        run: bash scripts/smoke-frontend-production.sh
