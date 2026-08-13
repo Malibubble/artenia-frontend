@@ -44,6 +44,8 @@ jobs:
           test "$(find dist -maxdepth 1 -name '*-1920.webp' | wc -l)" -eq 3
           test ! -d dist/api
           test ! -d dist/admin
+          test ! -d dist/auth
+          test ! -d dist/backend
           bash -n scripts/deploy-frontend-ionos.sh
           bash -n scripts/smoke-frontend-production.sh
       - uses: actions/upload-artifact@v4

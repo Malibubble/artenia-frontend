@@ -28,6 +28,7 @@ RSYNC_EXCLUDES=(
   --exclude "/api/***"
   --exclude "/admin/***"
   --exclude "/auth/***"
+  --exclude "/backend/***"
   --exclude "/.env*"
   --exclude "*.php"
   --exclude "*.sqlite*"
@@ -36,7 +37,7 @@ RSYNC_EXCLUDES=(
 
 echo "Preflighting frontend-only rsync"
 DEPLOY_PLAN="$(rsync -azn --itemize-changes "${RSYNC_EXCLUDES[@]}" -e "${SSH_TRANSPORT}" "${DEPLOY_SOURCE}/" "${IONOS_USER}@${IONOS_HOST}:${REMOTE_ROOT}/")"
-if printf '%s\n' "${DEPLOY_PLAN}" | grep -Eiq '(^|/)(api|admin|auth)(/|$)|(^|/)\.env|\.(php|sqlite|db)$'; then
+if printf '%s\n' "${DEPLOY_PLAN}" | grep -Eiq '(^|/)(api|admin|auth|backend)(/|$)|(^|/)\.env|\.(php|sqlite|db)$'; then
   echo "Refusing deployment: protected path detected in rsync plan" >&2
   exit 4
 fi
