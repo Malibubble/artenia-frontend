@@ -10,6 +10,9 @@ Make the smallest safe change that completes the approved task without changing 
 4. Do not scan the whole repository unless the task explicitly says `AUDIT`.
 5. Reuse existing components, routes and styles before creating new ones.
 
+## Runtime source-of-truth guard
+Before autonomous product edits or deployment, confirm the repository contains the currently approved runtime files referenced by the live shell. In particular, if `index.html` expects `map-gate.js`, that file must exist in the repository; the approved global-search implementation (`artenia-search.js`) must also be versioned and wired before search/navigation work continues. If these are absent or the repo is known to lag behind production/local work, STOP and report `BLOCKED: runtime/repo drift`. Never recreate missing production code from memory.
+
 ## Safe workflow
 1. Check current branch/status and preserve unrelated user changes.
 2. Locate the smallest set of files responsible for the behavior.
