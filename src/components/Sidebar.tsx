@@ -1,5 +1,5 @@
 // src/components/Sidebar.tsx
-import React, { useEffect, useState } from "react";
+import React from "react";
 import type { Filters, Stats } from "../App";
 
 type SidebarProps = {
@@ -9,23 +9,6 @@ type SidebarProps = {
 };
 
 export default function Sidebar({ filters, setFilters, stats }: SidebarProps) {
-  const [searchLocal, setSearchLocal] = useState(filters.searchQuery || "");
-
-  // debounce applying search to global filters (250ms)
-  useEffect(() => {
-    const id = window.setTimeout(() => {
-      const next = { ...filters, searchQuery: searchLocal } as Filters;
-      setFilters(next);
-      try {
-        (window as any).__ARTENIA_FILTERS = next;
-        window.dispatchEvent(new CustomEvent("artenia-filters-changed", { detail: next }));
-      } catch (err) {
-        // ignore
-      }
-    }, 250);
-    return () => window.clearTimeout(id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchLocal]);
   const handleSelectChange =
     (field: keyof Filters) =>
     (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -74,33 +57,6 @@ export default function Sidebar({ filters, setFilters, stats }: SidebarProps) {
 
   return (
     <aside className="sidebar-shell">
-{/* === BUSCADOR (arriba del todo) === */}
-<section className="sidebar-section sidebar-section-search">
-  <div className="sidebar-section-title">Buscar talleres, oficios…</div>
-
-  <div className="sidebar-search-wrapper">
-    <span className="sidebar-search-icon">🔍</span>
-
-    <input
-      className="sidebar-input"
-      type="text"
-      placeholder="Buscar talleres, oficios, ciudades, productos o rutas…"
-      value={searchLocal}
-      onChange={(e) => setSearchLocal(e.target.value)}
-      aria-label="Búsqueda global"
-    />
-
-    <button
-      type="button"
-      className="sidebar-search-btn"
-      onClick={() => setFilters({ ...filters })}
-      aria-label="Aplicar búsqueda"
-    >
-      Buscar
-    </button>
-  </div>
-</section>
-
       {/* === TARJETA OFICIOS EN RIESGO === */}
       <section className="sidebar-section">
         <div className="sidebar-card-alert">
@@ -181,20 +137,6 @@ export default function Sidebar({ filters, setFilters, stats }: SidebarProps) {
             <option value="Alto">Alto</option>
             <option value="Medio">Medio</option>
             <option value="Bajo">Bajo</option>
-          </select>
-        </label>
-
-        <label className="block mt-4">
-          <div className="text-xs text-slate-300 mb-1">Tipo de resultado</div>
-          <select
-            className="sidebar-select"
-            value={filters.tipoResultado || "Todos"}
-            onChange={handleSelectChange("tipoResultado")}
-          >
-            <option value="Todos">Todos</option>
-            <option value="Talleres">Talleres</option>
-            <option value="Oficios">Oficios</option>
-            <option value="Rutas">Rutas</option>
           </select>
         </label>
 
