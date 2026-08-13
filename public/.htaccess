@@ -1,0 +1,34 @@
+RewriteEngine On
+Options -Indexes
+
+SetEnvIfExpr "%{REQUEST_URI} =~ m#^/(admin|access|panel|panel-artesano|cuenta|dashboard|reservas|api)(/|$)#i" IS_PRIVATE_ROUTE=1
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE application/javascript application/json application/manifest+json image/svg+xml text/css text/html text/javascript text/plain
+</IfModule>
+
+<IfModule mod_headers.c>
+  Header set X-Robots-Tag "noindex, nofollow, noarchive" env=IS_PRIVATE_ROUTE
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "same-origin"
+  Header always set X-Frame-Options "DENY"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(self), payment=(), usb=()"
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+  <FilesMatch "^(index\.html|sw\.js)$">
+    Header set Cache-Control "no-store, no-cache, must-revalidate"
+  </FilesMatch>
+  <FilesMatch "\.(js|css|svg|avif|webp|png|jpg|jpeg|mp4|webm)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  <FilesMatch "^TALLERES_300PLUS\.json$">
+    Header set Cache-Control "public, max-age=3600, stale-while-revalidate=86400"
+  </FilesMatch>
+</IfModule>
+
+RewriteRule ^sitemap\.xml$ sitemap.php [L]
+
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+RewriteRule ^ index.html [L]
