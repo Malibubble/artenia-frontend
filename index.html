@@ -6,15 +6,15 @@
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1" />
-    <link rel="icon" type="image/svg+xml" href="/artenia-mark.svg" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-    <link rel="shortcut icon" href="/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/svg+xml" href="/artenia-mark.svg?v=20260814" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=20260814" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=20260814" />
+    <link rel="shortcut icon" href="/favicon.ico?v=20260814" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=20260814" />
     <title>ARTENIA | Mapa de artesanos, talleres y oficios</title>
     
     <!-- PWA Manifest -->
-    <link rel="manifest" href="/manifest.json" />
+    <link rel="manifest" href="/manifest.json?v=20260814" />
     <meta name="theme-color" content="#00D9FF" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -740,13 +740,6 @@
             return;
           }
 
-          if (/^\/historias\/?$/.test(window.location.pathname) || /^\/historias\/amalia-infante\/?$/.test(window.location.pathname) || /^\/historias\/(?:posidonia-segunda-vida|esparto-fibra-que-respira|piedra-seca-agua-lenta|cal-casas-que-respiran|neveros-frio-sin-maquinas|almadraba-memoria-del-atun|palma-blanca-tiempo-vegetal|arrancadors-piedra-tosca|salineros-paisaje-productivo|hojalateros-juguete-mecanico)\/?$/.test(window.location.pathname)) {
-            var storiesScript = document.createElement('script');
-            storiesScript.src = '/historias-page.js?v=20260813-1';
-            document.head.appendChild(storiesScript);
-            return;
-          }
-
           var script = document.createElement('script');
           if (isAdminArtisanPreview) {
             script.type = 'text/javascript';
@@ -773,18 +766,6 @@
             return;
           }
           if (isOficiosRoute) {
-            if (/^\/oficios\/(?:ceramica|ceramista)\/?$/.test(window.location.pathname)) {
-              var universeStyle = document.createElement('link');
-              universeStyle.rel = 'stylesheet';
-              universeStyle.href = '/components/universe-engine.css?v=20260813-1';
-              document.head.appendChild(universeStyle);
-              loadScriptSequentially([
-                '/universe-data/ceramica.js?v=20260813-1',
-                '/components/UniverseEngine.js?v=20260813-1',
-                '/oficios-page.js?v=20260814-1'
-              ]);
-              return;
-            }
             var oficiosScript = document.createElement('script');
             oficiosScript.src = '/oficios-page.js?v=20260814-1';
             document.head.appendChild(oficiosScript);
