@@ -565,7 +565,10 @@
 
   function addSearchToOtherNavigation() {
     if (window.location.pathname === "/") return;
-    var navs = document.querySelectorAll("header nav");
+    var isMap = /^\/mapa(?:\/|$)/.test(window.location.pathname);
+    var navs = isMap
+      ? document.querySelectorAll(".artenia-command-bar > :last-child")
+      : document.querySelectorAll("header nav");
     Array.prototype.forEach.call(navs, function (nav) {
       if (nav.querySelector("[data-artenia-global-search-trigger]")) return;
       if (/Modo de exploraci[oó]n/i.test(nav.getAttribute("aria-label") || "")) return;
@@ -582,7 +585,7 @@
   function applyIncomingMapSearch() {
     if (!/^\/mapa(?:\/|$)/.test(window.location.pathname)) return;
     var params = new URLSearchParams(window.location.search);
-    var query = text(params.get("buscar"));
+    var query = text(params.get("buscar") || params.get("q"));
     if (!query) return;
     applyMapResult({
       title: text(params.get("seleccionar")) || query,
