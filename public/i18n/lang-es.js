@@ -1,0 +1,55 @@
+window.ARTENIA_I18N && window.ARTENIA_I18N.register('es', {
+  dict: {
+    'mapGate.brandPrivateCircle': 'Círculo privado',
+    'mapGate.privateAccessKicker': 'Acceso privado',
+    'mapGate.enterTitle': 'Entra a ARTENIA.',
+    'mapGate.intro': 'El mapa, los perfiles y las historias se activan solo con código de acceso. Si aún no lo tienes, puedes solicitar acceso al equipo.',
+    'mapGate.codePlaceholder': 'Código de acceso',
+    'mapGate.enterMapButton': 'Entrar al mapa',
+    'mapGate.requestAccessButton': 'Solicitar acceso',
+    'mapGate.accessNotConfigured': 'El acceso por código aún no está disponible. Puedes enviar tu solicitud.',
+    'mapGate.requestSectionTitle': 'Solicitar acceso',
+    'mapGate.requestSectionIntro': 'Déjanos tus datos y te responderemos en el correo indicado.',
+    'mapGate.namePlaceholder': 'Nombre',
+    'mapGate.emailPlaceholder': 'Correo electrónico',
+    'mapGate.reasonPlaceholder': '¿Por qué te interesa conocer ARTENIA? (opcional)',
+    'mapGate.sendRequestButton': 'Enviar solicitud',
+    'mapGate.backToHome': 'Volver a conocer ARTENIA',
+    'mapGate.artisanCta': 'Soy artesano/a y quiero formar parte',
+    'mapGate.checkingCode': 'Comprobando código...',
+    'mapGate.accessGranted': 'Acceso correcto. Cargando mapa...',
+    'mapGate.invalidCode': 'Código no válido.',
+    'mapGate.sendingRequest': 'Enviando solicitud...',
+    'mapGate.requestSentSuccess': 'Solicitud enviada correctamente.',
+    'mapGate.requestFailed': 'No se pudo enviar la solicitud.',
+    'mapGate.genericRequestError': 'No se ha podido completar la solicitud.'
+  },
+  placeholders: {}
+});
+
+window.ARTENIA_I18N_MAP_GATE = window.ARTENIA_I18N_MAP_GATE || {};
+window.ARTENIA_I18N_MAP_GATE.es = {
+  brandPrivateCircle: 'Círculo privado',
+  privateAccessKicker: 'Acceso privado',
+  enterTitle: 'Entra a ARTENIA.',
+  intro: 'El mapa, los perfiles y las historias se activan solo con código de acceso. Si aún no lo tienes, puedes solicitar acceso al equipo.',
+  codePlaceholder: 'Código de acceso',
+  enterMapButton: 'Entrar al mapa',
+  requestAccessButton: 'Solicitar acceso',
+  accessNotConfigured: 'El acceso por código aún no está disponible. Puedes enviar tu solicitud.',
+  requestSectionTitle: 'Solicitar acceso',
+  requestSectionIntro: 'Déjanos tus datos y te responderemos en el correo indicado.',
+  namePlaceholder: 'Nombre',
+  emailPlaceholder: 'Correo electrónico',
+  reasonPlaceholder: '¿Por qué te interesa conocer ARTENIA? (opcional)',
+  sendRequestButton: 'Enviar solicitud',
+  backToHome: 'Volver a conocer ARTENIA',
+  artisanCta: 'Soy artesano/a y quiero formar parte',
+  checkingCode: 'Comprobando código...',
+  accessGranted: 'Acceso correcto. Cargando mapa...',
+  invalidCode: 'Código no válido.',
+  sendingRequest: 'Enviando solicitud...',
+  requestSentSuccess: 'Solicitud enviada correctamente.',
+  requestFailed: 'No se pudo enviar la solicitud.',
+  genericRequestError: 'No se ha podido completar la solicitud.'
+};

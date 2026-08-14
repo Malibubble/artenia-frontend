@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title description">
+  <title id="title">Símbolo de ARTENIA LAB</title>
+  <desc id="description">Una A hexagonal rodeada por seis formas orgánicas que representan manos, raíces y conexiones.</desc>
+  <g fill="none" stroke="#F2EEE5" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+    <g id="branch">
+      <path d="M128 87V49"/>
+      <path d="M128 50V16"/>
+      <path d="M128 50c-11-8-16-18-15-29"/>
+      <path d="M128 50c11-8 16-18 15-29"/>
+    </g>
+    <use href="#branch" transform="rotate(60 128 128)"/>
+    <use href="#branch" transform="rotate(120 128 128)"/>
+    <use href="#branch" transform="rotate(180 128 128)"/>
+    <use href="#branch" transform="rotate(240 128 128)"/>
+    <use href="#branch" transform="rotate(300 128 128)"/>
+    <path d="M128 82 168 105v46l-40 23-40-23v-46z" stroke="#D9A35F" stroke-width="8"/>
+    <path d="m107 151 21-46 21 46M116 133h24" stroke="#D9A35F" stroke-width="8"/>
+  </g>
+</svg>

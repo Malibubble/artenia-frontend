@@ -1,0 +1,336 @@
+[
+  {
+    "id_oficio": "O002",
+    "nombre_oficio": "Abaniquero/Abaniquera",
+    "categoria": "textil",
+    "num_talleres": 21,
+    "nivel_actividad": "muy_activo",
+    "estado": "muy activo",
+    "puntuacion_actividad": 4,
+    "lat_centro": 39.4667,
+    "lng_centro": -0.4667,
+    "dispersion_lat": 0.0,
+    "dispersion_lng": 0.0,
+    "num_municipios": 1.0,
+    "municipios": [
+      "Aldaia"
+    ],
+    "concentracion": "muy_alta",
+    "color": "#1976d2",
+    "marker_size": 50
+  },
+  {
+    "id_oficio": "O003",
+    "nombre_oficio": "Alfarero/Alfarera",
+    "categoria": "cerámica",
+    "num_talleres": 4,
+    "nivel_actividad": "activo",
+    "estado": "activo",
+    "puntuacion_actividad": 3,
+    "lat_centro": 38.7756,
+    "lng_centro": -0.4781,
+    "dispersion_lat": 0.4898,
+    "dispersion_lng": 0.2124,
+    "num_municipios": 3.0,
+    "municipios": [
+      "Castell de Castells",
+      "Manises",
+      "Agost"
+    ],
+    "concentracion": "alta",
+    "color": "#388e3c",
+    "marker_size": 18
+  },
+  {
+    "id_oficio": "O005",
+    "nombre_oficio": "Alpargatero/Alpargatera",
+    "categoria": "textil",
+    "num_talleres": 1,
+    "nivel_actividad": "critico",
+    "estado": "extinción crítica",
+    "puntuacion_actividad": 1,
+    "lat_centro": 40.5333,
+    "lng_centro": -0.0833,
+    "dispersion_lat": 0.0,
+    "dispersion_lng": 0.0,
+    "num_municipios": 1.0,
+    "municipios": [
+      "La Mata"
+    ],
+    "concentracion": "muy_alta",
+    "color": "#d32f2f",
+    "marker_size": 12
+  },
+  {
+    "id_oficio": "O023",
+    "nombre_oficio": "Carpintero de ribera/Carpintera de ribera",
+    "categoria": "madera",
+    "num_talleres": 2,
+    "nivel_actividad": "vulnerable",
+    "estado": "vulnerable",
+    "puntuacion_actividad": 2,
+    "lat_centro": 39.4699,
+    "lng_centro": -0.3763,
+    "dispersion_lat": 0.0,
+    "dispersion_lng": 0.0,
+    "num_municipios": 1.0,
+    "municipios": [
+      "Valencia"
+    ],
+    "concentracion": "muy_alta",
+    "color": "#f57c00",
+    "marker_size": 14
+  },
+  {
+    "id_oficio": "O025",
+    "nombre_oficio": "Ceramista",
+    "categoria": "cerámica",
+    "num_talleres": 59,
+    "nivel_actividad": "muy_activo",
+    "estado": "muy activo",
+    "puntuacion_actividad": 4,
+    "lat_centro": 39.4121,
+    "lng_centro": -0.3743,
+    "dispersion_lat": 0.4372,
+    "dispersion_lng": 0.1482,
+    "num_municipios": 27.0,
+    "municipios": [
+      "Santa Pola",
+      "Sagunto",
+      "València",
+      "Masarrojos",
+      "Valencia",
+      "Manises",
+      "Alboraya",
+      "Villalonga",
+      "Castelló",
+      "Xiva de Morella",
+      "Meliana",
+      "Alcora",
+      "Elda",
+      "Alcoy",
+      "Benaguasil",
+      "Benetússer",
+      "Albuixech",
+      "La Nucía",
+      "Torrent",
+      "Godella",
+      "Calpe",
+      "Sant Joan d'Alacant",
+      "Rocafort",
+      "Castellón",
+      "Vinalesa",
+      "Benissa",
+      "Mislata"
+    ],
+    "concentracion": "dispersa",
+    "color": "#1976d2",
+    "marker_size": 50
+  },
+  {
+    "id_oficio": "O032",
+    "nombre_oficio": "Constructor de instrumentos de cuerda, viento y percusión/Constructora de instrumentos de cuerda, viento y percusión",
+    "categoria": "instrumentos_musicales",
+    "num_talleres": 5,
+    "nivel_actividad": "activo",
+    "estado": "activo",
+    "puntuacion_actividad": 3,
+    "lat_centro": 39.4653,
+    "lng_centro": -0.3758,
+    "dispersion_lat": 0.0301,
+    "dispersion_lng": 0.0177,
+    "num_municipios": 3.0,
+    "municipios": [
+      "Valencia",
+      "Alboraya",
+      "Catarroja"
+    ],
+    "concentracion": "alta",
+    "color": "#388e3c",
+    "marker_size": 20
+  },
+  {
+    "id_oficio": "O044",
+    "nombre_oficio": "Encuadernador/Encuadernadora",
+    "categoria": "papel",
+    "num_talleres": 5,
+    "nivel_actividad": "activo",
+    "estado": "activo",
+    "puntuacion_actividad": 3,
+    "lat_centro": 39.4699,
+    "lng_centro": -0.3763,
+    "dispersion_lat": 0.0,
+    "dispersion_lng": 0.0,
+    "num_municipios": 1.0,
+    "municipios": [
+      "Valencia"
+    ],
+    "concentracion": "muy_alta",
+    "color": "#388e3c",
+    "marker_size": 20
+  },
+  {
+    "id_oficio": "O049",
+    "nombre_oficio": "Espartero/Espartera",
+    "categoria": "fibra_vegetal",
+    "num_talleres": 3,
+    "nivel_actividad": "vulnerable",
+    "estado": "vulnerable",
+    "puntuacion_actividad": 2,
+    "lat_centro": 39.5132,
+    "lng_centro": -0.4148,
+    "dispersion_lat": 0.4531,
+    "dispersion_lng": 0.3841,
+    "num_municipios": 3.0,
+    "municipios": [
+      "Albacete/Valencia",
+      "Bicorp",
+      "Castellón de la Plana"
+    ],
+    "concentracion": "alta",
+    "color": "#f57c00",
+    "marker_size": 16
+  },
+  {
+    "id_oficio": "O055",
+    "nombre_oficio": "Forjador/Forjadora",
+    "categoria": "metal",
+    "num_talleres": 2,
+    "nivel_actividad": "vulnerable",
+    "estado": "vulnerable",
+    "puntuacion_actividad": 2,
+    "lat_centro": 39.5433,
+    "lng_centro": -0.4965,
+    "dispersion_lat": 0.1038,
+    "dispersion_lng": 0.17,
+    "num_municipios": 2.0,
+    "municipios": [
+      "Valencia",
+      "Benissanó"
+    ],
+    "concentracion": "alta",
+    "color": "#f57c00",
+    "marker_size": 14
+  },
+  {
+    "id_oficio": "O089",
+    "nombre_oficio": "Quesero artesano/Quesera artesana",
+    "categoria": "alimentación",
+    "num_talleres": 3,
+    "nivel_actividad": "vulnerable",
+    "estado": "vulnerable",
+    "puntuacion_actividad": 2,
+    "lat_centro": 39.3066,
+    "lng_centro": -0.6421,
+    "dispersion_lat": 0.2945,
+    "dispersion_lng": 0.3983,
+    "num_municipios": 3.0,
+    "municipios": [
+      "Requena",
+      "Valencia",
+      "Barxeta"
+    ],
+    "concentracion": "alta",
+    "color": "#f57c00",
+    "marker_size": 16
+  },
+  {
+    "id_oficio": "O101",
+    "nombre_oficio": "Tejedor/Tejedora",
+    "categoria": "textil",
+    "num_talleres": 3,
+    "nivel_actividad": "vulnerable",
+    "estado": "vulnerable",
+    "puntuacion_actividad": 2,
+    "lat_centro": 39.7022,
+    "lng_centro": -0.2009,
+    "dispersion_lat": 0.4023,
+    "dispersion_lng": 0.3039,
+    "num_municipios": 2.0,
+    "municipios": [
+      "Cabanes",
+      "Valencia"
+    ],
+    "concentracion": "alta",
+    "color": "#f57c00",
+    "marker_size": 16
+  },
+  {
+    "id_oficio": "O103",
+    "nombre_oficio": "Tonelero/Tonelera",
+    "categoria": "madera",
+    "num_talleres": 2,
+    "nivel_actividad": "vulnerable",
+    "estado": "vulnerable",
+    "puntuacion_actividad": 2,
+    "lat_centro": 39.7666,
+    "lng_centro": -0.575,
+    "dispersion_lat": 0.4007,
+    "dispersion_lng": 0.7425,
+    "num_municipios": 2.0,
+    "municipios": [
+      "San Jordi",
+      "Requena"
+    ],
+    "concentracion": "alta",
+    "color": "#f57c00",
+    "marker_size": 14
+  },
+  {
+    "id_oficio": "O107",
+    "nombre_oficio": "Vidriero/Vidriera",
+    "categoria": "vidrio",
+    "num_talleres": 2,
+    "nivel_actividad": "vulnerable",
+    "estado": "vulnerable",
+    "puntuacion_actividad": 2,
+    "lat_centro": 39.1933,
+    "lng_centro": -0.4715,
+    "dispersion_lat": 0.3912,
+    "dispersion_lng": 0.1346,
+    "num_municipios": 2.0,
+    "municipios": [
+      "Valencia",
+      "L'Olleria"
+    ],
+    "concentracion": "alta",
+    "color": "#f57c00",
+    "marker_size": 14
+  },
+  {
+    "id_oficio": "O109",
+    "nombre_oficio": "Luthier",
+    "categoria": "Madera",
+    "fuente_principal": "Investigación propia"
+  },
+  {
+    "id_oficio": "O110",
+    "nombre_oficio": "Relojero",
+    "categoria": "Metal",
+    "fuente_principal": "Investigación propia"
+  },
+  {
+    "id_oficio": "O111",
+    "nombre_oficio": "Afinador de pianos",
+    "categoria": "Varios",
+    "fuente_principal": "Investigación propia"
+  },
+  {
+    "id_oficio": "O112",
+    "nombre_oficio": "Turronero",
+    "categoria": "Alimentación",
+    "fuente_principal": "Consejo Regulador Jijona"
+  },
+  {
+    "id_oficio": "O113",
+    "nombre_oficio": "Vinicultor artesanal",
+    "categoria": "Alimentación",
+    "fuente_principal": "DOP Alicante"
+  },
+  {
+    "id_oficio": "O114",
+    "nombre_oficio": "Fabricante de juguetes",
+    "categoria": "Varios",
+    "fuente_principal": "Museo Juguete Ibi"
+  }
+]
