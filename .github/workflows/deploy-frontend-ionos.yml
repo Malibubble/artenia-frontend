@@ -59,10 +59,7 @@ jobs:
   deploy:
     name: Backup, deploy and smoke test IONOS
     needs: validate
-    if: >-
-      github.ref == 'refs/heads/main' &&
-      (github.event_name == 'push' ||
-      (github.event_name == 'workflow_dispatch' && inputs.deploy))
+    if: github.event_name == 'workflow_dispatch' && inputs.deploy
     runs-on: ubuntu-latest
     environment: production-ionos
     steps:
@@ -85,17 +82,21 @@ jobs:
           printf '%s\n' "$IONOS_SSH_PRIVATE_KEY" > "$RUNNER_TEMP/ionos_key"
           printf '%s\n' "$IONOS_KNOWN_HOSTS" > "$RUNNER_TEMP/ionos_known_hosts"
           chmod 600 "$RUNNER_TEMP/ionos_key" "$RUNNER_TEMP/ionos_known_hosts"
-      - name: Backup and publish dist only
+      - name: Diagnose authenticated IONOS SSH only
         env:
-          DEPLOY_SOURCE: ${{ github.workspace }}/dist
           IONOS_HOST: ${{ secrets.IONOS_HOST }}
           IONOS_USER: ${{ secrets.IONOS_USER }}
           IONOS_PORT: ${{ secrets.IONOS_PORT }}
           IONOS_SSH_KEY_PATH: ${{ runner.temp }}/ionos_key
           IONOS_KNOWN_HOSTS_PATH: ${{ runner.temp }}/ionos_known_hosts
-        run: bash scripts/deploy-frontend-ionos.sh
-      - name: Verify public production
-        env:
-          EXPECTED_COMMIT: ${{ github.sha }}
-          PUBLIC_ORIGIN: https://artenialab.com
-        run: bash scripts/smoke-frontend-production.sh
+        run: |
+          ssh-keygen -y -f "$IONOS_SSH_KEY_PATH" | ssh-keygen -lf -
+          ssh-keygen -lf "$IONOS_KNOWN_HOSTS_PATH"
+          ssh -vvv \
+            -i "$IONOS_SSH_KEY_PATH" \
+            -p "$IONOS_PORT" \
+            -o "UserKnownHostsFile=$IONOS_KNOWN_HOSTS_PATH" \
+            -o StrictHostKeyChecking=yes \
+            -o BatchMode=yes \
+            -o ConnectTimeout=20 \
+            "$IONOS_USER@$IONOS_HOST" true
