@@ -521,7 +521,8 @@
       ".ags-empty span{padding:8px 11px;border:1px solid rgba(255,255,255,.13);border-radius:9px;color:rgba(255,255,255,.45);font:600 11px ui-sans-serif,system-ui}.ags-empty p{max-width:440px;line-height:1.6}.ags-empty a{color:#8edfe0;text-decoration:none}",
       "[data-artenia-global-search-trigger]{cursor:pointer}",
       ".ags-nav-trigger{display:inline-flex;align-items:center;min-height:40px;padding:0 14px;border:1px solid rgba(255,255,255,.16);border-radius:999px;background:rgba(0,0,0,.18);color:inherit;font:600 12px ui-sans-serif,system-ui;letter-spacing:.05em}",
-      "@media(max-width:680px){#artenia-global-search{padding:14px}.ags-panel{max-height:calc(100vh - 28px);border-radius:22px}.ags-results{grid-template-columns:1fr}.ags-result-main{grid-template-columns:78px minmax(0,1fr)}.ags-result-main img{width:78px}.ags-close{right:14px;top:14px}}",
+      "#artenia-mobile-primary-nav{display:none}",
+      "@media(max-width:680px){html,body,#root{max-width:100%;overflow-x:hidden}.ags-home-search-trigger{display:none!important}#artenia-global-search{padding:14px}.ags-panel{max-height:calc(100vh - 28px);border-radius:22px}.ags-results{grid-template-columns:1fr}.ags-result-main{grid-template-columns:78px minmax(0,1fr)}.ags-result-main img{width:78px}.ags-close{right:14px;top:14px}#artenia-mobile-primary-nav{position:fixed;z-index:2147481000;left:8px;right:8px;bottom:calc(8px + env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:3px;padding:5px;border:1px solid rgba(191,239,237,.17);border-radius:18px;background:rgba(5,14,18,.94);box-shadow:0 16px 48px rgba(0,0,0,.46);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}#artenia-mobile-primary-nav a,#artenia-mobile-primary-nav button{display:grid;min-width:0;min-height:44px;place-items:center;border:0;border-radius:12px;background:transparent;color:rgba(255,255,255,.66);font:600 10px/1 ui-sans-serif,system-ui;text-decoration:none}#artenia-mobile-primary-nav [aria-current=page]{background:rgba(139,224,224,.13);color:#eaffff}}",
       "@media(prefers-reduced-motion:reduce){.ags-result{transition:none!important}.ags-result:hover{transform:none}}"
     ].join("");
     document.head.appendChild(style);
@@ -563,8 +564,27 @@
     overlay.addEventListener("mousedown", function (event) { if (event.target === overlay) closeSearch(); });
   }
 
+  function addMobilePrimaryNavigation() {
+    var path = window.location.pathname;
+    if (!/^(?:\/$|\/mapa(?:\/|$)|\/oficios(?:\/|$)|\/historias(?:\/|$))/.test(path)) return;
+    if (document.getElementById("artenia-mobile-primary-nav")) return;
+    function current(href) {
+      return href === "/" ? path === "/" : path === href || path.indexOf(href + "/") === 0;
+    }
+    var nav = document.createElement("nav");
+    nav.id = "artenia-mobile-primary-nav";
+    nav.setAttribute("aria-label", "Navegación principal móvil");
+    nav.innerHTML = [
+      '<a href="/" ' + (current("/") ? 'aria-current="page"' : "") + '>Inicio</a>',
+      '<a href="/mapa" ' + (current("/mapa") ? 'aria-current="page"' : "") + '>Mapa</a>',
+      '<a href="/oficios" ' + (current("/oficios") ? 'aria-current="page"' : "") + '>Oficios</a>',
+      '<a href="/historias" ' + (current("/historias") ? 'aria-current="page"' : "") + '>Historias</a>',
+      '<button type="button" data-artenia-global-search-trigger="mobile">Buscar</button>'
+    ].join("");
+    document.body.appendChild(nav);
+  }
+
   function addSearchToOtherNavigation() {
-    if (window.location.pathname === "/") return;
     var isMap = /^\/mapa(?:\/|$)/.test(window.location.pathname);
     var navs = isMap
       ? document.querySelectorAll(".artenia-command-bar > :last-child")
@@ -574,7 +594,7 @@
       if (/Modo de exploraci[oó]n/i.test(nav.getAttribute("aria-label") || "")) return;
       var button = document.createElement("button");
       button.type = "button";
-      button.className = "ags-nav-trigger";
+      button.className = "ags-nav-trigger" + (window.location.pathname === "/" ? " ags-home-search-trigger" : "");
       button.textContent = "Buscar";
       button.setAttribute("data-artenia-global-search-trigger", "navigation");
       button.setAttribute("aria-label", "Abrir búsqueda ARTENIA");
@@ -598,6 +618,7 @@
 
   function bootstrap() {
     createSearch();
+    addMobilePrimaryNavigation();
     addSearchToOtherNavigation();
     hideNativeMapSearch();
     render();
