@@ -61,8 +61,8 @@
       ".of-hero{position:relative;display:flex;align-items:flex-end;min-height:clamp(72vh,80vh,84vh);padding:34px;border-radius:34px;overflow:hidden;background:linear-gradient(180deg,rgba(2,9,12,.12) 0%,rgba(2,9,12,.3) 42%,rgba(2,9,12,.94) 100%),url('/artenia-oficio-vivo.avif') center 38%/cover no-repeat,#061319}",
       ".of-hero:before{content:\"\";position:absolute;inset:-15%;background:radial-gradient(circle at 18% 16%,rgba(126,232,244,.14),transparent 22%),radial-gradient(circle at 84% 58%,rgba(153,141,98,.1),transparent 22%);mix-blend-mode:screen;filter:blur(2px);opacity:.7}",
       ".of-hero:after{content:\"\";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.08) 0%,rgba(0,0,0,.58) 88%),radial-gradient(circle at 56% 74%,transparent 0 36%,rgba(0,0,0,.66) 100%)}",
-      ".of-hero-copy{position:relative;z-index:1;display:flex;flex-direction:column;justify-content:flex-end;max-width:860px;margin-top:auto;padding:6px 0 0}",
-      ".of-sub{max-width:18ch;margin:18px 0 0;color:rgba(234,246,248,.82);font-size:clamp(18px,2vw,24px);line-height:1.18;letter-spacing:-.02em}",
+      ".of-hero-copy{position:relative;z-index:1;display:flex;flex-direction:column;justify-content:flex-end;max-width:900px;margin-top:auto;padding:6px 0 0}",
+      ".of-sub{max-width:36ch;margin:18px 0 0;color:rgba(234,246,248,.82);font-size:clamp(18px,2vw,24px);line-height:1.18;letter-spacing:-.02em}",
       ".of-hero-cta{display:inline-flex;align-items:center;gap:10px;width:max-content;margin-top:32px;padding:12px 18px;border-radius:999px;background:rgba(126,232,244,.1);color:#effcff;text-decoration:none;font-size:13px;font-weight:800;letter-spacing:.06em;box-shadow:inset 0 0 0 1px rgba(126,232,244,.3);backdrop-filter:blur(12px)}",
       ".of-hero-cta:hover,.of-hero-cta:focus-visible{background:rgba(126,232,244,.18);outline:none;transform:translateY(-1px)}",
       ".of-section{position:relative;margin-top:72px;padding-top:18px}",
@@ -79,11 +79,12 @@
       ".of-series-card:hover,.of-series-card:focus-visible{transform:translateY(-8px) translateZ(0);box-shadow:0 48px 80px rgba(0,0,0,.48),inset 0 0 0 1px rgba(126,232,244,.14);outline:none;filter:drop-shadow(0 0 20px rgba(126,232,244,.12))}",
       ".of-series-bg{position:absolute;inset:0;background-size:cover;background-position:center center;transform:scale(1.02);transition:transform .5s cubic-bezier(.16,.1,.3,1),filter .5s ease;filter:saturate(.85) contrast(1.08) brightness(.76)}",
       ".of-series-card:hover .of-series-bg,.of-series-card:focus-visible .of-series-bg{transform:scale(1.1) translateZ(0);filter:saturate(1.05) contrast(1.12) brightness(.88)}",
-      ".of-series-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(2,7,10,.08) 16%,rgba(2,8,10,.62) 68%,rgba(2,8,10,.92) 100%)}",
-      ".of-series-meta{position:relative;z-index:1;display:block}",
-      ".of-series-kicker{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;background:rgba(11,31,38,.58);box-shadow:inset 0 0 0 1px rgba(255,255,255,.12);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#9beff8}",
+      ".of-series-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(2,7,10,.08) 16%,rgba(2,8,10,.62) 68%,rgba(2,8,10,.94) 100%)}",
+      ".of-series-meta{position:relative;z-index:1;display:block;max-width:92%}",
+      ".of-series-kicker{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;background:rgba(11,31,38,.58);box-shadow:inset 0 0 0 1px rgba(255,255,255,.12);font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:#9beff8}",
       ".of-series-title{display:block;margin-top:12px;font-size:clamp(26px,2.6vw,36px);line-height:1.02;letter-spacing:-.03em;max-width:13ch}",
-      ".of-series-credit{display:block;margin-top:12px;color:rgba(234,246,248,.7);font-size:11px;line-height:1.35;max-width:42ch;text-decoration:none}",
+      ".of-series-description{display:block;margin-top:10px;color:rgba(234,246,248,.78);font-size:13px;line-height:1.42;max-width:38ch}",
+      ".of-series-credit{display:block;margin-top:12px;color:rgba(234,246,248,.56);font-size:10px;line-height:1.35;max-width:42ch;text-decoration:none}",
       ".of-rail-cue{display:flex;align-items:center;justify-content:flex-end;gap:8px;margin:8px 2px 0;color:rgba(234,246,248,.58);font-size:11px;letter-spacing:.12em;text-transform:uppercase}",
       ".of-series-discover{position:absolute;right:18px;bottom:16px;z-index:2;opacity:0;transform:translateY(6px);transition:opacity .24s ease,transform .24s ease;padding:9px 12px;border-radius:999px;background:rgba(126,232,244,.16);box-shadow:inset 0 0 0 1px rgba(126,232,244,.36);font-size:12px;font-weight:700}",
       ".of-series-card:hover .of-series-discover,.of-series-card:focus-visible .of-series-discover{opacity:1;transform:translateY(0)}",
@@ -139,7 +140,7 @@
       ".of-detail-block{margin-top:20px;padding:18px;border-radius:24px;border:1px solid rgba(255,255,255,.08);background:rgba(4,18,22,.72)}",
       ".of-capsule{display:inline-flex;align-items:center;gap:8px;padding:7px 10px;border-radius:999px;background:rgba(126,232,244,.1);color:#92f1fa;font-size:11px;letter-spacing:.16em;text-transform:uppercase}",
       "@media (max-width:1100px){.of-rail-track{grid-auto-columns:minmax(280px,52vw)}.of-series-card{min-height:420px}}",
-      "@media (max-width:760px){.of-wrap{padding:14px 12px 62px}.of-topbar{top:8px;align-items:flex-start;flex-wrap:wrap;padding:12px;border-radius:20px}.of-brand-copy span{display:none}.of-nav{width:100%;justify-content:flex-start;flex-wrap:nowrap;overflow-x:auto;padding-bottom:2px}.of-hero{min-height:68vh;padding:24px 20px;border-radius:24px}.of-title{max-width:100%}.of-sub{font-size:16px}.of-rail-track{grid-auto-columns:minmax(82vw,1fr);scroll-padding-inline:2px}.of-series-card{min-height:400px;border-radius:24px}.of-series-meta{padding-bottom:42px}.of-section-head,.of-grid-title,.of-final-head{flex-direction:column;align-items:flex-start}.of-insights{grid-template-columns:1fr;gap:12px}.of-insight-card{min-height:190px}.of-archive{margin-top:82px;padding:14px}.of-archive-toggle{padding:14px}.of-grid{grid-template-columns:1fr}}",
+      "@media (max-width:760px){.of-wrap{padding:14px 12px 62px}.of-topbar{top:8px;align-items:flex-start;flex-wrap:wrap;padding:12px;border-radius:20px}.of-brand-copy span{display:none}.of-nav{width:100%;justify-content:flex-start;flex-wrap:nowrap;overflow-x:auto;padding-bottom:2px}.of-hero{min-height:68vh;padding:24px 20px;border-radius:24px}.of-title{max-width:100%}.of-sub{font-size:16px}.of-rail-track{grid-auto-columns:minmax(82vw,1fr);scroll-padding-inline:2px}.of-series-card{min-height:420px;border-radius:24px}.of-series-meta{padding-bottom:42px}.of-section-head,.of-grid-title,.of-final-head{flex-direction:column;align-items:flex-start}.of-insights{grid-template-columns:1fr;gap:12px}.of-insight-card{min-height:190px}.of-archive{margin-top:82px;padding:14px}.of-archive-toggle{padding:14px}.of-grid{grid-template-columns:1fr}}",
       "@media (hover:none),(pointer:coarse){.of-series-discover{opacity:1;transform:none}.of-rail-track{scrollbar-width:auto}}",
       "@media (prefers-reduced-motion:reduce){.of-shell *{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.of-series-card:hover,.of-series-card:focus-visible,.of-insight-card:hover,.of-insight-card:focus-visible{transform:none}.of-series-card:hover .of-series-bg,.of-series-card:focus-visible .of-series-bg{transform:scale(1.02)}}"
     ].join("");
@@ -194,7 +195,7 @@
       '<header class="of-topbar">',
       '<a class="of-brand" href="/">',
       '<span class="of-brand-mark" aria-hidden="true"><img src="/artenia-logo-192.png" alt="" loading="eager" decoding="async"></span>',
-      '<span class="of-brand-copy"><strong>ARTENIA</strong><span>Universo de oficios, memoria y territorio</span></span>',
+      '<span class="of-brand-copy"><strong>ARTENIA</strong><span>Oficios, memoria, territorio y futuro</span></span>',
       '</a>',
       '<nav class="of-nav" aria-label="Menú principal">',
       getMenuLinks().map(function (item) {
@@ -207,16 +208,16 @@
 
   function getFeaturedStories() {
     return [
-      { title: "Posidonia", kicker: "Serie 01", description: "Materia viva, litoral y trabajo que protege el borde entre mar y territorio.", slug: "posidonia" },
-      { title: "Nevaters", kicker: "Serie 02", description: "Oficio de clima extremo, oficio de pausa y de resistencia silenciosa.", slug: "nevaters" },
-      { title: "Esparto", kicker: "Serie 03", description: "Fibra seca, trenzado útil y una inteligencia antigua para construir con poco.", slug: "esparto" },
-      { title: "Agranaor", kicker: "Serie 04", description: "Recogida, selección y oficio del detalle en la economía de manos.", slug: "agranaor" },
-      { title: "Calero", kicker: "Serie 05", description: "Cal, fuego y materia mineral convertidos en abrigo, textura y arquitectura.", slug: "calero" },
-      { title: "Salinero", kicker: "Serie 06", description: "Cristal, humedad y paciencia para ordenar el paisaje productivo.", slug: "salinero" },
-      { title: "Caña", kicker: "Serie 07", description: "Ligereza, repetición y estructura hecha desde el gesto continuo.", slug: "cana" },
-      { title: "Cestería", kicker: "Serie 08", description: "Entrelazado de utilidad y belleza para contener, transportar y habitar.", slug: "cesteria" },
-      { title: "Redes y remiendo", kicker: "Serie 09", description: "Reparar es también crear continuidad, cuidado y conocimiento compartido.", slug: "redes-y-remiendo" },
-      { title: "Piedra seca", kicker: "Serie 10", description: "Arquitectura sin mortero, equilibrio y memoria aplicada al territorio.", slug: "piedra-seca" }
+      { title: "Posidonia", kicker: "Material que vuelve", description: "Una planta marina que durante siglos fue recurso: abrigo, relleno, protección y materia para construir con lo que el territorio ofrecía.", slug: "posidonia" },
+      { title: "Nevaters", kicker: "Ingeniería sin electricidad", description: "Guardar el invierno para usarlo meses después: clima, arquitectura y logística antes de la refrigeración industrial.", slug: "nevaters" },
+      { title: "Esparto", kicker: "Material que vuelve", description: "Una fibra humilde capaz de convertirse en cuerda, recipiente, calzado, herramienta y estructura. Inteligencia material con casi nada.", slug: "esparto" },
+      { title: "Agranaor", kicker: "Oficio al borde", description: "Pequeños gestos cotidianos que sostuvieron ciudades y economías enteras, y que desaparecen cuando nadie los documenta.", slug: "agranaor" },
+      { title: "Calero", kicker: "Antes ya lo sabíamos", description: "Piedra, fuego y agua para crear un material que protege, regula humedad y permite que los edificios respiren.", slug: "calero" },
+      { title: "Salinero", kicker: "Maestros del territorio", description: "Leer sol, viento y agua hasta convertir un paisaje en una infraestructura productiva sin separarlo de sus ciclos naturales.", slug: "salinero" },
+      { title: "Caña", kicker: "Material que vuelve", description: "Ligera, renovable y local: una gramínea transformada durante generaciones en cerramientos, sombra, estructura y objetos cotidianos.", slug: "cana" },
+      { title: "Cestería", kicker: "Inteligencia material", description: "Entrelazar fibras para contener, transportar y habitar. Una tecnología manual que aparece en culturas de todo el mundo.", slug: "cesteria" },
+      { title: "Redes y remiendo", kicker: "Reparar antes de sustituir", description: "Cuando reparar era parte del oficio: leer una rotura, recuperar material y devolverle función sin empezar de cero.", slug: "redes-y-remiendo" },
+      { title: "Piedra seca", kicker: "Ingeniería sin cemento", description: "Muros que drenan, contienen, dividen y construyen paisaje únicamente mediante selección, gravedad y equilibrio.", slug: "piedra-seca" }
     ];
   }
 
@@ -331,10 +332,10 @@
     return [
       '<section class="of-hero">',
       '<div class="of-hero-copy">',
-      '<p class="of-kicker">Oficios</p>',
-      '<h1 class="of-title">Entra en el universo de los oficios</h1>',
-      '<p class="of-sub">Conocimiento recuperado del pasado. Reimaginado para el futuro.</p>',
-      '<a class="of-hero-cta" href="#universos-de-oficio">Explorar oficios →</a>',
+      '<p class="of-kicker">Universo de los oficios</p>',
+      '<h1 class="of-title">Conocimientos que no deberían desaparecer</h1>',
+      '<p class="of-sub">Durante siglos aprendimos a construir, conservar, reparar y transformar materiales observando el territorio. Algunos de esos saberes podrían volver a ser parte de la respuesta.</p>',
+      '<a class="of-hero-cta" href="#universos-de-oficio">Explorar conocimientos →</a>',
       '</div>',
       '</section>'
     ].join("");
@@ -349,13 +350,13 @@
       '<section class="of-section" id="universos-de-oficio">',
       '<div class="of-section-head">',
       '<div>',
-      '<p class="of-kicker">Universos de oficio</p>',
-      '<h2 class="of-title" style="font-size:clamp(28px,4vw,44px);max-width:14ch">Diez mundos para descubrir</h2>',
+      '<p class="of-kicker">Pasado · presente · futuro</p>',
+      '<h2 class="of-title" style="font-size:clamp(28px,4vw,44px);max-width:19ch">Oficios que guardan soluciones</h2>',
       '</div>',
-      '<p>Historias cinematográficas. Archivo + oficio + territorio. Desliza para explorar.</p>',
+      '<p>No es nostalgia. Es conocimiento humano aplicado: materiales, técnicas y formas de resolver problemas que merece la pena volver a mirar.</p>',
       '</div>',
       '<div class="of-rail">',
-      '<div class="of-rail-track" aria-label="Universos de oficio destacados">',
+      '<div class="of-rail-track" aria-label="Conocimientos y universos de oficio destacados">',
       stories.map(function (story) {
         var media = story.media;
         var bg = media && media.imageUrl ? media.imageUrl : 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Nevero_menejador.jpg/1280px-Nevero_menejador.jpg';
@@ -373,6 +374,7 @@
           '<span class="of-series-meta">',
           '<span class="of-series-kicker">' + esc(story.kicker) + '</span>',
           '<strong class="of-series-title">' + esc(story.title) + '</strong>',
+          '<span class="of-series-description">' + esc(story.description) + '</span>',
           credit,
           '</span>',
           story.href ? '<span class="of-series-discover">Descubrir →</span>' : '',
@@ -443,17 +445,21 @@
       { title: "Construir sin cemento", subtitle: "Piedra seca", slug: "piedra-seca" },
       { title: "Aislar con fibras locales", subtitle: "Esparto", slug: "espartero-espartera" },
       { title: "Construir respirando", subtitle: "Cal", slug: "calero" },
-      { title: "Trabajar con materiales renovables", subtitle: "Cestería", slug: "fabricante-de-muebles-y-otros-objetos-de-mimbre-cana-palma-y-similares" }
+      { title: "Reparar antes de sustituir", subtitle: "Redes y remiendo", slug: "cordelero-y-redero-cordelera-y-redera" },
+      { title: "Habitar con fibras renovables", subtitle: "Caña y cestería", slug: "fabricante-de-muebles-y-otros-objetos-de-mimbre-cana-palma-y-similares" },
+      { title: "Leer el agua y el clima", subtitle: "Salinas", slug: "salinero" },
+      { title: "Guardar el invierno", subtitle: "Pozos de nieve", slug: "nevaters" },
+      { title: "Convertir lo varado en recurso", subtitle: "Posidonia", slug: "posidonia" }
     ];
 
     return [
       '<section class="of-section" id="saberes-necesarios">',
       '<div class="of-section-head">',
       '<div>',
-      '<p class="of-kicker">Futuro posible</p>',
-      '<h2 class="of-title" style="font-size:clamp(28px,4vw,44px);max-width:14ch">Saberes que podríamos necesitar de nuevo</h2>',
+      '<p class="of-kicker">El futuro estaba aquí</p>',
+      '<h2 class="of-title" style="font-size:clamp(28px,4vw,44px);max-width:18ch">Soluciones antiguas para problemas contemporáneos</h2>',
       '</div>',
-      '<p>Conocimiento antiguo. Problemas actuales.</p>',
+      '<p>Mirar atrás no para regresar, sino para recuperar principios que todavía pueden ayudarnos a construir mejor.</p>',
       '</div>',
       '<div class="of-insights">',
       insights.map(function (insight) {
@@ -482,13 +488,13 @@
       '<section class="of-archive" id="archivo-oficial">',
       '<button type="button" class="of-archive-toggle" aria-expanded="false" aria-controls="oficios-archive-content">',
       '<div>',
-      '<p class="of-kicker" style="margin-bottom:6px">Archivo completo</p>',
-      '<h2 class="of-title" style="font-size:clamp(20px,3vw,28px);max-width:12ch">Catálogo de todos los oficios</h2>',
+      '<p class="of-kicker" style="margin-bottom:6px">Biblioteca viva</p>',
+      '<h2 class="of-title" style="font-size:clamp(20px,3vw,28px);max-width:14ch">Archivo completo de los oficios</h2>',
       '</div>',
       '<span class="of-archive-label">Explorar archivo ↓</span>',
       '</button>',
       '<div class="of-archive-content" id="oficios-archive-content" hidden>',
-      '<p class="of-archive-note">Índice documental completo de oficios registrados. Este archivo se mantiene accesible pero en segundo plano.</p>',
+      '<p class="of-archive-note">Índice documental de los oficios registrados en ARTENIA. El archivo permanece disponible para investigar, conectar y seguir ampliando conocimiento.</p>',
       '<div class="of-grid">',
       model.items.map(function (item) {
         return [
