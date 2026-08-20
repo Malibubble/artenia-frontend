@@ -1,0 +1,67 @@
+name: Recover IONOS predeploy backup
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  recover:
+    if: contains(github.event.head_commit.message, '[RECOVER_PREDEPLOY_28F10B18]')
+    runs-on: ubuntu-latest
+    environment: production-ionos
+    steps:
+      - name: Configure authenticated IONOS SSH
+        env:
+          IONOS_HOST: ${{ secrets.IONOS_HOST }}
+          IONOS_USER: ${{ secrets.IONOS_USER }}
+          IONOS_SSH_PRIVATE_KEY: ${{ secrets.IONOS_SSH_PRIVATE_KEY }}
+          IONOS_KNOWN_HOSTS: ${{ secrets.IONOS_KNOWN_HOSTS }}
+        run: |
+          test -n "$IONOS_HOST"
+          test -n "$IONOS_USER"
+          test -n "$IONOS_SSH_PRIVATE_KEY"
+          test -n "$IONOS_KNOWN_HOSTS"
+          printf '%s\n' "$IONOS_SSH_PRIVATE_KEY" > "$RUNNER_TEMP/ionos_key"
+          printf '%s\n' "$IONOS_KNOWN_HOSTS" > "$RUNNER_TEMP/ionos_known_hosts"
+          chmod 600 "$RUNNER_TEMP/ionos_key" "$RUNNER_TEMP/ionos_known_hosts"
+      - name: Restore backup created before bad deploy
+        env:
+          IONOS_HOST: ${{ secrets.IONOS_HOST }}
+          IONOS_USER: ${{ secrets.IONOS_USER }}
+          IONOS_PORT: ${{ secrets.IONOS_PORT }}
+        run: |
+          PORT="${IONOS_PORT:-22}"
+          SSH=(ssh -i "$RUNNER_TEMP/ionos_key" -p "$PORT" -o UserKnownHostsFile="$RUNNER_TEMP/ionos_known_hosts" -o StrictHostKeyChecking=yes -o BatchMode=yes)
+          "${SSH[@]}" "$IONOS_USER@$IONOS_HOST" 'bash -s' <<'REMOTE'
+          set -euo pipefail
+          ROOT=/home/www/htdocs
+          BASE=/home/www/artenia-deploy-backups
+          MATCH=$(find "$BASE" -maxdepth 1 -mindepth 1 -type d -name '*-28f10b18e587e797dd410f36827e876d4d362192' | sort | tail -n 1)
+          test -n "$MATCH"
+          echo "RECOVERY_BACKUP=$MATCH"
+          test -d "$MATCH"
+
+          find "$MATCH" -mindepth 1 -maxdepth 1 ! -name obsolete-frontend -exec cp -a {} "$ROOT/" \;
+
+          if [ -d "$MATCH/obsolete-frontend" ]; then
+            cd "$MATCH/obsolete-frontend"
+            find . -type f -o -type l | while read -r rel; do
+              target="$ROOT/${rel#./}"
+              mkdir -p "$(dirname "$target")"
+              cp -a "$rel" "$target"
+            done
+          fi
+
+          echo 'RECOVERY_DONE'
+          REMOTE
+      - name: Verify public pages respond
+        run: |
+          for path in / /oficios /historias; do
+            code=$(curl -L -sS -o /tmp/page -w '%{http_code}' "https://artenialab.com${path}")
+            echo "$path -> $code"
+            test "$code" -ge 200
+            test "$code" -lt 400
+          done
