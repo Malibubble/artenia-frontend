@@ -27,6 +27,7 @@ jobs:
           printf '%s\n' "$IONOS_SSH_PRIVATE_KEY" > "$RUNNER_TEMP/ionos_key"
           printf '%s\n' "$IONOS_KNOWN_HOSTS" > "$RUNNER_TEMP/ionos_known_hosts"
           chmod 600 "$RUNNER_TEMP/ionos_key" "$RUNNER_TEMP/ionos_known_hosts"
+
       - name: Restore backup created before bad deploy
         env:
           IONOS_HOST: ${{ secrets.IONOS_HOST }}
@@ -41,26 +42,28 @@ jobs:
           BASE=/home/www/artenia-deploy-backups
           MATCH=$(find "$BASE" -maxdepth 1 -mindepth 1 -type d -name '*-28f10b18e587e797dd410f36827e876d4d362192' | sort | tail -n 1)
           test -n "$MATCH"
-          echo "RECOVERY_BACKUP=$MATCH"
           test -d "$MATCH"
+          echo "RECOVERY_BACKUP=$MATCH"
 
           find "$MATCH" -mindepth 1 -maxdepth 1 ! -name obsolete-frontend -exec cp -a {} "$ROOT/" \;
 
           if [ -d "$MATCH/obsolete-frontend" ]; then
             cd "$MATCH/obsolete-frontend"
-            find . -type f -o -type l | while read -r rel; do
+            find . \( -type f -o -type l \) | while read -r rel; do
               target="$ROOT/${rel#./}"
               mkdir -p "$(dirname "$target")"
               cp -a "$rel" "$target"
             done
           fi
 
-          echo 'RECOVERY_DONE'
+          printf 'RECOVERY_DONE\nBACKUP=%s\nUTC=%s\n' "$MATCH" "$(date -u +%Y-%m-%dT%H:%M:%SZ)" > "$ROOT/recovery-status-28f10b18.txt"
           REMOTE
-      - name: Verify public pages respond
+
+      - name: Verify public recovery marker and pages
         run: |
+          curl -fsS "https://artenialab.com/recovery-status-28f10b18.txt?run=${GITHUB_RUN_ID}"
           for path in / /oficios /historias; do
-            code=$(curl -L -sS -o /tmp/page -w '%{http_code}' "https://artenialab.com${path}")
+            code=$(curl -L -sS -o /tmp/page -w '%{http_code}' "https://artenialab.com${path}?recovery=${GITHUB_RUN_ID}")
             echo "$path -> $code"
             test "$code" -ge 200
             test "$code" -lt 400
