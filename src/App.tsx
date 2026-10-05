@@ -183,6 +183,7 @@ type MapViewProps = {
 
 function MapView({ filters, setFilters, stats, setStats }: MapViewProps) {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
 
   const toggleSidebar = () => setIsSidebarCollapsed((prev) => !prev);
 
@@ -190,10 +191,19 @@ function MapView({ filters, setFilters, stats, setStats }: MapViewProps) {
     <div className="artenia-main-layout">
       {/* Sidebar con filtros */}
       <div
+        id="map-filters-panel"
         className={`sidebar-shell-wrapper ${
           isSidebarCollapsed ? "is-collapsed" : ""
-        }`}
+        } ${isMobileFiltersOpen ? "is-mobile-open" : ""}`}
       >
+        <button
+          type="button"
+          className="mobile-map-panel-close"
+          onClick={() => setIsMobileFiltersOpen(false)}
+          aria-label="Cerrar filtros"
+        >
+          ×
+        </button>
         <Sidebar filters={filters} setFilters={setFilters} stats={stats} />
         <button
           type="button"
@@ -229,7 +239,14 @@ function MapView({ filters, setFilters, stats, setStats }: MapViewProps) {
             </div>
 
             {/* Botón filtro flotante derecha */}
-            <button className="artenia-map-filter-fab" type="button">
+            <button
+              className="artenia-map-filter-fab"
+              type="button"
+              onClick={() => setIsMobileFiltersOpen(true)}
+              aria-controls="map-filters-panel"
+              aria-expanded={isMobileFiltersOpen}
+              aria-label="Abrir filtros del mapa"
+            >
               <SlidersHorizontal size={20} />
             </button>
           </div>
@@ -279,7 +296,7 @@ export default function App() {
   };
 
   return (
-    <div className="app-container">
+    <div className={`app-container ${location === "/mapa" ? "app-container--map" : ""}`}>
       {/* Header común para todo */}
       <Header currentPath={location} />
 
